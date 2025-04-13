@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background2"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".feature.pengaturan.view.editprofille.EditProfileFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/backgroundformeditprofile"
+        android:layout_margin="10dp"
+        android:id="@+id/boxContainer"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        >
+
+        <ImageView
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:src="@drawable/ic_person"
+            android:id="@+id/ivPerson"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="5dp"
+            android:layout_marginStart="5dp"/>
+        <View
+            android:layout_width="2dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="5dp"
+            android:background="@color/black"
+            app:layout_constraintStart_toEndOf="@id/ivPerson"
+            app:layout_constraintTop_toTopOf="parent"
+            android:id="@+id/border1"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Edit \nProfile"
+            android:textColor="@color/black"
+            android:fontFamily="@font/poppins_bold"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            app:layout_constraintStart_toEndOf="@id/border1"
+            android:layout_marginStart="5dp"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="5dp"
+            />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/black"
+            app:layout_constraintTop_toBottomOf="@id/ivPerson"
+            android:layout_marginTop="10dp"
+            android:layout_marginHorizontal="10dp"
+            android:id="@+id/border2"/>
+
+        <ImageView
+            android:id="@+id/imageProfileEdit"
+            android:layout_width="140dp"
+            android:layout_height="140dp"
+            android:layout_marginTop="50dp"
+            android:background="@drawable/bg_profile_settings"
+            android:clipToOutline="true"
+            android:scaleType="centerCrop"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/border2" />
+        <ImageView
+            android:id="@+id/edit_button"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_edit"
+            android:background="@drawable/circle_edit_background"
+            app:layout_constraintEnd_toEndOf="@id/imageProfileEdit"
+            app:layout_constraintBottom_toBottomOf="@id/imageProfileEdit"
+            android:layout_marginEnd="10dp"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nama"
+            android:textSize="16sp"
+            android:textColor="@color/black"
+            android:fontFamily="@font/poppins"
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@id/imageProfileEdit"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="30dp"
+            android:id="@+id/labelNama"
+            />
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/labelNama"
+            android:layout_marginHorizontal="10dp"
+            android:hint="Masukan Nama"
+            android:padding="8dp"
+            android:background="@drawable/edit_text_border"
+            android:textColorHint="@color/grey"
+            android:id="@+id/etNamaEdit"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="NIK"
+            android:textSize="16sp"
+            android:textColor="@color/black"
+            android:fontFamily="@font/poppins"
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@id/etNamaEdit"
+            app:layout_constraintStart_toStartOf="parent"
+            android:id="@+id/labelNik"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"/>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/labelNik"
+            android:layout_marginHorizontal="10dp"
+            android:hint="Masukan Nik"
+            android:padding="8dp"
+            android:inputType="number"
+            android:background="@drawable/edit_text_border"
+            android:textColorHint="@color/grey"
+            android:id="@+id/etNikEdit"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Email"
+            android:textSize="16sp"
+            android:textColor="@color/black"
+            android:fontFamily="@font/poppins"
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@id/etNikEdit"
+            app:layout_constraintStart_toStartOf="parent"
+            android:id="@+id/labelEmail"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"/>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/labelEmail"
+            android:layout_marginHorizontal="10dp"
+            android:hint="Masukan Email"
+            android:padding="8dp"
+            android:inputType="textEmailAddress"
+            android:background="@drawable/edit_text_border"
+            android:textColorHint="@color/grey"
+            android:id="@+id/etEmailEdit"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Password"
+            android:textSize="16sp"
+            android:textColor="@color/black"
+            android:fontFamily="@font/poppins"
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@id/etEmailEdit"
+            app:layout_constraintStart_toStartOf="parent"
+            android:id="@+id/labelPassword"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"/>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/labelPassword"
+            android:layout_marginHorizontal="10dp"
+            android:hint="Masukan Password"
+            android:padding="8dp"
+            android:inputType="textPassword"
+            android:background="@drawable/edit_text_border"
+            android:textColorHint="@color/grey"
+            android:drawableEnd="@drawable/ic_show_pass"
+            android:drawablePadding="20dp"
+            android:id="@+id/etPasswordEdit"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nomor Hp"
+            android:textSize="16sp"
+            android:textColor="@color/black"
+            android:fontFamily="@font/poppins"
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@id/etPasswordEdit"
+            app:layout_constraintStart_toStartOf="parent"
+            android:id="@+id/labelNomor"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"/>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/labelNomor"
+            android:layout_marginHorizontal="10dp"
+            android:hint="Masukan Nomor Telepon"
+            android:padding="8dp"
+            android:inputType="number"
+            android:background="@drawable/edit_text_border"
+            android:textColorHint="@color/grey"
+            android:id="@+id/etNomorEdit"/>
+
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:orientation="horizontal"
+           app:layout_constraintBottom_toBottomOf="parent"
+           app:layout_constraintEnd_toEndOf="parent"
+           android:gravity="center_horizontal"
+           android:layout_marginBottom="40dp">
+
+           <androidx.appcompat.widget.AppCompatButton
+               android:layout_width="120dp"
+               android:elegantTextHeight="true"
+               android:layout_height="40dp"
+               android:id="@+id/btnCancel"
+               android:background="@drawable/backgroundbuttoneditbatal"
+
+               app:layout_constraintBottom_toBottomOf="parent"
+               app:layout_constraintStart_toStartOf="parent"
+               android:text="Batal"
+               android:textAllCaps="false"
+               android:fontFamily="@font/poppins"
+               android:textStyle="bold"
+               android:textSize="16sp"
+               android:textColor="@color/colorBtnPrimary"
+               />
+           <Space
+               android:layout_width="40dp"
+               android:layout_height="wrap_content"/>
+           <androidx.appcompat.widget.AppCompatButton
+               android:layout_width="120dp"
+               android:elegantTextHeight="true"
+               android:layout_height="40dp"
+               android:id="@+id/btnSimpan"
+               android:background="@drawable/backgroundbuttoneditsimpan"
+
+               app:layout_constraintBottom_toBottomOf="parent"
+               app:layout_constraintStart_toStartOf="parent"
+               android:text="Simpan"
+               android:textAllCaps="false"
+               android:fontFamily="@font/poppins"
+               android:textStyle="bold"
+               android:textSize="16sp"
+               android:textColor="@color/white"
+               />
+       </LinearLayout>
+
+
+
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</FrameLayout>

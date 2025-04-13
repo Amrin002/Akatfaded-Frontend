@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Style untuk tampilan sederhana -->
+    <style name="ButtonStyle.Simple" parent="Widget.MaterialComponents.Button">
+        <!-- Background -->
+        <item name="backgroundTint">@color/button_simple_background</item>
+
+        <!-- Text -->
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/button_simple_text</item>
+
+        <!-- Shape -->
+        <item name="cornerRadius">8dp</item>
+        <item name="strokeColor">@color/button_simple_stroke</item>
+        <item name="strokeWidth">1dp</item>
+
+        <!-- Padding -->
+        <item name="android:paddingVertical">12dp</item>
+        <item name="android:paddingHorizontal">24dp</item>
+
+        <!-- Elevation -->
+        <item name="elevation">4dp</item>
+    </style>
+
+    <!-- Style untuk tampilan modern -->
+    <style name="ButtonStyle.Modern" parent="Widget.MaterialComponents.Button">
+        <!-- Background -->
+        <item name="backgroundTint">@color/button_modern_background</item>
+
+        <!-- Text -->
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/button_modern_text</item>
+        <item name="android:letterSpacing">0.02</item>
+
+        <!-- Shape -->
+        <item name="cornerRadius">24dp</item>
+        <item name="strokeColor">@color/button_modern_stroke</item>
+        <item name="strokeWidth">2dp</item>
+
+        <!-- Padding -->
+        <item name="android:paddingVertical">8dp</item>
+        <item name="android:paddingHorizontal">16dp</item>
+
+        <!-- Elevation -->
+        <item name="elevation">0dp</item>
+
+        <!-- Ripple effect -->
+        <item name="rippleColor">@color/button_modern_ripple</item>
+    </style>
+</resources>

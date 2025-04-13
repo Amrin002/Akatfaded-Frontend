@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="colorPrimary">#59CDFF</color>
+    <color name="colorBtnPrimary">#1ABAFF</color>
+    <color name="colorBtnSecondary">#FFFFFF</color>
+    <color name="colorTextSecondary">#878787</color>
+    <color name="transparant">#00000000</color>
+    <color name="abu_abu">#BFBFBF</color>
+    <color name="grey">#808080</color>
+
+    <!-- Warna untuk tema sederhana -->
+    <color name="button_simple_background">#2196F3</color>
+    <color name="button_simple_text">#FFFFFF</color>
+    <color name="button_simple_stroke">#1976D2</color>
+
+    <!-- Warna untuk tema modern -->
+    <color name="button_modern_background">@android:color/transparent</color>
+    <color name="button_modern_text">#212121</color>
+    <color name="button_modern_stroke">#6200EE</color>
+    <color name="button_modern_ripple">#6200EE</color>
+
+
+    <!-- Tema Modern -->
+    <color name="colorPrimary_modern">#59CDFF</color>
+    <color name="colorBtnPrimary_modern">#1ABAFF</color>
+    <color name="colorBtnSecondary_modern">#FFFFFF</color>
+    <color name="colorTextSecondary_modern">#878787</color>
+    <color name="abu_abu_modern">#BFBFBF</color>
+    <color name="grey_modern">#808080</color>
+
+    <!-- Tema Simple (Untuk Orang Tua) -->
+    <color name="colorPrimary_simple">#006699</color> <!-- Lebih kontras -->
+    <color name="colorBtnPrimary_simple">#004466</color> <!-- Lebih gelap -->
+    <color name="colorBtnSecondary_simple">#E6E6E6</color> <!-- Background terang -->
+    <color name="colorTextSecondary_simple">#555555</color> <!-- Lebih jelas -->
+    <color name="abu_abu_simple">#999999</color> <!-- Kontras lebih tinggi -->
+    <color name="grey_simple">#666666</color> <!-- Tidak terlalu redup -->
+</resources>
