@@ -41,7 +41,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginBottom="40dp"
-        android:layout_marginHorizontal="20dp"
+        android:layout_marginHorizontal="14dp"
         android:layout_marginTop="10dp"
         android:background="@drawable/backgroundformlogin"
         android:orientation="vertical"
@@ -69,6 +69,7 @@
             android:fontFamily="@font/poppins"
             android:hint="Masukan NIK"
             android:textColor="@color/black"
+            android:textColorHint="@color/textColor"
             android:maxLength="16"/>
 
         <TextView
@@ -90,8 +91,9 @@
             android:fontFamily="@font/poppins"
             android:hint="Masukan kata sandi"
             android:inputType="textPassword"
+            android:textColorHint="@color/textColor"
             android:textColor="@color/black"
-            android:drawableEnd="@drawable/ic_show_pass"
+            android:drawableEnd="@drawable/ic_eye_block"
             android:drawablePadding="20dp"/>
 
         <TextView
@@ -100,26 +102,45 @@
             android:layout_marginStart="15dp"
             android:layout_marginTop="10dp"
             android:fontFamily="@font/poppins"
+            android:id="@+id/forgotPassword"
             android:text="Lupa Kata Sandi?"
             android:textColor="#4586FF"
             android:textSize="16sp"
             android:textStyle="bold" />
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btnLogin"
+        <FrameLayout
+            android:id="@+id/btnLoginContainer"
             android:layout_width="320dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginHorizontal="20dp"
-            android:layout_marginTop="15dp"
-            android:background="@drawable/backgroundbuttonlogin"
-            android:elegantTextHeight="true"
-            android:fontFamily="@font/poppins"
-            android:text="Login"
-            android:textAllCaps="false"
-            android:textColor="@color/white"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            android:layout_marginTop="15dp">
+
+            <!-- Tombol Login -->
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnLogin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/backgroundbuttonlogin"
+                android:elegantTextHeight="true"
+                android:fontFamily="@font/poppins"
+                android:text="Login"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <!-- ProgressBar Loading -->
+            <ProgressBar
+                android:id="@+id/progressBarLogin"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center"
+                android:visibility="gone"
+                style="?android:attr/progressBarStyleSmall"
+                android:indeterminate="true" />
+        </FrameLayout>
+
         <!--        Text View disini -->
         <LinearLayout
             android:layout_marginTop="10dp"
@@ -132,37 +153,14 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Belum punya akun? silahkan"
+                android:text="Belum punya akun?"
                 android:layout_gravity="center"
                 android:textColor="@color/colorTextSecondary"
                 android:fontFamily="@font/poppins"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:fontFamily="@font/poppins"
-                android:text=" Daftar"
-                android:id="@+id/txtRegister"
-                android:textColor="@color/colorPrimary"
-                android:textStyle="bold" />
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:id="@+id/textViewRegister2"
-            android:gravity="center_horizontal">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="atau login sebagai"
-                android:layout_gravity="center"
-                android:textColor="@color/colorTextSecondary"
-                android:fontFamily="@font/poppins"/>
         </LinearLayout>
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btnGuest"
+            android:id="@+id/btnDaftar"
             android:layout_width="320dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -173,7 +171,7 @@
             android:elegantTextHeight="true"
 
             android:fontFamily="@font/poppins"
-            android:text="Guest"
+            android:text="Daftar"
             android:textAllCaps="false"
             android:textColor="@color/colorPrimary"
             android:textSize="18sp"

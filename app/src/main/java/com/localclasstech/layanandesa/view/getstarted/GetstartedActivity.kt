@@ -3,7 +3,9 @@ package com.localclasstech.layanandesa.view.getstarted
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
@@ -14,6 +16,9 @@ import com.localclasstech.layanandesa.databinding.ActivityGetstartedBinding
 import com.localclasstech.layanandesa.view.MainActivity
 
 class GetstartedActivity : AppCompatActivity() {
+    private val viewModel: GetStartedViewModel by viewModels {
+        GetStartedViewModelFactory(applicationContext)
+    }
     private lateinit var binding: ActivityGetstartedBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,9 +30,20 @@ class GetstartedActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+        // Observe koneksi
+        viewModel.isOnline.observe(this) { online ->
+            if (online) {
+                startActivity(Intent(this, LoginActivity::class.java))
+                Toast.makeText(this, "Online Mode", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(this, "Offline Mode", Toast.LENGTH_SHORT).show()
+                viewModel.setupOfflineMode() // Setup SQLite atau logika offline lainnya
+                startActivity(Intent(this, LoginActivity::class.java))
+            }
+        }
+
         binding.btnGetstarted.setOnClickListener {
-            val intent = Intent(this, LoginActivity::class.java)
-            startActivity(intent)
+            viewModel.checkInternetConnection()
         }
     }
 }

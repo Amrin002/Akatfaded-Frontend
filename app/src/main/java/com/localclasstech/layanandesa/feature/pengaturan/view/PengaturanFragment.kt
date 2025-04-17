@@ -246,7 +246,7 @@ class PengaturanFragment : Fragment() {
                 else -> "A"
             }
         } else {
-            "G"
+            "-"
         }
 
         val size = 200

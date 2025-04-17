@@ -7,10 +7,12 @@ import android.os.Bundle
 import android.text.InputType
 import android.util.Log
 import android.view.MotionEvent
+import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -35,8 +37,11 @@ class LoginActivity : AppCompatActivity() {
         setupListeners()
         setupObservers()
         setupPasswordVisibility()
+        binding.forgotPassword.setOnClickListener {
+            startActivity(Intent(this, ForgetPasswordActivity::class.java))
+        }
 
-        binding.txtRegister.setOnClickListener {
+        binding.btnDaftar.setOnClickListener {
             startActivity(Intent(this, RegisterActivity::class.java))
         }
     }
@@ -46,36 +51,36 @@ class LoginActivity : AppCompatActivity() {
         // Variabel untuk mengecek apakah password sedang ditampilkan atau tidak
         var isPasswordVisible = false
 
-        // Set event klik pada ikon di drawableEnd (icon mata)
         binding.loginPassword.setOnTouchListener { _, event ->
+
             if (event.action == MotionEvent.ACTION_UP) {
-                val drawableEnd = binding.loginPassword.compoundDrawablesRelative[2] // Ambil drawableEnd
+                val drawableEnd = binding.loginPassword.compoundDrawablesRelative[2]
                 if (drawableEnd != null) {
                     val drawableBounds = drawableEnd.bounds
                     val clickArea = binding.loginPassword.right - drawableBounds.width() - binding.loginPassword.paddingEnd
                     if (event.rawX >= clickArea) {
-                        // Toggle password visibility
                         isPasswordVisible = !isPasswordVisible
+                        val currentTypeface = binding.loginPassword.typeface // Simpan font
+
                         if (isPasswordVisible) {
                             binding.loginPassword.inputType = InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
                             binding.loginPassword.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.ic_show_pass, 0)
                         } else {
                             binding.loginPassword.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
-                            binding.loginPassword.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.ic_show_pass, 0)
+
+                            binding.loginPassword.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.ic_eye_block, 0)
                         }
-                        binding.loginPassword.setSelection(binding.loginPassword.text.length) // Jaga agar cursor tetap di akhir teks
+
+                        binding.loginPassword.typeface = currentTypeface // Restore font
+                        binding.loginPassword.setSelection(binding.loginPassword.text.length)
                         return@setOnTouchListener true
                     }
                 }
             }
             false
         }
+
     }
-
-
-
-
-
 
     private fun checkLoginStatus() {
         val prefs = getSharedPreferences("user_prefs", MODE_PRIVATE)
@@ -90,22 +95,47 @@ class LoginActivity : AppCompatActivity() {
             val password = binding.loginPassword.text.toString()
             viewModel.login(nik, password)
         }
-
-        binding.btnGuest.setOnClickListener {
-            viewModel.loginAsGuest()
-        }
     }
+
 
     private fun setupObservers() {
         viewModel.loginState.observe(this) { isLoggedIn ->
             if (isLoggedIn) navigateToMain()
         }
+        viewModel.isLoading.observe(this) { isLoading ->
+            binding.btnLogin.isEnabled = !isLoading
+            binding.progressBarLogin.visibility = if (isLoading) View.VISIBLE else View.GONE
+            binding.btnLogin.text = if (isLoading) "" else "Login"
+        }
 
-        viewModel.errorMessage.observe(this) { error ->
-            if (!error.isNullOrEmpty()) {
-                Toast.makeText(this, error, Toast.LENGTH_SHORT).show()
+
+        viewModel.errorMessage.observe(this) { message ->
+            if (message.contains("koneksi", ignoreCase = true)) {
+                // Koneksi internet gagal
+                binding.loginNik.clearFocus()
+                binding.loginPassword.clearFocus()
+                Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+
+            } else if (message.contains("credentials", ignoreCase = true) ||
+                message.contains("NIK", ignoreCase = true) ||
+                message.contains("Unauthorized", ignoreCase = true)) {
+
+                // Salah password/NIK
+                binding.loginPassword.clearFocus()
+                binding.loginPassword.setText("")
+                binding.loginPassword.hint = "NIK atau sandi salah"
+                val errorColor = ContextCompat.getColor(this, R.color.textError)
+                binding.loginPassword.setHintTextColor(errorColor)
+
+            } else {
+                // Error umum lainnya
+                Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+                Log.d("LoginActivity", "Error message: $message")
             }
         }
+
+
+
     }
 
     private fun navigateToMain() {

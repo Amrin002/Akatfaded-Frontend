@@ -64,6 +64,10 @@ class EditProfileFragment : Fragment() {
             }
         }
 
+        binding.btnCancel.setOnClickListener {
+            requireActivity().onBackPressed()
+        }
+
         //ini sabar doloh
         binding.btnSimpan.setOnClickListener {
             val name = binding.etNamaEdit.text.toString()

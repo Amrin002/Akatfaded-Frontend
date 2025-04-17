@@ -30,6 +30,9 @@
     <color name="abu_abu_modern">#BFBFBF</color>
     <color name="grey_modern">#808080</color>
 
+    <color name="textError">#D9742C</color>
+    <color name="textColor">#7F7F7F</color>
+
     <!-- Tema Simple (Untuk Orang Tua) -->
     <color name="colorPrimary_simple">#006699</color> <!-- Lebih kontras -->
     <color name="colorBtnPrimary_simple">#004466</color> <!-- Lebih gelap -->
