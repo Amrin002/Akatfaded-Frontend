@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+
+    android:id="@+id/layoutFilterSurat">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/layoutFilter"
+        android:background="@color/white"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        >
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Surat Keterangan Tidak Mampu"
+        android:id="@+id/tvTypeSurat"
+        android:fontFamily="@font/poppins_bold"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:paddingVertical="10dp"
+        android:layout_weight="1"
+        android:textSize="18sp"
+        android:layout_marginStart="10dp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvJumlahSurat"
+        android:text="(10)"
+        android:fontFamily="@font/poppins_bold"
+        android:textStyle="bold"
+        android:textColor="@color/textColor"
+        android:paddingVertical="10dp"
+        android:textSize="18sp"
+        android:layout_marginEnd="8dp"
+        />
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_dropdown"
+        android:background="@color/transparant"
+        android:paddingVertical="10dp"
+        android:layout_marginEnd="10dp"
+        android:id="@+id/dropdown_surat"/>
+    </LinearLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewSuratItem"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        android:nestedScrollingEnabled="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layoutFilter"/>
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

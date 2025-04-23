@@ -24,8 +24,7 @@ import com.localclasstech.layanandesa.settings.PreferencesHelper
 
 class BeritaFragment : Fragment() {
     private lateinit var preferencesHelper: PreferencesHelper
-    private var modernBinding : FragmentBeritaModernBinding? = null
-    private var simpleBinding : FragmentBeritaSimpleBinding? = null
+
     private val sharedThemeViewModel: SharedThemeViewModel by activityViewModels(){
         SharedThemeViewModelFactory(preferencesHelper)
     }
@@ -51,22 +50,6 @@ class BeritaFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        sharedThemeViewModel.isModernTheme.observe(viewLifecycleOwner) { isModernTheme ->
-            if (isModernTheme) {
-                val stubModern = view.findViewById<ViewStub>(R.id.layoutBeritaModern)
-                if (stubModern.visibility == View.GONE) {
-                    val inflated = stubModern.inflate()
-                    modernBinding = FragmentBeritaModernBinding.bind(inflated)
-                    BeritaModernHelper(context = requireContext(), binding = modernBinding!!).setupLogic()
-                }
-            } else {
-                val stubSimple = view.findViewById<ViewStub>(R.id.layoutBeritaSimple)
-                if (stubSimple.visibility == View.GONE) {
-                    val inflated = stubSimple.inflate()
-                    simpleBinding = FragmentBeritaSimpleBinding.bind(inflated)
-                    BeritaSimpleHelper(context = requireContext(), binding = simpleBinding!!).setupLogic()
-                }
-            }
-        }
+
     }
 }

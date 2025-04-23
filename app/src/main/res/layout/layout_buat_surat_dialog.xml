@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    style="@style/Base.CardView"
+    app:cardCornerRadius="8dp"
+    android:background="@drawable/backgrounddialogaddsurat"
+    android:id="@+id/dialogBuatSurat"
+    android:layout_marginHorizontal="20dp"
+    android:layout_height="wrap_content">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    <TextView        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/theadDialog"
+        android:text="Buat Surat"
+        android:fontFamily="@font/poppins_bold"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="10dp"/>
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/closeBtn"
+        android:src="@drawable/ic_close_btn"
+        android:background="@color/transparant"
+        app:layout_constraintTop_toTopOf="@id/theadDialog"
+        android:layout_marginTop="3dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="10dp"/>
+    <View
+        android:layout_width="0dp"
+        android:layout_height="2dp"
+        android:id="@+id/borderDialog"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/theadDialog"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:background="@color/abu_abu"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginTop="10dp"/>
+<androidx.appcompat.widget.AppCompatButton
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:textStyle="bold"
+    android:textSize="16sp"
+    android:id="@+id/addSuratDomisili"
+    android:text="Surat Domisili"
+    android:textAllCaps="false"
+    android:fontFamily="@font/poppins_bold"
+    android:background="@drawable/backgroundbuttonaddsurat"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/borderDialog"
+    android:layout_marginTop="20dp"
+    android:layout_marginHorizontal="10dp"
+    />
+    <androidx.appcompat.widget.AppCompatButton
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        android:id="@+id/addSuratKtm"
+        android:text="Surat Ktm"
+        android:textAllCaps="false"
+        android:fontFamily="@font/poppins_bold"
+        android:background="@drawable/backgroundbuttonaddsurat"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/addSuratDomisili"
+        android:layout_marginTop="20dp"
+        android:layout_marginHorizontal="10dp"
+        />
+    <androidx.appcompat.widget.AppCompatButton
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        android:id="@+id/addSuratKtu"
+        android:text="Surat Ktu"
+        android:textAllCaps="false"
+        android:fontFamily="@font/poppins_bold"
+        android:background="@drawable/backgroundbuttonaddsurat"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/addSuratKtm"
+        android:layout_marginTop="20dp"
+        android:layout_marginHorizontal="10dp"
+        />
+    <androidx.appcompat.widget.AppCompatButton
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        android:id="@+id/addSuratLainnya"
+        android:text="Surat Lainnya"
+        android:textAllCaps="false"
+        android:fontFamily="@font/poppins_bold"
+        android:background="@drawable/backgroundbuttonaddsurat"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/addSuratKtu"
+        android:layout_marginTop="20dp"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginBottom="20dp"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.cardview.widget.CardView>

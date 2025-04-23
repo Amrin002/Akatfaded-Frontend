@@ -1,10 +1,11 @@
 package com.localclasstech.layanandesa.network
 
-import android.content.Context
+import com.localclasstech.layanandesa.feature.layanan.data.network.apiservice.SuratApiService
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.TimeUnit
 
 object RetrofitClient {
     val logging = HttpLoggingInterceptor().apply {
@@ -17,6 +18,9 @@ object RetrofitClient {
      // Ganti sesuai IP atau hosting kamu
     private val client = OkHttpClient.Builder()
          .addInterceptor(logging)
+         .connectTimeout(30, TimeUnit.SECONDS) // ⏱️ waktu koneksi ke server
+         .readTimeout(30, TimeUnit.SECONDS)    // ⏱️ waktu tunggu response
+         .writeTimeout(30, TimeUnit.SECONDS)   // ⏱️ waktu kirim data ke server
          .build()
 
     val clientService: ApiService by lazy {
@@ -26,5 +30,14 @@ object RetrofitClient {
             .client(client)
             .build()
             .create(ApiService::class.java)
+    }
+
+    val suratApiService: SuratApiService by lazy {
+        Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .client(client)
+            .build()
+            .create(SuratApiService::class.java)
     }
 }

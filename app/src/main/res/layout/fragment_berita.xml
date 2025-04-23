@@ -4,27 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".feature.berita.view.BeritaFragment">
+    tools:context=".feature.berita.view.BeritaFragment"
+    android:background="@drawable/background1"
+    >
 
-    <ViewStub
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/layoutBeritaModern"
-        android:visibility="gone"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout="@layout/fragment_berita_modern"
-        />
 
-    <ViewStub
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/layoutBeritaSimple"
-        android:visibility="gone"
-        android:layout="@layout/fragment_berita_simple"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

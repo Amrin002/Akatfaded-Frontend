@@ -32,6 +32,11 @@
 
     <color name="textError">#D9742C</color>
     <color name="textColor">#7F7F7F</color>
+    <color name="textOnProgress">#DBEB00</color>
+    <color name="textAproved">#1ABAFF</color>
+    <color name="textCancel">#FE5151</color>
+
+    <color name="bg_fitur_button">#D9D9D9</color>
 
     <!-- Tema Simple (Untuk Orang Tua) -->
     <color name="colorPrimary_simple">#006699</color> <!-- Lebih kontras -->

@@ -87,7 +87,7 @@ class MainActivity : AppCompatActivity() {
         val bottomNavigation =binding.bottomNavigation
         val menuView = bottomNavigation.getChildAt(0) as ViewGroup
         val itemWidth = menuView.getChildAt(index).width
-        val translationX = (menuView.getChildAt(index).left + itemWidth / 1.25) - (indicator.width / 1.25)
+        val translationX = (menuView.getChildAt(index).left + itemWidth / 1.20) - (indicator.width / 1.20)
 
         indicator.visibility = View.VISIBLE
         indicator.animate().translationX(translationX.toFloat()).setDuration(200).start()
