@@ -1,5 +1,6 @@
 package com.localclasstech.layanandesa.feature.layanan.viewmodel.surat
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -10,30 +11,26 @@ import com.localclasstech.layanandesa.feature.layanan.data.repository.SuratKtmRe
 import kotlinx.coroutines.launch
 
 class SuratKtmViewModel(private val repository: SuratKtmRepository) : ViewModel() {
-    private val _suratList = MutableLiveData<List<SktmResponse>>()
-    val suratList: LiveData<List<SktmResponse>> get() = _suratList
+    private val _detailSuratKtm = MutableLiveData<SktmResponse>()
+    val detailSuratKtm: LiveData<SktmResponse> get() = _detailSuratKtm
 
-    private val _loading = MutableLiveData<Boolean>()
-    val loading: LiveData<Boolean> get() = _loading
-
-    fun getAllSuratKtm() {
+    fun fetchSuratKtmDetail(id: Int) {
         viewModelScope.launch {
-            _loading.value = true
             try {
-                val response = repository.getSuratKtmByUser() //Unresolved reference: repository
-                if (response.isSuccessful) {
-                    _suratList.value = response.body()?.data ?: emptyList()
-                }
-            } finally {
-                _loading.value = false
-            }
-        }
-    }
+                // Menggunakan fungsi getDetailSuratKtmById untuk mendapatkan data surat berdasarkan id
+                val response = repository.getDetailSuratKtmById(id)
 
-    fun createSurat(request: CreateSktmRequest) {
-        viewModelScope.launch {
-            repository.createSuratKtm(request) //Unresolved reference: repository
-            getAllSuratKtm() // Refresh
+                // Cek apakah response berhasil dan mengandung data yang valid
+                if (response.isSuccessful && response.body() != null) {
+                    _detailSuratKtm.postValue(response.body()?.data) // Ambil data dari response
+                } else {
+                    // Handle error jika response tidak berhasil
+                    Log.e("SuratKtmViewModel", "Error: ${response.message()}")
+                }
+            } catch (e: Exception) {
+                // Handle exception, misalnya show toast atau log error
+                Log.e("SuratKtmViewModel", "Exception: ${e.message}")
+            }
         }
     }
 }

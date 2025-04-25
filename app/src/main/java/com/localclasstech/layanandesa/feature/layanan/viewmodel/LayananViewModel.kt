@@ -27,11 +27,11 @@ class LayananViewModel(
     private val _error = MutableLiveData<String?>()
     val error: LiveData<String?> = _error
 
-    fun fetchSuratKtmByUser() {
+    fun fetchSuratKtmByUser(id : Int) {
         viewModelScope.launch {
             _isLoading.value = true
             try {
-                val response = suratKtmRepository.getSuratKtmByUser()
+                val response = suratKtmRepository.getSuratKtmByUser(id)//No value passed for parameter 'id'
                 if (response.isSuccessful) {
                     val data = response.body()?.data.orEmpty()
                     val listMapped = data.map { it.toCardSuratKtm() }

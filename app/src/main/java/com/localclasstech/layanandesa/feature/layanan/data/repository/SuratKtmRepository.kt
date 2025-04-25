@@ -23,7 +23,8 @@ class SuratKtmRepository(
         return apiService.createSuratKtm(getBearerToken(), request)
     }
 
-    suspend fun getSuratKtmByUser(): Response<BaseResponse<List<SktmResponse>>> {
+    suspend fun getSuratKtmByUser(id: Int): Response<BaseResponse<List<SktmResponse>>> {
+
         return apiService.getSuratKtmByUser(getBearerToken())
     }
 

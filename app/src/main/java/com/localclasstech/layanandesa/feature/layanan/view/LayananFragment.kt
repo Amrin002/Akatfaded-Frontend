@@ -22,6 +22,7 @@ import com.localclasstech.layanandesa.R
 import com.localclasstech.layanandesa.auth.viewmodel.LoginViewModel
 import com.localclasstech.layanandesa.auth.viewmodel.LoginViewModelFactory
 import com.localclasstech.layanandesa.databinding.FragmentLayananBinding
+import com.localclasstech.layanandesa.feature.layanan.data.DataClassCardSurat
 import com.localclasstech.layanandesa.feature.layanan.data.repository.SuratDomisiliRepository
 import com.localclasstech.layanandesa.feature.layanan.data.repository.SuratKtmRepository
 import com.localclasstech.layanandesa.feature.layanan.view.helper.surathelper.SuratKtmAdater
@@ -31,6 +32,10 @@ import com.localclasstech.layanandesa.feature.pengaturan.viewmodel.SharedThemeVi
 import com.localclasstech.layanandesa.feature.pengaturan.viewmodel.SharedThemeViewModelFactory
 import com.localclasstech.layanandesa.network.RetrofitClient
 import com.localclasstech.layanandesa.settings.PreferencesHelper
+import com.localclasstech.layanandesa.settings.utils.Constant
+import androidx.navigation.fragment.findNavController
+import com.localclasstech.layanandesa.feature.layanan.view.surat.SuratKtmFragment
+
 
 class LayananFragment : Fragment() {
     private lateinit var preferencesHelper: PreferencesHelper
@@ -79,9 +84,31 @@ class LayananFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         // Memanggil fungsi untuk mengambil data surat
-        viewModel.fetchSuratKtmByUser()
-        // Membuat adapter untuk RecyclerView dan mengaturnya
-        val adapter = SuratKtmAdater(cardSuratList = emptyList())
+        viewModel.fetchSuratKtmByUser(id)
+        val adapter = SuratKtmAdater(cardSuratList = emptyList(), object : SuratKtmAdater.OnAdapterListener {
+            override fun onClick(cardSuratList: DataClassCardSurat) {
+                // Kirim data ke SuratKtmFragment
+                val bundle = Bundle().apply {
+                    putInt("id_surat", cardSuratList.id) // Kirimkan hanya id surat
+                    putInt("type", Constant.TYPE_DETAIL)
+                }
+
+                // Navigasi manual dengan FragmentTransaction
+                val fragment = SuratKtmFragment().apply {
+                    arguments = bundle
+                }
+
+                parentFragmentManager.beginTransaction()
+                    .replace(R.id.fragmentView, fragment)  // Ganti R.id.container dengan ID yang sesuai di layout kamu
+                    .addToBackStack(null)
+                    .commit()
+            }
+
+            override fun onUpdete(cardSuratList: DataClassCardSurat) {
+                // kosong dulu
+            }
+        })
+
         binding.recyclerViewSuratItemKtm.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerViewSuratItemKtm.adapter = adapter
         // Variabel untuk menyimpan status visibilitas RecyclerView

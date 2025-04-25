@@ -1,7 +1,10 @@
 package com.localclasstech.layanandesa.feature.layanan.data.network.data.suratktm
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 data class SktmResponse(
     val id: Int,
     @SerializedName("user_id")
@@ -29,4 +32,4 @@ data class SktmResponse(
     val updatedAt: String,
     @SerializedName("deleted_at")
     val deletedAt: String? // nullable
-)
+) :Parcelable
