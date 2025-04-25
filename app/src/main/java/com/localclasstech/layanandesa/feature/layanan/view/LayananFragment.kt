@@ -3,10 +3,10 @@ package com.localclasstech.layanandesa.feature.layanan.view
 import android.app.Dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import androidx.fragment.app.viewModels
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -22,10 +22,9 @@ import com.localclasstech.layanandesa.R
 import com.localclasstech.layanandesa.auth.viewmodel.LoginViewModel
 import com.localclasstech.layanandesa.auth.viewmodel.LoginViewModelFactory
 import com.localclasstech.layanandesa.databinding.FragmentLayananBinding
-import com.localclasstech.layanandesa.feature.layanan.data.DataClassSuratFilter
 import com.localclasstech.layanandesa.feature.layanan.data.repository.SuratDomisiliRepository
 import com.localclasstech.layanandesa.feature.layanan.data.repository.SuratKtmRepository
-import com.localclasstech.layanandesa.feature.layanan.view.helper.SuratFilterAdapterHelper
+import com.localclasstech.layanandesa.feature.layanan.view.helper.surathelper.SuratKtmAdater
 import com.localclasstech.layanandesa.feature.layanan.viewmodel.LayananViewModel
 import com.localclasstech.layanandesa.feature.layanan.viewmodel.LayananViewModelFactory
 import com.localclasstech.layanandesa.feature.pengaturan.viewmodel.SharedThemeViewModel
@@ -79,28 +78,44 @@ class LayananFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val adapter = SuratFilterAdapterHelper(emptyList())
-        binding.filterSurat.adapter = adapter
-        binding.filterSurat.layoutManager = LinearLayoutManager(requireContext())
-
-        viewModel.loadAllSuratUser()
-
-
-        viewModel.suratList.observe(viewLifecycleOwner) { list ->
-            adapter.updateData(list)
-            binding.swipeRefresh.isRefreshing = false // Hentikan animasi refresh
+        // Memanggil fungsi untuk mengambil data surat
+        viewModel.fetchSuratKtmByUser()
+        // Membuat adapter untuk RecyclerView dan mengaturnya
+        val adapter = SuratKtmAdater(cardSuratList = emptyList())
+        binding.recyclerViewSuratItemKtm.layoutManager = LinearLayoutManager(requireContext())
+        binding.recyclerViewSuratItemKtm.adapter = adapter
+        // Variabel untuk menyimpan status visibilitas RecyclerView
+        var isRecyclerVisible = false
+        // Menangani klik pada tombol dropdown untuk menyembunyikan atau menampilkan RecyclerView
+        binding.dropdownSurat.setOnClickListener {
+            isRecyclerVisible = !isRecyclerVisible
+            // Menampilkan atau menyembunyikan RecyclerView berdasarkan isRecyclerVisible
+            binding.recyclerViewSuratItemKtm.visibility = if (isRecyclerVisible) View.VISIBLE else View.GONE
+            Log.d("RecyclerDebug", "RecyclerView Toggled: ${if (isRecyclerVisible) "Visible" else "Gone"}")
         }
-        binding.swipeRefresh.setOnRefreshListener {
-            viewModel.loadAllSuratUser()
-            // Timeout 20 detik
-            Handler(Looper.getMainLooper()).postDelayed({
-                if (binding.swipeRefresh.isRefreshing) {
-                    binding.swipeRefresh.isRefreshing = false
-                    Toast.makeText(requireContext(), "Gagal memuat data. Silakan coba lagi.", Toast.LENGTH_SHORT).show()
-                }
-            }, 20000) // 20 detik
-        }
+        // Observer untuk mengamati perubahan data surat
+        viewModel.suratListKtm.observe(viewLifecycleOwner) { list ->
+            Log.d("RecyclerDebug", "Jumlah surat masuk: ${list.size}")
+            adapter.updateDataKtm(list)  // Mengupdate data pada adapter
+            binding.tvJumlahSurat.text = "(${list.size})"  // Menampilkan jumlah surat
 
+            // Menampilkan RecyclerView setelah data tersedia
+            if (list.isNotEmpty()) {
+                // Jika ada data, tampilkan RecyclerView (terlepas dari status dropdown)
+                binding.recyclerViewSuratItemKtm.visibility = View.VISIBLE
+                Log.d("RecyclerDebug", "RecyclerView Visible")
+            } else {
+                // Jika tidak ada data, sembunyikan RecyclerView
+                binding.recyclerViewSuratItemKtm.visibility = View.GONE
+                Log.d("RecyclerDebug", "RecyclerView Gone")
+            }
+        }
+        // Observe error
+        viewModel.error.observe(viewLifecycleOwner) { errorMsg ->
+            if (!errorMsg.isNullOrEmpty()) {
+                Toast.makeText(requireContext(), errorMsg, Toast.LENGTH_SHORT).show()
+            }
+        }
         binding.addSurat.setOnClickListener {
             showBottomSheetDialog()
         }

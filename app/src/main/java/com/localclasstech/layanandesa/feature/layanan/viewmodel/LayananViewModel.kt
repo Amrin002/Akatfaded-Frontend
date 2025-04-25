@@ -6,7 +6,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.localclasstech.layanandesa.feature.layanan.data.DataClassCardSurat
-import com.localclasstech.layanandesa.feature.layanan.data.DataClassSuratFilter
 import com.localclasstech.layanandesa.feature.layanan.data.network.apiservice.SuratApiService
 import com.localclasstech.layanandesa.feature.layanan.data.network.data.suratdomisili.toCardSuratDomisili
 import com.localclasstech.layanandesa.feature.layanan.data.network.data.suratktm.toCardSuratKtm
@@ -14,43 +13,38 @@ import com.localclasstech.layanandesa.feature.layanan.data.repository.SuratDomis
 import com.localclasstech.layanandesa.feature.layanan.data.repository.SuratKtmRepository
 import kotlinx.coroutines.launch
 
-
-class LayananViewModel(private val suratKtmRepository: SuratKtmRepository,
-                       private val suratDomisiliRepository: SuratDomisiliRepository
+class LayananViewModel(
+    private val suratKtmRepository: SuratKtmRepository,
+    private val suratDomisiliRepository: SuratDomisiliRepository
 ) : ViewModel() {
-    private val _suratList = MutableLiveData<List<DataClassSuratFilter>>()
-    val suratList: LiveData<List<DataClassSuratFilter>> = _suratList
 
+    private val _suratListKtm = MutableLiveData<List<DataClassCardSurat>>()
+    val suratListKtm: LiveData<List<DataClassCardSurat>> = _suratListKtm
 
-    fun loadAllSuratUser() {
+    private val _isLoading = MutableLiveData<Boolean>()
+    val isLoading: LiveData<Boolean> = _isLoading
+
+    private val _error = MutableLiveData<String?>()
+    val error: LiveData<String?> = _error
+
+    fun fetchSuratKtmByUser() {
         viewModelScope.launch {
+            _isLoading.value = true
             try {
-                val responseKtm = suratKtmRepository.getSuratKtmByUser()
-                val responseDomisili = suratDomisiliRepository.getAllSurat()
-
-                if (responseKtm.isSuccessful && responseDomisili.isSuccessful) {
-                    val listKtm = responseKtm.body()?.data?.map { it.toCardSuratKtm() } ?: emptyList()
-                    val listDomisili = responseDomisili.body()?.data?.map { it.toCardSuratDomisili() } ?: emptyList()
-
-                    _suratList.value = listOf(
-                        DataClassSuratFilter(
-                            tipeSurat = "Surat Keterangan Tidak Mampu",
-                            listSurat = listKtm
-                        ),
-                        DataClassSuratFilter(
-                            tipeSurat = "Surat Domisili",
-                            listSurat = listDomisili
-                        )
-                    )
+                val response = suratKtmRepository.getSuratKtmByUser()
+                if (response.isSuccessful) {
+                    val data = response.body()?.data.orEmpty()
+                    val listMapped = data.map { it.toCardSuratKtm() }
+                    _suratListKtm.postValue(listMapped)
+                    _error.postValue(null)
                 } else {
-                    // bisa log error, atau kasih fallback dummy
-                    Log.e("LayananViewModel", "Gagal fetch data")
+                    _error.postValue("Gagal memuat data: ${response.message()}")
                 }
             } catch (e: Exception) {
-                Log.e("LayananViewModel", "Gagal: ${e.message}")
+                _error.postValue("Terjadi kesalahan: ${e.localizedMessage}")
+            } finally {
+                _isLoading.postValue(false)
             }
         }
     }
-
-
 }

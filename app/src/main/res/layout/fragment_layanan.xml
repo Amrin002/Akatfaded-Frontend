@@ -6,23 +6,164 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/background1"
     tools:context=".feature.layanan.view.LayananFragment">
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/swipeRefresh"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/layoutFilterSktm"
+        android:background="@color/white"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-<androidx.recyclerview.widget.RecyclerView
-    android:layout_width="0dp"
-    android:layout_height="match_parent"
-    android:id="@+id/filterSurat"
-    tools:listitem="@layout/list_surat"
-    android:layout_marginTop="10dp"
+        app:layout_constraintTop_toTopOf="parent"
+        >
 
-    android:layout_marginHorizontal="10dp"
-    />
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Surat Keterangan Tidak Mampu"
+            android:id="@+id/tvTypeSuratKtm"
+            android:fontFamily="@font/poppins_bold"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:paddingVertical="10dp"
+            android:layout_weight="1"
+            android:textSize="18sp"
+            android:layout_marginStart="10dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tvJumlahSurat"
+            android:text="(10)"
+            android:fontFamily="@font/poppins_bold"
+            android:textStyle="bold"
+            android:textColor="@color/textColor"
+            android:paddingVertical="10dp"
+            android:textSize="18sp"
+            android:layout_marginEnd="8dp"
+            />
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_dropdown"
+            android:background="@color/transparant"
+            android:paddingVertical="10dp"
+            android:layout_marginEnd="10dp"
+            android:id="@+id/dropdown_surat"/>
+    </LinearLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewSuratItemKtm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        tools:listitem="@layout/list_surat"
+        android:layout_marginHorizontal="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layoutFilterSktm"/>
+<!--    <LinearLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:orientation="horizontal"-->
+<!--        android:id="@+id/layoutFilterSdomisili"-->
+<!--        android:background="@color/white"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/recyclerViewSuratItemKtm"-->
+<!--        >-->
+
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Surat Domisili"-->
+<!--            android:fontFamily="@font/poppins_bold"-->
+<!--            android:textStyle="bold"-->
+<!--            android:textColor="@color/black"-->
+<!--            android:paddingVertical="10dp"-->
+<!--            android:layout_weight="1"-->
+<!--            android:textSize="18sp"-->
+<!--            android:layout_marginStart="10dp"/>-->
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:id="@+id/tvJumlahSuratDomisili"-->
+<!--            android:text="(10)"-->
+<!--            android:fontFamily="@font/poppins_bold"-->
+<!--            android:textStyle="bold"-->
+<!--            android:textColor="@color/textColor"-->
+<!--            android:paddingVertical="10dp"-->
+<!--            android:textSize="18sp"-->
+<!--            android:layout_marginEnd="8dp"-->
+<!--            />-->
+<!--        <androidx.appcompat.widget.AppCompatImageButton-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:src="@drawable/ic_dropdown"-->
+<!--            android:background="@color/transparant"-->
+<!--            android:paddingVertical="10dp"-->
+<!--            android:layout_marginEnd="10dp"-->
+<!--            android:id="@+id/dropdownSuratDomisili"/>-->
+<!--    </LinearLayout>-->
+<!--    <androidx.recyclerview.widget.RecyclerView-->
+<!--        android:id="@+id/recyclerViewSuratItemDomisili"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:visibility="invisible"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/layoutFilterSdomisili"/>-->
+<!--    <LinearLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:orientation="horizontal"-->
+<!--        android:id="@+id/layoutFilterSKtu"-->
+<!--        android:background="@color/white"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/recyclerViewSuratItemDomisili"-->
+<!--        >-->
+
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Surat Keterangan Tempat Usaha"-->
+<!--            android:fontFamily="@font/poppins_bold"-->
+<!--            android:textStyle="bold"-->
+<!--            android:textColor="@color/black"-->
+<!--            android:paddingVertical="10dp"-->
+<!--            android:layout_weight="1"-->
+<!--            android:textSize="18sp"-->
+<!--            android:layout_marginStart="10dp"/>-->
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:id="@+id/tvJumlahSuratKtu"-->
+<!--            android:text="(10)"-->
+<!--            android:fontFamily="@font/poppins_bold"-->
+<!--            android:textStyle="bold"-->
+<!--            android:textColor="@color/textColor"-->
+<!--            android:paddingVertical="10dp"-->
+<!--            android:textSize="18sp"-->
+<!--            android:layout_marginEnd="8dp"-->
+<!--            />-->
+<!--        <androidx.appcompat.widget.AppCompatImageButton-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:src="@drawable/ic_dropdown"-->
+<!--            android:background="@color/transparant"-->
+<!--            android:paddingVertical="10dp"-->
+<!--            android:layout_marginEnd="10dp"-->
+<!--            android:id="@+id/dropdownSuratKtu"/>-->
+<!--    </LinearLayout>-->
+<!--    <androidx.recyclerview.widget.RecyclerView-->
+<!--        android:id="@+id/recyclerViewSuratItemKtu"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:visibility="invisible"-->
+<!--        android:nestedScrollingEnabled="false"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/layoutFilterSKtu"/>-->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/addSurat"
         android:layout_width="wrap_content"
