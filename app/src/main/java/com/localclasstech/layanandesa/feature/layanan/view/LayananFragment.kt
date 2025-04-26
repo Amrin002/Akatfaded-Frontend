@@ -83,74 +83,150 @@ class LayananFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Memanggil fungsi untuk mengambil data surat
+        // Inisialisasi adapter dan recycler view
+        setupRecyclerView()
+
+        // Mengatur status awal tampilan recycler view
+        configureDropdownBehavior()
+
+        // Mengamati perubahan data dan error
+        observeViewModelData()
+
+//        Loading SHimer
+        observeLoadingState()
+        // Menangani tombol tambah surat
+        binding.addSurat.setOnClickListener {
+            showBottomSheetDialog()
+        }
+
+        // Mengambil data surat dari server
         viewModel.fetchSuratKtmByUser(id)
-        val adapter = SuratKtmAdater(cardSuratList = emptyList(), object : SuratKtmAdater.OnAdapterListener {
-            override fun onClick(cardSuratList: DataClassCardSurat) {
-                // Kirim data ke SuratKtmFragment
-                val bundle = Bundle().apply {
-                    putInt("id_surat", cardSuratList.id) // Kirimkan hanya id surat
-                    putInt("type", Constant.TYPE_DETAIL)
+    }
+
+    private fun observeLoadingState() {
+        viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
+            if (isLoading) {
+                // Show shimmer effect
+                binding.shimmerLayoutSurat.visibility = View.VISIBLE
+                binding.shimmerLayoutSurat.startShimmer()
+                binding.recyclerViewSuratItemKtm.visibility = View.GONE
+            } else {
+                // Hide shimmer effect
+                binding.shimmerLayoutSurat.stopShimmer()
+                binding.shimmerLayoutSurat.visibility = View.GONE
+
+                // RecyclerView visibility will be managed in the data observer
+            }
+        }
+    }
+
+    /**
+     * Fungsi untuk menyiapkan RecyclerView dan adapter-nya
+     */
+    private fun setupRecyclerView() {
+        val adapter = SuratKtmAdater(
+            cardSuratList = emptyList(),
+            object : SuratKtmAdater.OnAdapterListener {
+                override fun onClick(cardSuratList: DataClassCardSurat) {
+                    navigateToDetailSurat(cardSuratList.id)
                 }
 
-                // Navigasi manual dengan FragmentTransaction
-                val fragment = SuratKtmFragment().apply {
-                    arguments = bundle
+                override fun onUpdete(cardSuratList: DataClassCardSurat) {
+                    // Fungsi ini akan diimplementasikan nanti
                 }
-
-                parentFragmentManager.beginTransaction()
-                    .replace(R.id.fragmentView, fragment)  // Ganti R.id.container dengan ID yang sesuai di layout kamu
-                    .addToBackStack(null)
-                    .commit()
             }
+        )
 
-            override fun onUpdete(cardSuratList: DataClassCardSurat) {
-                // kosong dulu
-            }
-        })
+        binding.recyclerViewSuratItemKtm.apply {
+            layoutManager = LinearLayoutManager(requireContext())
+            this.adapter = adapter
+            visibility = View.GONE // Sembunyikan recycler view saat awal
+        }
+    }
 
-        binding.recyclerViewSuratItemKtm.layoutManager = LinearLayoutManager(requireContext())
-        binding.recyclerViewSuratItemKtm.adapter = adapter
+    /**
+     * Fungsi untuk navigasi ke halaman detail surat
+     * @param suratId ID surat yang akan ditampilkan detailnya
+     */
+    private fun navigateToDetailSurat(suratId: Int) {
+        // Siapkan bundle dengan ID surat dan tipe operasi
+        val bundle = Bundle().apply {
+            putInt("id_surat", suratId)
+            putInt("type", Constant.TYPE_DETAIL)
+        }
+
+        // Buat instance fragment baru dengan bundle
+        val fragment = SuratKtmFragment().apply {
+            arguments = bundle
+        }
+
+        // Navigasi ke fragment detail
+        parentFragmentManager.beginTransaction()
+            .replace(R.id.fragmentView, fragment)
+            .addToBackStack(null)
+            .commit()
+    }
+
+    /**
+     * Fungsi untuk mengatur perilaku dropdown surat
+     */
+    private fun configureDropdownBehavior() {
         // Variabel untuk menyimpan status visibilitas RecyclerView
         var isRecyclerVisible = false
-        // Menangani klik pada tombol dropdown untuk menyembunyikan atau menampilkan RecyclerView
-        binding.dropdownSurat.setOnClickListener {
+
+        // Menangani klik pada area dropdown
+        binding.layoutFilterSktm.setOnClickListener {
+            // Toggle status visibilitas
             isRecyclerVisible = !isRecyclerVisible
-            // Menampilkan atau menyembunyikan RecyclerView berdasarkan isRecyclerVisible
-            binding.recyclerViewSuratItemKtm.visibility = if (isRecyclerVisible) View.VISIBLE else View.GONE
+
+            // Tampilkan atau sembunyikan RecyclerView sesuai status
+            binding.recyclerViewSuratItemKtm.visibility =
+                if (isRecyclerVisible) View.VISIBLE else View.GONE
+
+            // Ubah ikon dropdown sesuai status
+            binding.dropdownSurat.setImageResource(
+                if (isRecyclerVisible) R.drawable.ic_dropdown_close
+                else R.drawable.ic_dropdown
+            )
+
             Log.d("RecyclerDebug", "RecyclerView Toggled: ${if (isRecyclerVisible) "Visible" else "Gone"}")
         }
-        // Observer untuk mengamati perubahan data surat
+    }
+
+    /**
+     * Fungsi untuk mengamati perubahan data dari ViewModel
+     */
+    private fun observeViewModelData() {
+        // Memantau perubahan data surat
         viewModel.suratListKtm.observe(viewLifecycleOwner) { list ->
             Log.d("RecyclerDebug", "Jumlah surat masuk: ${list.size}")
-            adapter.updateDataKtm(list)  // Mengupdate data pada adapter
-            binding.tvJumlahSurat.text = "(${list.size})"  // Menampilkan jumlah surat
 
-            // Menampilkan RecyclerView setelah data tersedia
-            if (list.isNotEmpty()) {
-                // Jika ada data, tampilkan RecyclerView (terlepas dari status dropdown)
-                binding.recyclerViewSuratItemKtm.visibility = View.VISIBLE
-                Log.d("RecyclerDebug", "RecyclerView Visible")
-            } else {
-                // Jika tidak ada data, sembunyikan RecyclerView
+            // Update adapter dengan data baru
+            (binding.recyclerViewSuratItemKtm.adapter as SuratKtmAdater).updateDataKtm(list)
+
+            // Update label jumlah surat
+            binding.tvJumlahSurat.text = "(${list.size})"
+
+            // Jika dropdown terbuka dan tidak ada data, sembunyikan RecyclerView
+            val isRecyclerVisible = binding.recyclerViewSuratItemKtm.visibility == View.VISIBLE
+            if (isRecyclerVisible && list.isEmpty()) {
                 binding.recyclerViewSuratItemKtm.visibility = View.GONE
-                Log.d("RecyclerDebug", "RecyclerView Gone")
             }
         }
-        // Observe error
+
+        // Memantau pesan error
         viewModel.error.observe(viewLifecycleOwner) { errorMsg ->
             if (!errorMsg.isNullOrEmpty()) {
                 Toast.makeText(requireContext(), errorMsg, Toast.LENGTH_SHORT).show()
             }
         }
-        binding.addSurat.setOnClickListener {
-            showBottomSheetDialog()
-        }
-
     }
 
-
+    /**
+     * Menampilkan dialog bottom sheet untuk memilih jenis surat
+     */
     private fun showBottomSheetDialog() {
+        // Membuat tampilan dialog
         val dialogView = layoutInflater.inflate(R.layout.layout_buat_surat_dialog, null)
 
         // Bungkus dengan FrameLayout untuk margin horizontal
@@ -160,49 +236,94 @@ class LayananFragment : Fragment() {
             addView(dialogView)
         }
 
-        val dialog = Dialog(requireContext())
-        dialog.setContentView(wrapper) // <-- pakai wrapper di sini, BUKAN dialogView langsung
+        // Inisialisasi dialog
+        val dialog = Dialog(requireContext()).apply {
+            setContentView(wrapper)
+            window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            window?.setLayout(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            )
+        }
 
-        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        dialog.window?.setLayout(
-            ViewGroup.LayoutParams.MATCH_PARENT,
-            ViewGroup.LayoutParams.WRAP_CONTENT,
-        )
+        // Inisialisasi tombol-tombol pada dialog
+        setupDialogButtons(dialogView, dialog)
 
-        // Inisialisasi tombol dari dialogView (bukan wrapper)
+        // Tampilkan dialog
+        dialog.show()
+    }
+
+    /**
+     * Mengatur fungsi tombol-tombol pada dialog
+     * @param dialogView Tampilan dialog
+     * @param dialog Objek dialog
+     */
+    private fun setupDialogButtons(dialogView: View, dialog: Dialog) {
+        // Inisialisasi tombol dari dialogView
         val btnDomisili = dialogView.findViewById<AppCompatButton>(R.id.addSuratDomisili)
         val btnKtm = dialogView.findViewById<AppCompatButton>(R.id.addSuratKtm)
         val btnKtu = dialogView.findViewById<AppCompatButton>(R.id.addSuratKtu)
         val btnLainnya = dialogView.findViewById<AppCompatButton>(R.id.addSuratLainnya)
         val btnClose = dialogView.findViewById<AppCompatImageButton>(R.id.closeBtn)
 
+        // Tombol surat domisili
         btnDomisili.setOnClickListener {
             Toast.makeText(requireContext(), "Surat Domisili dipilih", Toast.LENGTH_SHORT).show()
             dialog.dismiss()
         }
 
+        // Tombol surat KTM
         btnKtm.setOnClickListener {
             Toast.makeText(requireContext(), "Surat KTM dipilih", Toast.LENGTH_SHORT).show()
+            navigateToCreateSurat(Constant.TYPE_CREATE)
             dialog.dismiss()
         }
 
+        // Tombol surat KTU
         btnKtu.setOnClickListener {
             Toast.makeText(requireContext(), "Surat KTU dipilih", Toast.LENGTH_SHORT).show()
             dialog.dismiss()
         }
 
+        // Tombol surat lainnya
         btnLainnya.setOnClickListener {
             Toast.makeText(requireContext(), "Surat Lainnya dipilih", Toast.LENGTH_SHORT).show()
             dialog.dismiss()
         }
 
+        // Tombol tutup dialog
         btnClose.setOnClickListener {
             dialog.dismiss()
         }
-
-        dialog.show()
     }
 
+    /**
+     * Navigasi ke halaman pembuatan surat baru
+     * @param type Tipe operasi (create, update, dll)
+     */
+    private fun navigateToCreateSurat(type: Int) {
+        // Siapkan bundle dengan tipe operasi
+        val bundle = Bundle().apply {
+            putInt("type", type)
+        }
+
+        // Buat instance fragment baru dengan bundle
+        val fragment = SuratKtmFragment().apply {
+            arguments = bundle
+        }
+
+        // Navigasi ke fragment pembuatan surat
+        parentFragmentManager.beginTransaction()
+            .replace(R.id.fragmentView, fragment)
+            .addToBackStack(null)
+            .commit()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding.shimmerLayoutSurat.stopShimmer()
+        _binding = null
+    }
 
 
 }
