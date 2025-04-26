@@ -1,11 +1,13 @@
 package com.localclasstech.layanandesa.feature.layanan.view.surat
 
+import android.app.DatePickerDialog
 import androidx.fragment.app.viewModels
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import androidx.lifecycle.ViewModelProvider
 import com.localclasstech.layanandesa.R
 import com.localclasstech.layanandesa.databinding.FragmentSuratKtmBinding
@@ -18,6 +20,10 @@ import com.localclasstech.layanandesa.feature.layanan.viewmodel.surat.SuratKtmVi
 import com.localclasstech.layanandesa.network.RetrofitClient
 import com.localclasstech.layanandesa.settings.PreferencesHelper
 import com.localclasstech.layanandesa.settings.utils.Constant
+import com.localclasstech.layanandesa.settings.utils.CustomSpinnerAdapter
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
 
 class SuratKtmFragment : Fragment() {
     private var _binding: FragmentSuratKtmBinding? = null
@@ -31,17 +37,8 @@ class SuratKtmFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        // Inisialisasi apiService dan preferencesHelper secara manual
-        val apiService = RetrofitClient.suratApiService   // Unresolved reference: create
-        val preferencesHelper = PreferencesHelper(requireContext()) // Sesuaikan cara Anda menginisialisasi preferencesHelper
-
-        // Inisialisasi repository dengan apiService dan preferencesHelper
-        val repository = SuratKtmRepository(apiService, preferencesHelper)
-
-        // Buat ViewModel dengan factory
-        val factory = SuratKtmViewModelFactory(repository)
-        viewModel = ViewModelProvider(this, factory).get(SuratKtmViewModel::class.java)
+        val factory = SuratKtmViewModelFactory(requireContext())
+        viewModel = ViewModelProvider(this, factory)[SuratKtmViewModel::class.java]
     }
 
     override fun onCreateView(
@@ -55,14 +52,27 @@ class SuratKtmFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        // Ambil id_surat dari bundle
+
         val idSurat = arguments?.getInt("id_surat") ?: return
         val type = arguments?.getInt("type")
-    // Panggil ViewModel untuk mengambil data detail surat berdasarkan id
-        viewModel.fetchSuratKtmDetail(idSurat)
-        val jenisKelaminItems = listOf("Laki-laki", "Perempuan")
-        val statusKawinItems = listOf("Kawin", "Belum Kawin")
 
+        viewModel.fetchSuratKtmDetail(idSurat)
+
+        val jenisKelaminItems = listOf("Laki-laki", "Perempuan")
+        val statusKawinItems = listOf("Belum kawin", "Sudah kawin", "Cerai")
+        val jenisKelaminAdapter = CustomSpinnerAdapter(requireContext(), jenisKelaminItems)
+        binding.spinerJK.adapter = jenisKelaminAdapter
+
+        // Set up date picker functionality
+        binding.etTanggalLahir.setOnClickListener {
+            // Only show date picker if not in detail mode or if enabled
+            if (binding.etTanggalLahir.isEnabled) {
+                showDatePicker()
+            }
+        }
+
+        val statusKawinAdapter = CustomSpinnerAdapter(requireContext(), statusKawinItems)
+        binding.spinerSK.adapter = statusKawinAdapter
         // Observe data surat
         viewModel.detailSuratKtm.observe(viewLifecycleOwner) { dataSktm ->
             if (type == Constant.TYPE_DETAIL && dataSktm != null) {
@@ -79,12 +89,16 @@ class SuratKtmFragment : Fragment() {
                 if (jenisKelaminIndex != -1) {
                     binding.spinerJK.setSelection(jenisKelaminIndex)
                 }
+                // Disable spinner in detail mode
+                binding.spinerJK.isEnabled = false
 
                 // Untuk Spinner statusKawin, cari index dari statusKawin dan set selection
                 val statusKawinIndex = statusKawinItems.indexOf(dataSktm.statusKawin)
                 if (statusKawinIndex != -1) {
                     binding.spinerSK.setSelection(statusKawinIndex)
                 }
+                // Disable spinner in detail mode
+                binding.spinerSK.isEnabled = false
                 binding.etKewarganegaraan.setText(dataSktm.kewarganegaraan)
                 binding.etKewarganegaraan.isEnabled = false
                 binding.etAlamat.setText(dataSktm.alamat)
@@ -95,6 +109,49 @@ class SuratKtmFragment : Fragment() {
                 binding.btnAjukan.visibility = View.GONE
             }
         }
+    }
+
+    private fun showDatePicker() {
+        val calendar = Calendar.getInstance()
+        // Set to 18 years ago as default if creating new data
+        calendar.add(Calendar.YEAR, -18)
+
+        val currentText = binding.etTanggalLahir.text.toString()
+        if (currentText != "Pilih Tanggal Lahir") {
+            try {
+                val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+                val date = dateFormat.parse(currentText)
+                if (date != null) {
+                    calendar.time = date
+                }
+            } catch (e: Exception) {
+                // If date parsing fails, just use the default (18 years ago)
+            }
+        }
+
+        val year = calendar.get(Calendar.YEAR)
+        val month = calendar.get(Calendar.MONTH)
+        val day = calendar.get(Calendar.DAY_OF_MONTH)
+
+        val datePickerDialog = DatePickerDialog(
+            requireContext(),
+            { _, selectedYear, selectedMonth, selectedDay ->
+                // Format the date
+                val selectedCalendar = Calendar.getInstance()
+                selectedCalendar.set(selectedYear, selectedMonth, selectedDay)
+                val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+                val formattedDate = dateFormat.format(selectedCalendar.time)
+
+                // Set the formatted date to TextView
+                binding.etTanggalLahir.text = formattedDate
+            },
+            year, month, day
+        )
+
+        // Set maximum date to today (no future dates)
+        datePickerDialog.datePicker.maxDate = System.currentTimeMillis()
+
+        datePickerDialog.show()
     }
 
 }

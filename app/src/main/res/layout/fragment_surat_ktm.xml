@@ -19,6 +19,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/tvSuratKtm"
+
         android:text="Surat Keterangan Tidak Mampu"
         android:textColor="@color/black"
         android:fontFamily="@font/poppins_bold"
@@ -46,6 +47,7 @@
     <EditText
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:textColor="@color/black"
         android:id="@+id/etNama"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -76,6 +78,7 @@
     <EditText
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:textColor="@color/black"
         android:id="@+id/etTempatLahir"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -113,6 +116,7 @@
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="15dp"
         android:text="Pilih Tanggal Lahir"
+
         android:textColor="@color/black"
         android:background="@drawable/edit_text_border"
         android:paddingStart="8dp"
@@ -147,13 +151,10 @@
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
         android:background="@drawable/edit_text_border"
-
-
         android:drawablePadding="20dp"
         android:paddingStart="8dp"
         android:layout_marginTop="5dp"
-
-        android:textColorHint="@color/abu_abu_modern"/>
+        android:textColorHint="@color/black"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -178,13 +179,11 @@
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
         android:background="@drawable/edit_text_border"
-
-
         android:drawablePadding="20dp"
         android:paddingStart="8dp"
         android:layout_marginTop="5dp"
 
-        android:textColorHint="@color/abu_abu_modern"/>
+        android:textColorHint="@color/black"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -203,6 +202,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:id="@+id/etKewarganegaraan"
+        android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/labelNoTelp"
@@ -233,6 +233,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:id="@+id/etAlamat"
+        android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvAlamat"
@@ -269,8 +270,9 @@
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
         android:background="@drawable/edit_text_border"
-
-
+        android:textColor="@color/black"
+        android:textAlignment="textStart"
+        android:gravity="top|start"
         android:paddingStart="8dp"
         android:layout_marginTop="5dp"
         android:textColorHint="@color/abu_abu_modern"/>
