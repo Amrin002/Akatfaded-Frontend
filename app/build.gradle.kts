@@ -69,6 +69,7 @@ dependencies {
     // Retrofit (REST API)
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
+    implementation (libs.converter.scalars)
 
     // OkHttp (Logging Interceptor untuk debug)
     implementation(libs.logging.interceptor)

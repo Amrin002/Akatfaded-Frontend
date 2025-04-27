@@ -9,6 +9,7 @@ import com.localclasstech.layanandesa.feature.layanan.data.network.data.suratktm
 import com.localclasstech.layanandesa.feature.layanan.data.network.data.suratktm.SktmResponse
 import com.localclasstech.layanandesa.feature.layanan.data.repository.SuratKtmRepository
 import kotlinx.coroutines.launch
+import okhttp3.ResponseBody
 
 class SuratKtmViewModel(private val repository: SuratKtmRepository) : ViewModel() {
     private val _detailSuratKtm = MutableLiveData<SktmResponse>()
@@ -19,6 +20,9 @@ class SuratKtmViewModel(private val repository: SuratKtmRepository) : ViewModel(
 
     private val _error = MutableLiveData<String>()
     val error: LiveData<String> get() = _error
+
+    private val _pdfDownloadResult = MutableLiveData<Pair<Boolean, ResponseBody?>>()
+    val pdfDownloadResult: LiveData<Pair<Boolean, ResponseBody?>> get() = _pdfDownloadResult
 
     fun fetchSuratKtmDetail(id: Int) {
         viewModelScope.launch {
@@ -68,6 +72,25 @@ class SuratKtmViewModel(private val repository: SuratKtmRepository) : ViewModel(
                 _error.postValue("Error: ${e.message}")
                 _operationResult.postValue(false)
                 Log.e("SuratKtmViewModel", "Exception: ${e.message}")
+            }
+        }
+    }
+    fun exportPdfSuratKtm(id: Int) {
+        viewModelScope.launch {
+            try {
+                val response = repository.exportPdfSuratKtm(id)
+
+                if (response.isSuccessful && response.body() != null) {
+                    _pdfDownloadResult.postValue(Pair(true, response.body()))
+                } else {
+                    _error.postValue("Gagal mengunduh PDF: ${response.message()}")
+                    _pdfDownloadResult.postValue(Pair(false, null))
+                    Log.e("SuratKtmViewModel", "PDF export failed: ${response.message()}")
+                }
+            } catch (e: Exception) {
+                _error.postValue("Error: ${e.message}")
+                _pdfDownloadResult.postValue(Pair(false, null))
+                Log.e("SuratKtmViewModel", "Exception during PDF export: ${e.message}")
             }
         }
     }

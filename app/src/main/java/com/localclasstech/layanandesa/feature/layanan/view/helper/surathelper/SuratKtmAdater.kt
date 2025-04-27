@@ -3,6 +3,7 @@ package com.localclasstech.layanandesa.feature.layanan.view.helper.surathelper
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.localclasstech.layanandesa.R
 import com.localclasstech.layanandesa.databinding.ListSuratBinding
 import com.localclasstech.layanandesa.feature.layanan.data.DataClassCardSurat
 import com.localclasstech.layanandesa.feature.layanan.data.network.data.suratktm.SktmResponse
@@ -16,7 +17,31 @@ class SuratKtmAdater(private var cardSuratList: List<DataClassCardSurat>,
             binding.tvJenisSurat.text = cardSurat.jenisSurat
             binding.tvNamaPengirim.text = cardSurat.namaPengirim
             binding.tvTanggalPembuatan.text = DateUtils.formatDate(cardSurat.tanggalPembuatan)
-            binding.tvStatusSurat.text = cardSurat.statusSurat
+
+            // Translate status to Indonesian
+            val statusIndonesia = when (cardSurat.statusSurat) {
+                "On Progress" -> "Sedang Diproses"
+                "Approve" -> "Disetujui"
+                "Cancel" -> "Dibatalkan"
+                else -> cardSurat.statusSurat
+            }
+            binding.tvStatusSurat.text = statusIndonesia
+
+            // Set status color based on original status value
+            when (cardSurat.statusSurat) {
+                "On Progress" -> binding.tvStatusSurat.setTextColor(
+                    binding.root.context.getColor(R.color.textOnProgress)
+                )
+                "Approve" -> binding.tvStatusSurat.setTextColor(
+                    binding.root.context.getColor(R.color.textAproved)
+                )
+                "Cancel" -> binding.tvStatusSurat.setTextColor(
+                    binding.root.context.getColor(R.color.textCancel)
+                )
+                else -> binding.tvStatusSurat.setTextColor(
+                    binding.root.context.getColor(android.R.color.black)
+                )
+            }
         }
     }
 

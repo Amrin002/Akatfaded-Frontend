@@ -75,7 +75,7 @@
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:scaleType="centerInside"
-            android:src="@drawable/ic_edit"
+            android:src="@drawable/ic_pick_image"
             android:background="@drawable/circle_edit_background"
             app:layout_constraintEnd_toEndOf="@id/imageProfileEdit"
             app:layout_constraintBottom_toBottomOf="@id/imageProfileEdit"

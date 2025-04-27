@@ -5,6 +5,7 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.scalars.ScalarsConverterFactory
 import java.util.concurrent.TimeUnit
 
 object RetrofitClient {
@@ -18,9 +19,9 @@ object RetrofitClient {
      // Ganti sesuai IP atau hosting kamu
     private val client = OkHttpClient.Builder()
          .addInterceptor(logging)
-         .connectTimeout(30, TimeUnit.SECONDS) // ⏱️ waktu koneksi ke server
-         .readTimeout(30, TimeUnit.SECONDS)    // ⏱️ waktu tunggu response
-         .writeTimeout(30, TimeUnit.SECONDS)   // ⏱️ waktu kirim data ke server
+         .connectTimeout(40, TimeUnit.SECONDS) // ⏱️ waktu koneksi ke server
+         .readTimeout(40, TimeUnit.SECONDS)    // ⏱️ waktu tunggu response
+         .writeTimeout(40, TimeUnit.SECONDS)   // ⏱️ waktu kirim data ke server
          .build()
 
     val clientService: ApiService by lazy {
@@ -36,6 +37,7 @@ object RetrofitClient {
         Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(ScalarsConverterFactory.create())
             .client(client)
             .build()
             .create(SuratApiService::class.java)

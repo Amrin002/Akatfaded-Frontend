@@ -14,6 +14,7 @@ import retrofit2.http.Header
 import retrofit2.http.POST
 import retrofit2.http.PUT
 import retrofit2.http.Path
+import retrofit2.http.Streaming
 
 interface SuratApiService {
 
@@ -47,17 +48,24 @@ interface SuratApiService {
     ): Response<BaseResponse<String>>
 
 
-//    @GET("suratktm/{id}/export")
-//    suspend fun exportPdfSuratKtm(
-//        @Path("id") id: Int
-//    ): Response<ResponseBody>
+    @GET("api/suratktm/{id}/export")
+    @Streaming
+    suspend fun exportPdfSuratKtm(
+        @Header("Authorization") token: String,
+        @Path("id") id: Int
+    ): Response<ResponseBody>
 
 
     //Surat Domisili
     @GET("api/suratdomisili")
-    suspend fun getAllSurat(
+    suspend fun getSuratDomisiliByUser(
         @Header("Authorization") token: String,
     ): Response<BaseResponse<List<SuratDomisiliResponse>>>
+    @GET("api/suratdomisili/{id}")
+    suspend fun getDetailSuratDomisiliById(
+        @Header("Authorization") token: String,
+        @Path("id") id: Int
+    ): Response<BaseResponse<SuratDomisiliResponse>>
 
     @GET("api/suratdomisili/{id}")
     suspend fun getSuratById(
@@ -65,13 +73,13 @@ interface SuratApiService {
         @Path("id") id: Int): Response<BaseResponse<SuratDomisiliResponse>>
 
     @POST("api/suratdomisili")
-    suspend fun createSurat(
+    suspend fun createSuratDomisili(
         @Header("Authorization") token: String,
         @Body request: CreateSuratDomisiliRequest): Response<BaseResponse<SuratDomisiliResponse>>
 
     @PUT("api/suratdomisili/{id}")
-    suspend fun updateSurat( @Header("Authorization") token: String, @Path("id") id: Int, @Body request: CreateSuratDomisiliRequest): Response<BaseResponse<SuratDomisiliResponse>>
+    suspend fun updateSuratDomisili(@Header("Authorization") token: String, @Path("id") id: Int, @Body request: CreateSuratDomisiliRequest): Response<BaseResponse<SuratDomisiliResponse>>
 
     @DELETE("api/suratdomisili/{id}")
-    suspend fun deleteSurat( @Header("Authorization") token: String, @Path("id") id: Int): Response<BaseResponse<Unit>>
+    suspend fun deleteSuratDomisili(@Header("Authorization") token: String, @Path("id") id: Int): Response<BaseResponse<String>>
 }

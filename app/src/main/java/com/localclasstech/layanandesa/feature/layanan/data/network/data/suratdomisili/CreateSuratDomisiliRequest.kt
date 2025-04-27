@@ -9,6 +9,5 @@ data class CreateSuratDomisiliRequest(
     val kewarganegaraan: String,
     val pekerjaan: String,
     val alamat: String,
-    val surat_keluar: String,
     val keterangan: String
 )

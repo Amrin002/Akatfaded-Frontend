@@ -21,6 +21,9 @@ class LayananViewModel(
     private val _suratListKtm = MutableLiveData<List<DataClassCardSurat>>()
     val suratListKtm: LiveData<List<DataClassCardSurat>> = _suratListKtm
 
+    private val _suratListDomisili = MutableLiveData<List<DataClassCardSurat>>()
+    val suratListDomisili: LiveData<List<DataClassCardSurat>> = _suratListDomisili
+
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
 
@@ -31,7 +34,7 @@ class LayananViewModel(
         viewModelScope.launch {
             _isLoading.value = true
             try {
-                val response = suratKtmRepository.getSuratKtmByUser(id)//No value passed for parameter 'id'
+                val response = suratKtmRepository.getSuratKtmByUser(id)
                 if (response.isSuccessful) {
                     val data = response.body()?.data.orEmpty()
                     val listMapped = data.map { it.toCardSuratKtm() }
@@ -44,6 +47,28 @@ class LayananViewModel(
                 _error.postValue("Terjadi kesalahan: ${e.localizedMessage}")
             } finally {
                 _isLoading.postValue(false)
+            }
+        }
+    }
+    fun fetchSuratDomisiliByUser(id : Int) {
+        viewModelScope.launch {
+            _isLoading.value = true
+            try {
+                val response = suratDomisiliRepository.getSuratDomisiliByUser(id)
+                if (response.isSuccessful){
+                    val data = response.body()?.data.orEmpty()
+                    val listMapped = data.map { it.toCardSuratDomisili() }
+                    _suratListDomisili.postValue(listMapped)
+                    _error.postValue(null)
+                }else{
+                    _error.postValue("Gagal memuat data: ${response.message()}")
+                    Log.e("LayananViewModelDomisili", "Error fetching surat domisili: ${response.message()}")
+                }
+            }catch (e: Exception){
+                _error.postValue("Terjadi kesalahan: ${e.localizedMessage}")
+                Log.e("LayananViewModelDomisili", "Error fetching surat domisili: ${e.localizedMessage}")
+            }finally {
+            _isLoading.postValue(false)
             }
         }
     }

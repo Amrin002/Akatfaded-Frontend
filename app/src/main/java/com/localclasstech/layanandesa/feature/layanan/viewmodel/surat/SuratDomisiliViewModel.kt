@@ -1,5 +1,6 @@
 package com.localclasstech.layanandesa.feature.layanan.viewmodel.surat
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -10,30 +11,61 @@ import com.localclasstech.layanandesa.feature.layanan.data.repository.SuratDomis
 import kotlinx.coroutines.launch
 
 class SuratDomisiliViewModel(private val repository: SuratDomisiliRepository) : ViewModel() {
-    private val _suratList = MutableLiveData<List<SuratDomisiliResponse>>()
-    val suratList: LiveData<List<SuratDomisiliResponse>> get() = _suratList
+    private val _detailSuratDomisili = MutableLiveData<SuratDomisiliResponse>()
+    val detailSuratDomisili: LiveData<SuratDomisiliResponse> get() = _detailSuratDomisili
 
-    private val _loading = MutableLiveData<Boolean>()
-    val loading: LiveData<Boolean> get() = _loading
+    private val _operationResult = MutableLiveData<Boolean>()
+    val operationResult: LiveData<Boolean> get() = _operationResult
 
-    fun getAllSuratDomisili() {
+    private val _error = MutableLiveData<String>()
+    val error: LiveData<String> get() = _error
+
+
+    fun fetchSuratDomisiliDetail(id: Int) {
         viewModelScope.launch {
-            _loading.value = true
             try {
-                val response = repository.getAllSurat()
-                if (response.isSuccessful) {
-                    _suratList.value = response.body()?.data ?: emptyList()
+                val response = repository.getDetailSuratDomisiliById(id)
+                if (response.isSuccessful && response.body() != null) {
+                    _detailSuratDomisili.postValue(response.body()?.data)
+                } else {
+                    _error.postValue("gagal Memuat Detail Surat: ${response.message()}")
+                    }
+                } catch (e: Exception) {
+                    _error.postValue("Failed to fetch surat domisili detail: ${e.message}")
                 }
-            } finally {
-                _loading.value = false
             }
-        }
     }
 
     fun createSuratDomisili(request: CreateSuratDomisiliRequest) {
         viewModelScope.launch {
-            repository.createSurat(request)
-            getAllSuratDomisili()
+            try {
+                val response = repository.createSuratDomisili(request)
+                if (response.isSuccessful && response.body() != null) {
+                    _operationResult.postValue(true)
+                } else {
+                    _error.postValue("Failed to create surat domisili: ${response.message()}")
+                }
+                } catch (e: Exception) {
+                    _error.postValue("Failed to create surat domisili: ${e.message}")
+                _operationResult.postValue(false)
+                }
+        }
+    }
+
+    fun updateSuratDomisili(id: Int, request: CreateSuratDomisiliRequest) {
+        viewModelScope.launch {
+            try {
+                val response = repository.updateSuratDomisili(id, request)
+                if (response.isSuccessful && response.body() != null) {
+                    _operationResult.postValue(true)
+                } else {
+                    _error.postValue("Failed to update surat domisili: ${response.message()}")
+                }
+                } catch (e: Exception) {
+                    _error.postValue("Failed to update surat domisili: ${e.message}")
+                _operationResult.postValue(false)
+                Log.d("SuratDomisiliViewModel", "Error message: ${e.message}")
+                }
         }
     }
 }

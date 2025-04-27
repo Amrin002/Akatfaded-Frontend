@@ -4,8 +4,6 @@ import android.app.Dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -33,7 +31,8 @@ import com.localclasstech.layanandesa.feature.pengaturan.viewmodel.SharedThemeVi
 import com.localclasstech.layanandesa.network.RetrofitClient
 import com.localclasstech.layanandesa.settings.PreferencesHelper
 import com.localclasstech.layanandesa.settings.utils.Constant
-import androidx.navigation.fragment.findNavController
+import com.localclasstech.layanandesa.feature.layanan.view.helper.surathelper.SuratDomisiliAdapter
+import com.localclasstech.layanandesa.feature.layanan.view.surat.SuratDomisiliFragment
 import com.localclasstech.layanandesa.feature.layanan.view.surat.SuratKtmFragment
 
 
@@ -101,6 +100,7 @@ class LayananFragment : Fragment() {
 
         // Mengambil data surat dari server
         viewModel.fetchSuratKtmByUser(id)
+        viewModel.fetchSuratDomisiliByUser(id)
     }
 
     private fun observeLoadingState() {
@@ -128,7 +128,7 @@ class LayananFragment : Fragment() {
             cardSuratList = emptyList(),
             object : SuratKtmAdater.OnAdapterListener {
                 override fun onClick(cardSuratList: DataClassCardSurat) {
-                    navigateToDetailSurat(cardSuratList.id)
+                    navigateToDetailSuratKtm(cardSuratList.id)
                 }
 
                 override fun onUpdete(cardSuratList: DataClassCardSurat) {
@@ -136,19 +136,53 @@ class LayananFragment : Fragment() {
                 }
             }
         )
-
         binding.recyclerViewSuratItemKtm.apply {
             layoutManager = LinearLayoutManager(requireContext())
             this.adapter = adapter
             visibility = View.GONE // Sembunyikan recycler view saat awal
         }
+
+//        Adapter Surat Domisili
+        val adapterDomisili = SuratDomisiliAdapter(
+            cardSuratList = emptyList(),
+            object : SuratDomisiliAdapter.OnAdapterListener {
+                override fun onClick(cardSuratList: DataClassCardSurat) {
+                    navigateToDetailSuratDomisili(cardSuratList.id)
+                }
+
+                override fun onUpdete(cardSuratList: DataClassCardSurat) {
+                    TODO("Not yet implemented")
+                }
+            }
+        )
+        binding.recyclerViewSuratItemDomisili.apply {
+            layoutManager = LinearLayoutManager(requireContext())
+            this.adapter = adapterDomisili
+            visibility = View.GONE // Sembunyikan recycler view saat awal
+        }
+    }
+
+    private fun navigateToDetailSuratDomisili(suratId: Int) {
+        val bundle = Bundle().apply {
+            putInt("id_surat", suratId)
+            putInt("type", Constant.TYPE_DETAIL)
+        }
+        val fragment = SuratDomisiliFragment().apply {
+            arguments = bundle
+        }
+        parentFragmentManager.beginTransaction()
+            .replace(R.id.fragmentView, fragment)
+            .addToBackStack(null)
+            .commit()
+
+
     }
 
     /**
      * Fungsi untuk navigasi ke halaman detail surat
      * @param suratId ID surat yang akan ditampilkan detailnya
      */
-    private fun navigateToDetailSurat(suratId: Int) {
+    private fun navigateToDetailSuratKtm(suratId: Int) {
         // Siapkan bundle dengan ID surat dan tipe operasi
         val bundle = Bundle().apply {
             putInt("id_surat", suratId)
@@ -166,6 +200,8 @@ class LayananFragment : Fragment() {
             .addToBackStack(null)
             .commit()
     }
+
+
 
     /**
      * Fungsi untuk mengatur perilaku dropdown surat
@@ -190,6 +226,18 @@ class LayananFragment : Fragment() {
             )
 
             Log.d("RecyclerDebug", "RecyclerView Toggled: ${if (isRecyclerVisible) "Visible" else "Gone"}")
+        }
+
+        var isRecyclerVisibleDomisili = false
+        binding.layoutFilterSdomisili.setOnClickListener{
+            isRecyclerVisibleDomisili = !isRecyclerVisibleDomisili
+            binding.recyclerViewSuratItemDomisili.visibility =
+                if (isRecyclerVisibleDomisili) View.VISIBLE else View.GONE
+            binding.dropdownSuratDomisili.setImageResource(
+                if (isRecyclerVisibleDomisili) R.drawable.ic_dropdown_close
+                else R.drawable.ic_dropdown
+            )
+            Log.d("RecyclerDebug", "RecyclerView Toggled: ${if (isRecyclerVisibleDomisili) "Visible" else "Gone"}")
         }
     }
 
@@ -219,6 +267,19 @@ class LayananFragment : Fragment() {
             if (!errorMsg.isNullOrEmpty()) {
                 Toast.makeText(requireContext(), errorMsg, Toast.LENGTH_SHORT).show()
             }
+        }
+
+        viewModel.suratListDomisili.observe(viewLifecycleOwner) { list ->
+            Log.d("RecyclerDebugDomisili", "Jumlah surat masuk: ${list.size}")
+            (binding.recyclerViewSuratItemDomisili.adapter as SuratDomisiliAdapter).updateDataDomisili(
+                list
+            )
+            binding.tvJumlahSuratDomisili.text = "(${list.size})"
+            val isRecyclerVisible = binding.recyclerViewSuratItemDomisili.visibility == View.VISIBLE
+            if (isRecyclerVisible && list.isEmpty()) {
+                binding.recyclerViewSuratItemDomisili.visibility = View.GONE
+            }
+
         }
     }
 
@@ -269,13 +330,14 @@ class LayananFragment : Fragment() {
         // Tombol surat domisili
         btnDomisili.setOnClickListener {
             Toast.makeText(requireContext(), "Surat Domisili dipilih", Toast.LENGTH_SHORT).show()
+            navigateToCreateSuratDomisili(Constant.TYPE_CREATE)
             dialog.dismiss()
         }
 
         // Tombol surat KTM
         btnKtm.setOnClickListener {
             Toast.makeText(requireContext(), "Surat KTM dipilih", Toast.LENGTH_SHORT).show()
-            navigateToCreateSurat(Constant.TYPE_CREATE)
+            navigateToCreateSuratKtm(Constant.TYPE_CREATE)
             dialog.dismiss()
         }
 
@@ -301,7 +363,7 @@ class LayananFragment : Fragment() {
      * Navigasi ke halaman pembuatan surat baru
      * @param type Tipe operasi (create, update, dll)
      */
-    private fun navigateToCreateSurat(type: Int) {
+    private fun navigateToCreateSuratKtm(type: Int) {
         // Siapkan bundle dengan tipe operasi
         val bundle = Bundle().apply {
             putInt("type", type)
@@ -309,6 +371,23 @@ class LayananFragment : Fragment() {
 
         // Buat instance fragment baru dengan bundle
         val fragment = SuratKtmFragment().apply {
+            arguments = bundle
+        }
+
+        // Navigasi ke fragment pembuatan surat
+        parentFragmentManager.beginTransaction()
+            .replace(R.id.fragmentView, fragment)
+            .addToBackStack(null)
+            .commit()
+    }
+    private fun navigateToCreateSuratDomisili(type: Int) {
+        // Siapkan bundle dengan tipe operasi
+        val bundle = Bundle().apply {
+            putInt("type", type)
+        }
+
+        // Buat instance fragment baru dengan bundle
+        val fragment = SuratDomisiliFragment().apply {
             arguments = bundle
         }
 

@@ -1,6 +1,8 @@
 package com.localclasstech.layanandesa.feature.layanan.view.surat
 
 import android.app.DatePickerDialog
+import android.content.pm.PackageManager
+import android.os.Build
 import androidx.fragment.app.viewModels
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -9,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import com.localclasstech.layanandesa.R
 import com.localclasstech.layanandesa.databinding.FragmentSuratKtmBinding
@@ -26,6 +29,19 @@ import com.localclasstech.layanandesa.settings.utils.CustomSpinnerAdapter
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
+import android.Manifest
+import android.content.ContentValues
+import android.media.MediaScannerConnection
+import android.os.Environment
+import android.provider.MediaStore
+import android.util.Log
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import okhttp3.ResponseBody
+import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
+import kotlinx.coroutines.launch
 
 class SuratKtmFragment : Fragment() {
     private var _binding: FragmentSuratKtmBinding? = null
@@ -59,7 +75,8 @@ class SuratKtmFragment : Fragment() {
         val type = arguments?.getInt("type", Constant.TYPE_CREATE) ?: Constant.TYPE_CREATE
 
 
-        if (type == Constant.TYPE_DETAIL && idSurat != -1){
+        // Fetch data for both DETAIL and UPDATE modes
+        if ((type == Constant.TYPE_DETAIL || type == Constant.TYPE_UPDATE) && idSurat != -1) {
             viewModel.fetchSuratKtmDetail(idSurat)
         }
 
@@ -75,6 +92,17 @@ class SuratKtmFragment : Fragment() {
         }
         binding.backButton.setOnClickListener{
             parentFragmentManager.popBackStack()
+        }
+
+        binding.btnEditSurat.setOnClickListener{
+            val bundle = Bundle().apply {
+                putInt("id_surat", idSurat)
+                putInt("type", Constant.TYPE_UPDATE)
+            }
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.fragmentView, SuratKtmFragment::class.java, bundle)
+                .addToBackStack(null)
+                .commit()
         }
 
         // Observe data surat
@@ -116,10 +144,13 @@ class SuratKtmFragment : Fragment() {
 
                 // Hide submit button in detail mode
                 binding.btnAjukan.visibility = View.GONE
+
+                // Edit button visibility will be set in observeDetailData() based on status
             }
             Constant.TYPE_CREATE -> {
                 // Set default text for date field
                 binding.etTanggalLahir.text = "Pilih Tanggal Lahir"
+                binding.btnEditSurat.visibility = View.GONE
 
                 // Enable all fields for input
                 binding.etNama.isEnabled = true
@@ -137,6 +168,7 @@ class SuratKtmFragment : Fragment() {
             }
             Constant.TYPE_UPDATE -> {
                 // Enable all fields for editing
+                binding.btnEditSurat.visibility = View.GONE
                 binding.etNama.isEnabled = true
                 binding.etTempatLahir.isEnabled = true
                 binding.etTanggalLahir.isEnabled = true
@@ -176,20 +208,41 @@ class SuratKtmFragment : Fragment() {
                 binding.etKewarganegaraan.setText(dataSktm.kewarganegaraan)
                 binding.etAlamat.setText(dataSktm.alamat)
                 binding.etKeterangan.setText(dataSktm.keterangan)
+
+                // Control edit button visibility based on letter status
+                if (type == Constant.TYPE_DETAIL) {
+                    // Show edit button only if status is NOT "Approve"
+                    binding.btnEditSurat.visibility = if (dataSktm.status != "Approve") View.VISIBLE else View.GONE
+
+                    // Show download button if status is "Approve"
+                    if (dataSktm.status == "Approve") {
+                        binding.btnAjukan.text = "Unduh Surat"
+                        binding.btnAjukan.visibility = View.VISIBLE
+                    } else {
+                        binding.btnAjukan.visibility = View.GONE
+                    }
+                }
             }
         }
     }
     private fun setupSubmitButton(type: Int, idSurat: Int) {
         binding.btnAjukan.setOnClickListener {
-            if (validateForm()) {
+            // Get the current surat status from viewModel data
+            val currentSuratStatus = viewModel.detailSuratKtm.value?.status
+
+            // If we're in detail mode and status is Approve, perform download
+            if (type == Constant.TYPE_DETAIL && currentSuratStatus == "Approve") {
+                downloadPdf(idSurat)
+            } else if (validateForm()) {
+                // Normal form submission for create/update
                 val suratKtmData = collectFormData()
 
                 when (type) {
                     Constant.TYPE_CREATE -> {
-                        viewModel.createSuratKtm(suratKtmData) //Type mismatch: inferred type is SktmResponse but CreateSktmRequest was expected
+                        viewModel.createSuratKtm(suratKtmData)
                     }
                     Constant.TYPE_UPDATE -> {
-                        viewModel.updateSuratKtm(idSurat, suratKtmData) //Type mismatch: inferred type is SktmResponse but CreateSktmRequest was expected
+                        viewModel.updateSuratKtm(idSurat, suratKtmData)
                     }
                 }
             } else {
@@ -209,6 +262,108 @@ class SuratKtmFragment : Fragment() {
                 // Navigate back to the listing
                 parentFragmentManager.popBackStack()
             }
+        }
+
+        // Observe PDF download result
+        viewModel.pdfDownloadResult.observe(viewLifecycleOwner) { result ->
+            val (isSuccess, _) = result
+            if (isSuccess) {
+                Toast.makeText(requireContext(), "PDF berhasil diunduh", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(requireContext(), "Gagal mengunduh PDF", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+    private fun downloadPdf(idSurat: Int) {
+        // Request runtime permissions for storage if needed (Android 10+ handles differently)
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q &&
+            ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE)
+            != PackageManager.PERMISSION_GRANTED) {
+
+            requestPermissions(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), 1001)
+            return
+        }
+
+        // Show loading indicator
+        binding.progressBar.visibility = View.VISIBLE
+
+        // Use viewModel to export PDF
+        viewModel.exportPdfSuratKtm(idSurat)
+
+        // Observe the response
+        viewModel.pdfDownloadResult.observe(viewLifecycleOwner) { result ->
+            binding.progressBar.visibility = View.GONE
+
+            val (isSuccess, responseBody) = result
+
+            if (isSuccess && responseBody != null) {
+                try {
+                    savePdfFile(responseBody, "SuratKTM_${idSurat}.pdf")
+                } catch (e: Exception) {
+                    Toast.makeText(requireContext(), "Error saving PDF: ${e.message}", Toast.LENGTH_SHORT).show()
+                    Log.e("SuratKtmFragment", "Error saving PDF: ${e.message}")
+                }
+            } else {
+                Toast.makeText(requireContext(), "Gagal mengunduh PDF", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+    private fun savePdfFile(responseBody: ResponseBody, fileName: String) {
+        try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                // For Android 10 and above, use MediaStore
+                val contentValues = ContentValues().apply {
+                    put(MediaStore.MediaColumns.DISPLAY_NAME, fileName)
+                    put(MediaStore.MediaColumns.MIME_TYPE, "application/pdf")
+                    put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_DOWNLOADS)
+                }
+
+                val uri = requireContext().contentResolver.insert(
+                    MediaStore.Downloads.EXTERNAL_CONTENT_URI,
+                    contentValues
+                ) ?: throw IOException("Failed to create new MediaStore record.")
+
+                requireContext().contentResolver.openOutputStream(uri)?.use { outputStream ->
+                    val inputStream = responseBody.byteStream()
+                    inputStream.copyTo(outputStream)
+                    outputStream.flush()
+                } ?: throw IOException("Failed to open output stream.")
+
+                Toast.makeText(requireContext(),
+                    "PDF disimpan di folder Download dengan nama '$fileName'",
+                    Toast.LENGTH_LONG).show()
+
+            } else {
+                // For older Android versions, direct file access
+                val downloadsDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+                if (!downloadsDir.exists()) {
+                    downloadsDir.mkdirs()
+                }
+
+                val file = File(downloadsDir, fileName)
+                val inputStream = responseBody.byteStream()
+                val outputStream = FileOutputStream(file)
+
+                inputStream.copyTo(outputStream)
+                outputStream.flush()
+                outputStream.close()
+                inputStream.close()
+
+                // Notify media scanner to make the file visible
+                MediaScannerConnection.scanFile(
+                    requireContext(),
+                    arrayOf(file.absolutePath),
+                    arrayOf("application/pdf"),
+                    null
+                )
+
+                Toast.makeText(requireContext(),
+                    "PDF disimpan di folder Download dengan nama '$fileName'",
+                    Toast.LENGTH_LONG).show()
+            }
+        } catch (e: Exception) {
+            Log.e("SuratKtmFragment", "Error saving PDF: ${e.message}")
+            Toast.makeText(requireContext(), "Gagal menyimpan PDF: ${e.message}", Toast.LENGTH_SHORT).show()
         }
     }
 

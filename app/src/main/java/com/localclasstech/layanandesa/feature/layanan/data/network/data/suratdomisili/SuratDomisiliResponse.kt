@@ -1,7 +1,10 @@
 package com.localclasstech.layanandesa.feature.layanan.data.network.data.suratdomisili
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 data class SuratDomisiliResponse(
     val id: Int,
     val no_surat: String?,
@@ -30,4 +33,4 @@ data class SuratDomisiliResponse(
     @SerializedName("deleted_at")
     val deletedAt: String?
 
-)
+): Parcelable

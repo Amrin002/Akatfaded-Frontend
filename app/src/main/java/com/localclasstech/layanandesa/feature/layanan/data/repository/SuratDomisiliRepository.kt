@@ -1,8 +1,11 @@
 package com.localclasstech.layanandesa.feature.layanan.data.repository
 
 import com.localclasstech.layanandesa.feature.layanan.data.network.apiservice.SuratApiService
+import com.localclasstech.layanandesa.feature.layanan.data.network.data.BaseResponse
 import com.localclasstech.layanandesa.feature.layanan.data.network.data.suratdomisili.CreateSuratDomisiliRequest
+import com.localclasstech.layanandesa.feature.layanan.data.network.data.suratdomisili.SuratDomisiliResponse
 import com.localclasstech.layanandesa.settings.PreferencesHelper
+import retrofit2.Response
 
 class SuratDomisiliRepository(
     private val api: SuratApiService,
@@ -13,15 +16,26 @@ class SuratDomisiliRepository(
         return "Bearer $token"
     }
 
-    suspend fun getAllSurat() = api.getAllSurat(getBearerToken())
+    suspend fun getSuratDomisiliByUser(id: Int) :Response<BaseResponse<List<SuratDomisiliResponse>>>{
+        return api.getSuratDomisiliByUser(getBearerToken())
+    }
+    suspend fun getDetailSuratDomisiliById(id: Int): Response<BaseResponse<SuratDomisiliResponse>> {
+        return api.getDetailSuratDomisiliById(getBearerToken(), id)
+    }
 
     suspend fun getSuratById(id: Int) = api.getSuratById(getBearerToken(), id)
 
-    suspend fun createSurat(request: CreateSuratDomisiliRequest) =
-        api.createSurat(getBearerToken(), request)
+    suspend fun createSuratDomisili(request: CreateSuratDomisiliRequest): Response<BaseResponse<SuratDomisiliResponse>> {
+        return api.createSuratDomisili(getBearerToken(), request)
+    }
 
-    suspend fun updateSurat(id: Int, request: CreateSuratDomisiliRequest) =
-        api.updateSurat(getBearerToken(), id, request)
 
-    suspend fun deleteSurat(id: Int) = api.deleteSurat(getBearerToken(), id)
+    suspend fun updateSuratDomisili(id: Int, request: CreateSuratDomisiliRequest): Response<BaseResponse<SuratDomisiliResponse>>{
+        return api.updateSuratDomisili(getBearerToken(), id, request)
+
+    }
+
+    suspend fun deleteSuratDomisili(id: Int): Response<BaseResponse<String>> {
+        return api.deleteSuratDomisili(getBearerToken(), id) //Type mismatch: inferred type is Response<BaseResponse<Unit>> but Response<BaseResponse<String>> was expected
+    }
 }

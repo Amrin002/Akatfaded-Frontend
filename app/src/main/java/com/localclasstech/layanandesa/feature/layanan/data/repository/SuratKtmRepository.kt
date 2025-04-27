@@ -6,6 +6,7 @@ import com.localclasstech.layanandesa.feature.layanan.data.network.data.BaseResp
 import com.localclasstech.layanandesa.feature.layanan.data.network.data.suratktm.CreateSktmRequest
 import com.localclasstech.layanandesa.feature.layanan.data.network.data.suratktm.SktmResponse
 import com.localclasstech.layanandesa.settings.PreferencesHelper
+import okhttp3.ResponseBody
 import retrofit2.Response
 
 
@@ -35,7 +36,9 @@ class SuratKtmRepository(
     suspend fun updateSuratKtm(id: Int, request: CreateSktmRequest): Response<BaseResponse<SktmResponse>> {
         return apiService.updateSuratKtm(getBearerToken(), id, request)
     }
-
+    suspend fun exportPdfSuratKtm(id: Int): Response<ResponseBody> {
+        return apiService.exportPdfSuratKtm(getBearerToken(), id)
+    }
     suspend fun deleteSuratKtm(id: Int): Response<BaseResponse<String>> {
         return apiService.deleteSuratKtm(getBearerToken(), id)
     }
