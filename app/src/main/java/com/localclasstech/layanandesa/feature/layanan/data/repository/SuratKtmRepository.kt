@@ -10,7 +10,6 @@ import com.localclasstech.layanandesa.settings.PreferencesHelper
 import okhttp3.ResponseBody
 import retrofit2.Response
 
-
 class SuratKtmRepository(
     private val apiService: SuratApiService,
     private val preferencesHelper: PreferencesHelper
@@ -29,7 +28,9 @@ class SuratKtmRepository(
 
         return apiService.getSuratKtmByUser(getBearerToken())
     }
-
+    suspend fun deleteSuratKtm(id: Int): Response<BaseResponse<String>> {
+        return apiService.deleteSuratKtm(getBearerToken(), id)
+    }
     suspend fun getDetailSuratKtmById(id: Int): Response<BaseResponse<SktmResponse>> {
         return apiService.getDetailSuratKtmById(getBearerToken(), id)
     }
@@ -43,8 +44,5 @@ class SuratKtmRepository(
 
     suspend fun getDownloadUrl(id: Int): Response<DownloadUrlResponse> {
         return apiService.getDownloadUrl(getBearerToken(), id)
-    }
-    suspend fun deleteSuratKtm(id: Int): Response<BaseResponse<String>> {
-        return apiService.deleteSuratKtm(getBearerToken(), id)
     }
 }

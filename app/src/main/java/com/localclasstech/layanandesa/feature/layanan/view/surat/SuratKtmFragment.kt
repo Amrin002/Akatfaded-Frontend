@@ -30,6 +30,7 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
 import android.Manifest
+import android.app.Dialog
 import android.content.ContentValues
 import android.content.Intent
 import android.media.MediaScannerConnection
@@ -37,6 +38,7 @@ import android.net.Uri
 import android.os.Environment
 import android.provider.MediaStore
 import android.util.Log
+import com.localclasstech.layanandesa.settings.utils.DialogHelper
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import okhttp3.ResponseBody
@@ -106,6 +108,9 @@ class SuratKtmFragment : Fragment() {
                 .addToBackStack(null)
                 .commit()
         }
+        binding.btnDeleteSurat.setOnClickListener {
+            showDeleteConfirmationDialog(idSurat)
+        }
 
         // Observe data surat
         configureUIBasedOnType(type)
@@ -130,7 +135,16 @@ class SuratKtmFragment : Fragment() {
         val statusKawinAdapter = CustomSpinnerAdapter(requireContext(), statusKawinItems)
         binding.spinerSK.adapter = statusKawinAdapter
     }
-
+    // And update the showDeleteConfirmationDialog method to use the helper
+    private fun showDeleteConfirmationDialog(idSurat: Int) {
+        DialogHelper.showConfirmationDialog(
+            requireContext(),
+            "Apakah anda yakin ingin menghapus surat ini?",
+            onConfirm = {
+                viewModel.deleteSuratKtm(idSurat)
+            }
+        )
+    }
     private fun configureUIBasedOnType(type: Int) {
         when (type) {
             Constant.TYPE_DETAIL -> {
@@ -153,6 +167,7 @@ class SuratKtmFragment : Fragment() {
                 // Set default text for date field
                 binding.etTanggalLahir.text = "Pilih Tanggal Lahir"
                 binding.btnEditSurat.visibility = View.GONE
+                binding.btnDeleteSurat.visibility = View.GONE // Hide delete button in create mode
 
                 // Enable all fields for input
                 binding.etNama.isEnabled = true
@@ -171,6 +186,7 @@ class SuratKtmFragment : Fragment() {
             Constant.TYPE_UPDATE -> {
                 // Enable all fields for editing
                 binding.btnEditSurat.visibility = View.GONE
+                binding.btnDeleteSurat.visibility = View.GONE // Hide delete button in update mode
                 binding.etNama.isEnabled = true
                 binding.etTempatLahir.isEnabled = true
                 binding.etTanggalLahir.isEnabled = true
@@ -187,6 +203,16 @@ class SuratKtmFragment : Fragment() {
         }
     }
     private fun observeDetailData(type: Int) {
+        viewModel.deleteResult.observe(viewLifecycleOwner) { isSuccess ->
+            if (isSuccess) {
+                Toast.makeText(requireContext(), "Surat berhasil dihapus", Toast.LENGTH_SHORT).show()
+
+                // Navigasi kembali ke halaman sebelumnya
+                parentFragmentManager.popBackStack()
+            } else {
+                Toast.makeText(requireContext(), "Gagal menghapus surat", Toast.LENGTH_SHORT).show()
+            }
+        }
         viewModel.detailSuratKtm.observe(viewLifecycleOwner) { dataSktm ->
             if (dataSktm != null && (type == Constant.TYPE_DETAIL || type == Constant.TYPE_UPDATE)) {
                 // Fill form with existing data
@@ -213,8 +239,10 @@ class SuratKtmFragment : Fragment() {
 
                 // Control edit button visibility based on letter status
                 if (type == Constant.TYPE_DETAIL) {
-                    // Show edit button only if status is NOT "Approve"
-                    binding.btnEditSurat.visibility = if (dataSktm.status != "Approve") View.VISIBLE else View.GONE
+                    // Show edit and delete buttons only if status is NOT "Approve"
+                    val buttonsVisibility = if (dataSktm.status != "Approve") View.VISIBLE else View.GONE
+                    binding.btnEditSurat.visibility = buttonsVisibility
+                    binding.btnDeleteSurat.visibility = buttonsVisibility
 
                     // Show download button if status is "Approve"
                     if (dataSktm.status == "Approve") {

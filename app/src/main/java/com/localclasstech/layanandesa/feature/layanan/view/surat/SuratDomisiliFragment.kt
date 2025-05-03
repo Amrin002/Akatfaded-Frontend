@@ -1,21 +1,26 @@
 package com.localclasstech.layanandesa.feature.layanan.view.surat
 
 import android.app.DatePickerDialog
+import android.content.Intent
 import android.icu.text.SimpleDateFormat
 import android.icu.util.Calendar
+import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
+import com.localclasstech.layanandesa.R
 import com.localclasstech.layanandesa.databinding.FragmentSuratDomisiliBinding
 import com.localclasstech.layanandesa.feature.layanan.data.network.data.suratdomisili.CreateSuratDomisiliRequest
 import com.localclasstech.layanandesa.feature.layanan.viewmodel.surat.SuratDomisiliViewModel
 import com.localclasstech.layanandesa.feature.layanan.viewmodel.surat.SuratDomisiliViewModelFactory
 import com.localclasstech.layanandesa.settings.utils.Constant
 import com.localclasstech.layanandesa.settings.utils.CustomSpinnerAdapter
+import com.localclasstech.layanandesa.settings.utils.DialogHelper
 import java.util.Locale
 
 class SuratDomisiliFragment : Fragment() {
@@ -48,12 +53,31 @@ class SuratDomisiliFragment : Fragment() {
         val idSurat = arguments?.getInt("id_surat", -1) ?: -1
         val type = arguments?.getInt("type", Constant.TYPE_CREATE) ?: Constant.TYPE_CREATE
 
-        if(type == Constant.TYPE_DETAIL && idSurat != -1){
+//        if(type == Constant.TYPE_DETAIL && idSurat != -1){
+//            viewModel.fetchSuratDomisiliDetail(idSurat)
+//        }
+        // Tambahkan kondisi untuk UPDATE
+        if ((type == Constant.TYPE_DETAIL || type == Constant.TYPE_UPDATE) && idSurat != -1){
+            Log.d("SuratDomisiliFragment", "Fetching detail for ID: $idSurat, Type: $type")
             viewModel.fetchSuratDomisiliDetail(idSurat)
         }
 
         binding.backButton.setOnClickListener {
             parentFragmentManager.popBackStack()
+        }
+        // Tambahkan di onViewCreated()
+        binding.btnEditSurat.setOnClickListener {
+            val bundle = Bundle().apply {
+                putInt("id_surat", idSurat)
+                putInt("type", Constant.TYPE_UPDATE)
+            }
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.fragmentView, SuratDomisiliFragment::class.java, bundle)
+                .addToBackStack(null)
+                .commit()
+        }
+        binding.btnDeleteSurat.setOnClickListener {
+            showDeleteConfirmationDialog(idSurat)
         }
         setupSpinner()
         setupDatePicker()
@@ -61,6 +85,7 @@ class SuratDomisiliFragment : Fragment() {
         configureUIBasedOnType(type)
         observeDetailData(type)
         setupSubmitButton(type, idSurat)
+
 
 
 
@@ -75,10 +100,22 @@ class SuratDomisiliFragment : Fragment() {
                 binding.etAlamat.text.isNotBlank()
 
     }
-
+    private fun showDeleteConfirmationDialog(idSurat: Int) {
+        DialogHelper.showConfirmationDialog(
+            requireContext(),
+            "Apakah anda yakin ingin menghapus surat domisili ini?",
+            onConfirm = {
+                viewModel.deleteSuratDomisili(idSurat)
+            }
+        )
+    }
     private fun setupSubmitButton(type: Int, idSurat: Int) {
+
         binding.btnAjukan.setOnClickListener {
-            if(validateForm()){
+            val currentSuratStatus = viewModel.detailSuratDomisili.value?.status
+            if (type == Constant.TYPE_DETAIL && currentSuratStatus == "Approve") {
+                downloadPdf(idSurat)
+            } else if(validateForm()){
                 val suratDomisiliData = collectFromData()
                 when(type){
                     Constant.TYPE_CREATE -> {
@@ -98,6 +135,38 @@ class SuratDomisiliFragment : Fragment() {
                     if (type ==Constant.TYPE_CREATE) "Surat Berhasil Dibuat" else "Surat berhasil Di perbarui", Toast.LENGTH_SHORT
                     ).show()
                     parentFragmentManager.popBackStack()
+            }
+        }
+
+        // Observe PDF download result
+        viewModel.pdfDownloadResult.observe(viewLifecycleOwner) { result ->
+            val (isSuccess, _) = result
+            if (isSuccess) {
+                Toast.makeText(requireContext(), "PDF berhasil diunduh", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(requireContext(), "Gagal mengunduh PDF", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+    // Tambahkan method downloadPdf yang sama seperti di SuratKtmFragment
+    private fun downloadPdf(idSurat: Int) {
+        // Tampilkan indikator loading
+        binding.progressBar.visibility = View.VISIBLE
+
+        // Dapatkan URL download dari API
+        viewModel.getDownloadUrl(idSurat)
+
+        // Observasi hasilnya
+        viewModel.downloadUrlResult.observe(viewLifecycleOwner) { result ->
+            binding.progressBar.visibility = View.GONE
+
+            if (result.success && result.downloadUrl != null) {
+                // Buka URL secara langsung di browser atau PDF viewer
+                val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(result.downloadUrl))
+                browserIntent.flags = Intent.FLAG_ACTIVITY_NO_HISTORY
+                startActivity(browserIntent)
+            } else {
+                Toast.makeText(requireContext(), "Gagal mendapatkan URL download", Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -140,6 +209,8 @@ class SuratDomisiliFragment : Fragment() {
             binding.etPekerjaan.isEnabled = true
             binding.etAlamat.isEnabled = true
             binding.etKeterangan.isEnabled = true
+            binding.btnEditSurat.visibility= View.GONE
+            binding.btnDeleteSurat.visibility= View.GONE
             binding.btnAjukan.visibility = View.VISIBLE
         }Constant.TYPE_UPDATE->{
 
@@ -153,36 +224,83 @@ class SuratDomisiliFragment : Fragment() {
             binding.etAlamat.isEnabled = true
             binding.etKeterangan.isEnabled = true
             binding.btnAjukan.visibility = View.VISIBLE
-            binding.btnAjukan.text = "Perbarua Surat Domisili"
+            binding.btnEditSurat.visibility= View.GONE
+            binding.btnDeleteSurat.visibility= View.GONE
+            binding.btnAjukan.text = "Perbarui Surat Domisili"
         }
         }
     }
 
     private fun observeDetailData(type: Int){
+        Log.d("SuratDomisiliFragment", "observeDetailData called with type: $type")
+        viewModel.deleteResult.observe(viewLifecycleOwner) { isSuccess ->
+            if (isSuccess) {
+                Toast.makeText(requireContext(), "Surat berhasil dihapus", Toast.LENGTH_SHORT).show()
+
+                // Navigasi kembali ke halaman sebelumnya
+                parentFragmentManager.popBackStack()
+            } else {
+                Toast.makeText(requireContext(), "Gagal menghapus surat", Toast.LENGTH_SHORT).show()
+            }
+        }
         viewModel.detailSuratDomisili.observe(viewLifecycleOwner){ dataSDomisili->
-           if (dataSDomisili != null && type == Constant.TYPE_DETAIL || type == Constant.TYPE_UPDATE){
-               // fill data
-               binding.etNama.setText(dataSDomisili.nama)
-               binding.etTempatLahir.setText(dataSDomisili.tempatLahir)
-               binding.etTanggalLahir.setText(dataSDomisili.tanggalLahir)
-               // Set spinner selections
-               val jenisKelaminItems = listOf("Laki-laki", "Perempuan")
-               val jenisKelaminIndex = jenisKelaminItems.indexOf(dataSDomisili.jenisKelamin)
-               if (jenisKelaminIndex != -1) {
-                   binding.spinerJK.setSelection(jenisKelaminIndex)
-               }
+            Log.d("SuratDomisiliFragment", "Received data: $dataSDomisili")
+            // Perbaiki kondisi
+            if (dataSDomisili != null && (type == Constant.TYPE_DETAIL || type == Constant.TYPE_UPDATE)){
+                // fill data
+                binding.etNama.setText(dataSDomisili.nama)
+                binding.etTempatLahir.setText(dataSDomisili.tempatLahir)
+                binding.etTanggalLahir.setText(dataSDomisili.tanggalLahir)
+                // Set spinner selections
+                val jenisKelaminItems = listOf("Laki-laki", "Perempuan")
+                val jenisKelaminIndex = jenisKelaminItems.indexOf(dataSDomisili.jenisKelamin)
+                if (jenisKelaminIndex != -1) {
+                    binding.spinerJK.setSelection(jenisKelaminIndex)
+                }
 
-               val statusKawinItems = listOf("Belum kawin", "Sudah kawin", "Cerai")
-               val statusKawinIndex = statusKawinItems.indexOf(dataSDomisili.statusKawin)
-               if (statusKawinIndex != -1) {
-                   binding.spinerSK.setSelection(statusKawinIndex)
-               }
+                val statusKawinItems = listOf("Belum kawin", "Sudah kawin", "Cerai")
+                val statusKawinIndex = statusKawinItems.indexOf(dataSDomisili.statusKawin)
+                if (statusKawinIndex != -1) {
+                    binding.spinerSK.setSelection(statusKawinIndex)
+                }
 
-               binding.etKewarganegaraan.setText(dataSDomisili.kewarganegaraan)
-               binding.etPekerjaan.setText(dataSDomisili.pekerjaan)
-               binding.etAlamat.setText(dataSDomisili.alamat)
-               binding.etKeterangan.setText(dataSDomisili.keterangan)
-           }
+                binding.etKewarganegaraan.setText(dataSDomisili.kewarganegaraan)
+                binding.etPekerjaan.setText(dataSDomisili.pekerjaan)
+                binding.etAlamat.setText(dataSDomisili.alamat)
+                binding.etKeterangan.setText(dataSDomisili.keterangan)
+
+                Log.d("SuratDomisiliFragment", "Form data set completed")
+            }
+
+            if (type == Constant.TYPE_DETAIL) {
+                // Tampilkan tombol edit dan delete hanya jika status bukan "Approve"
+                val buttonsVisibility = if (dataSDomisili.status != "Approve") View.VISIBLE else View.GONE
+                binding.btnEditSurat.visibility = buttonsVisibility
+                binding.btnDeleteSurat.visibility = buttonsVisibility
+
+                // Tampilkan tombol unduh jika status "Approve"
+                if (dataSDomisili.status == "Approve") {
+                    binding.btnAjukan.text = "Unduh Surat"
+                    binding.btnAjukan.visibility = View.VISIBLE
+                } else {
+                    binding.btnAjukan.visibility = View.GONE
+                }
+            }
+
+        }
+        // Tambahkan observasi error untuk debugging
+        viewModel.error.observe(viewLifecycleOwner) { errorMessage ->
+            Log.e("SuratDomisiliFragment", "ViewModel Error: $errorMessage")
+            Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_SHORT).show()
+        }
+        // Tambahkan method download PDF
+        viewModel.pdfDownloadResult.observe(viewLifecycleOwner) { result ->
+            val (isSuccess, _) = result
+            if (isSuccess) {
+                Toast.makeText(requireContext(), "PDF berhasil diunduh", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(requireContext(), "Gagal mengunduh PDF", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 

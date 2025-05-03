@@ -88,4 +88,12 @@ interface SuratApiService {
 
     @DELETE("api/suratdomisili/{id}")
     suspend fun deleteSuratDomisili(@Header("Authorization") token: String, @Path("id") id: Int): Response<BaseResponse<String>>
+
+    // Untuk mendapatkan URL download Surat Domisili
+    @GET("api/suratdomisili/{id}/get-download-url")
+    suspend fun getDownloadUrlDomisili(
+        @Header("Authorization") token: String,
+        @Path("id") id: Int
+    ): Response<DownloadUrlResponse>
+
 }

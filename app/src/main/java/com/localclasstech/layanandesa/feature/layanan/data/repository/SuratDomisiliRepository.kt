@@ -2,6 +2,7 @@ package com.localclasstech.layanandesa.feature.layanan.data.repository
 
 import com.localclasstech.layanandesa.feature.layanan.data.network.apiservice.SuratApiService
 import com.localclasstech.layanandesa.feature.layanan.data.network.data.BaseResponse
+import com.localclasstech.layanandesa.feature.layanan.data.network.data.DownloadUrlResponse
 import com.localclasstech.layanandesa.feature.layanan.data.network.data.suratdomisili.CreateSuratDomisiliRequest
 import com.localclasstech.layanandesa.feature.layanan.data.network.data.suratdomisili.SuratDomisiliResponse
 import com.localclasstech.layanandesa.settings.PreferencesHelper
@@ -38,4 +39,9 @@ class SuratDomisiliRepository(
     suspend fun deleteSuratDomisili(id: Int): Response<BaseResponse<String>> {
         return api.deleteSuratDomisili(getBearerToken(), id) //Type mismatch: inferred type is Response<BaseResponse<Unit>> but Response<BaseResponse<String>> was expected
     }
+
+    suspend fun getDownloadUrl(id: Int): Response<DownloadUrlResponse> {
+        return api.getDownloadUrlDomisili(getBearerToken(), id)
+    }
+
 }

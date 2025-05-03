@@ -21,6 +21,9 @@ class SuratKtmViewModel(private val repository: SuratKtmRepository) : ViewModel(
     private val _error = MutableLiveData<String>()
     val error: LiveData<String> get() = _error
 
+    private val _deleteResult = MutableLiveData<Boolean>()
+    val deleteResult: LiveData<Boolean> get() = _deleteResult
+
     private val _pdfDownloadResult = MutableLiveData<Pair<Boolean, ResponseBody?>>()
     val pdfDownloadResult: LiveData<Pair<Boolean, ResponseBody?>> get() = _pdfDownloadResult
 
@@ -72,6 +75,24 @@ class SuratKtmViewModel(private val repository: SuratKtmRepository) : ViewModel(
                 _error.postValue("Error: ${e.message}")
                 _operationResult.postValue(false)
                 Log.e("SuratKtmViewModel", "Exception: ${e.message}")
+            }
+        }
+    }
+
+    fun deleteSuratKtm(id: Int) {
+        viewModelScope.launch {
+            try {
+                val response = repository.deleteSuratKtm(id)
+                if (response.isSuccessful) {
+                    _deleteResult.postValue(true)
+                } else {
+                    _error.postValue("Gagal menghapus surat: ${response.message()}")
+                    _deleteResult.postValue(false)
+                }
+            } catch (e: Exception) {
+                _error.postValue("Error: ${e.message}")
+                _deleteResult.postValue(false)
+                Log.e("SuratKtmViewModel", "Exception during delete: ${e.message}")
             }
         }
     }
