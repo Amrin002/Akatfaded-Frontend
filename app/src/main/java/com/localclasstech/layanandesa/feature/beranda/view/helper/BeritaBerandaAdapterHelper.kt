@@ -10,24 +10,25 @@ import com.bumptech.glide.Glide
 import com.localclasstech.layanandesa.R
 import com.localclasstech.layanandesa.feature.beranda.data.DataClassBerita
 
-class BeritaBerandaAdapterHelper(private val list: List<DataClassBerita>): RecyclerView.Adapter<BeritaBerandaAdapterHelper.BeritaViewHolder>() {
+class BeritaBerandaAdapterHelper(
+    private var list: List<DataClassBerita>,
+    private val listener: OnAdapterListener
+): RecyclerView.Adapter<BeritaBerandaAdapterHelper.BeritaViewHolder>() {
     class BeritaViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val imgBerita: ImageView = itemView.findViewById(R.id.imgBerita)
         val tvJudul: TextView = itemView.findViewById(R.id.tvJudulBerita)
         val tvPenulis: TextView = itemView.findViewById(R.id.tvPenulisBerita)
         val tvTanggal: TextView = itemView.findViewById(R.id.tvTanggalBerita)
         val tvKonten: TextView = itemView.findViewById(R.id.tvKontenBerita)
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BeritaViewHolder {
-        val view =LayoutInflater.from(parent.context)
+        val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.list_berita, parent, false)
         return BeritaViewHolder(view)
     }
 
-    override fun getItemCount(): Int = minOf(list.size, 3)
-
+    override fun getItemCount(): Int = list.size
 
     override fun onBindViewHolder(holder: BeritaViewHolder, position: Int) {
         val berita = list[position]
@@ -39,8 +40,21 @@ class BeritaBerandaAdapterHelper(private val list: List<DataClassBerita>): Recyc
         // Load image pakai Glide
         Glide.with(holder.itemView.context)
             .load(berita.imgBerita)
-            .placeholder(R.drawable.image_splash)
+            .placeholder(R.drawable.ic_block)
             .into(holder.imgBerita)
+
+        // Add click listener
+        holder.itemView.setOnClickListener {
+            listener.onClick(berita.idBerita)
+        }
     }
 
+    interface OnAdapterListener {
+        fun onClick(beritaId: Int)
+    }
+
+    fun setData(newList: List<DataClassBerita>) {
+        list = newList
+        notifyDataSetChanged()
+    }
 }

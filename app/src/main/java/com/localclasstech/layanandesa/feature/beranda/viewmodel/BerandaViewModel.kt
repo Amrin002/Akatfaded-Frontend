@@ -5,11 +5,16 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.localclasstech.layanandesa.auth.viewmodel.LoginViewModel
 import com.localclasstech.layanandesa.feature.beranda.data.DataClassBerita
+import com.localclasstech.layanandesa.feature.berita.data.repository.BeritaRepository
+import com.localclasstech.layanandesa.feature.berita.data.toUiModel
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-class BerandaViewModel(private val loginViewModel: LoginViewModel) : ViewModel() {
+class BerandaViewModel(
+    private val loginViewModel: LoginViewModel,
+    private val beritaRepository: BeritaRepository // Tambahkan parameter repository
+) : ViewModel() {
 
     val userName: LiveData<String> = loginViewModel.userName
     val imageUrl: LiveData<String> = loginViewModel.image
@@ -19,63 +24,38 @@ class BerandaViewModel(private val loginViewModel: LoginViewModel) : ViewModel()
 
     private val _tanggalSekarang = MutableLiveData<String>()
     val tanggalSekarang: LiveData<String> = _tanggalSekarang
-
+    private val _isLoading = MutableLiveData<Boolean>()
+    val isLoading: LiveData<Boolean> = _isLoading
     init {
         updateTanggal()
+        fetchBeritaUntukBeranda()
     }
 
-    init {
-        loadDummyBerita()
+    private fun fetchBeritaUntukBeranda() {
+        _isLoading.value = true
+        beritaRepository.getAllBerita { result ->
+            _isLoading.value = false
+            if (result != null && result.isNotEmpty()) {
+                // Ambil 5 berita terbaru
+                val beritaTerbaru = result
+                    .sortedByDescending { it.createdAt }
+                    .take(5)
+                    .map { berita ->
+                        // Konversi dari Berita ke BerandaDataClassBerita
+                        DataClassBerita(
+                            idBerita = berita.toUiModel().idBerita,
+                            imgBerita = berita.toUiModel().imgBerita,
+                            judulBerita = berita.toUiModel().judulBerita,
+                            penulisBerita = berita.toUiModel().penulisBerita,
+                            tanggalBerita = berita.toUiModel().tanggalBerita,
+                            kontenBerita = berita.toUiModel().kontenBerita
+                        )
+                    }
+                _beritaList.value = beritaTerbaru
+            }
+        }
     }
 
-    private fun loadDummyBerita() {
-        _beritaList.value = listOf(
-            DataClassBerita(
-                imgBerita = "https://example.com/image1.jpg",
-                judulBerita = "Judul Berita Pertama",
-                penulisBerita = "Admin Desa",
-                tanggalBerita = "12 Maret 2024",
-                kontenBerita = "Isi singkat dari berita pertama lorem Lorem Ipsum Dolor Sit Amet, Consetetur Sadipscing Elitr, Sed Diam Nonumy Eirmod Tempor Invidunt Ut L"
-            ),
-            DataClassBerita(
-                imgBerita = "https://example.com/image2.jpg",
-                judulBerita = "Judul Berita Kedua",
-                penulisBerita = "Kades",
-                tanggalBerita = "10 Maret 2024",
-                kontenBerita = "Berita kedua sangat menarik untuk dibaca  Lorem Ipsum Dolor Sit Amet, Consetetur Sadipscing Elitr, Sed Diam Nonumy Eirmod Tempor Invidunt Ut L"
-            ),
-            DataClassBerita(
-                imgBerita = "https://example.com/image2.jpg",
-                judulBerita = "Judul Berita Kedua",
-                penulisBerita = "Kades",
-                tanggalBerita = "10 Maret 2024",
-                kontenBerita = "Berita kedua sangat menarik untuk dibaca  Lorem Ipsum Dolor Sit Amet, Consetetur Sadipscing Elitr, Sed Diam Nonumy Eirmod Tempor Invidunt Ut L"
-            ),
-            DataClassBerita(
-                imgBerita = "https://example.com/image2.jpg",
-                judulBerita = "Judul Berita Kedua",
-                penulisBerita = "Kades",
-                tanggalBerita = "10 Maret 2024",
-                kontenBerita = "Berita kedua sangat menarik untuk dibaca  Lorem Ipsum Dolor Sit Amet, Consetetur Sadipscing Elitr, Sed Diam Nonumy Eirmod Tempor Invidunt Ut L"
-            ),
-            DataClassBerita(
-                imgBerita = "https://example.com/image2.jpg",
-                judulBerita = "Judul Berita Kedua",
-                penulisBerita = "Kades",
-                tanggalBerita = "10 Maret 2024",
-                kontenBerita = "Berita kedua sangat menarik untuk dibaca  Lorem Ipsum Dolor Sit Amet, Consetetur Sadipscing Elitr, Sed Diam Nonumy Eirmod Tempor Invidunt Ut L"
-            ),
-            DataClassBerita(
-                imgBerita = "https://example.com/image2.jpg",
-                judulBerita = "Judul Berita Kedua",
-                penulisBerita = "Kades",
-                tanggalBerita = "10 Maret 2024",
-                kontenBerita = "Berita kedua sangat menarik untuk dibaca  Lorem Ipsum Dolor Sit Amet, Consetetur Sadipscing Elitr, Sed Diam Nonumy Eirmod Tempor Invidunt Ut L"
-            )
-            // Tambah berita dummy lainnya
-        )
-
-    }
     private fun updateTanggal() {
         val locale = Locale("id", "ID") // Bahasa Indonesia
         val formatter = SimpleDateFormat("EEE, d MMMM yyyy", locale)

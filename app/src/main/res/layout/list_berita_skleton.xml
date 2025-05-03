@@ -14,7 +14,7 @@
         android:layout_marginHorizontal="10dp"
         android:paddingVertical="6dp"
         >
-        <ImageView
+        <View
             android:layout_width="125dp"
             android:layout_height="90dp"
             android:id="@+id/imgBerita"
@@ -22,63 +22,52 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginTop="5dp"
-            android:src="@drawable/ic_block"
-            android:scaleType="centerCrop"
-            android:background="@color/abu_abu"
+            android:background="#DDDDDD"
             android:layout_marginBottom="5dp" />
-        <TextView
+
+        <View
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="20sp"
             android:id="@+id/tvJudulBerita"
-            android:text="Judul Berita"
-            android:maxLines="1"
-            android:fontFamily="@font/poppins"
-            android:textStyle="bold"
-            android:textSize="16sp"
-            android:textColor="@color/black"
+            android:background="#DDDDDD"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toEndOf="@id/imgBerita"
             android:layout_marginTop="3dp"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginStart="10dp"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="100dp"/>
+
+        <View
+            android:layout_width="100dp"
+            android:layout_height="15sp"
             android:id="@+id/tvPenulisBerita"
-            android:text="Judul Berita"
-            android:fontFamily="@font/poppins"
-            android:textSize="12sp"
-            android:textColor="@color/black"
+            android:background="#DDDDDD"
             app:layout_constraintStart_toStartOf="@id/tvJudulBerita"
             app:layout_constraintTop_toBottomOf="@id/tvJudulBerita"
-            />
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"/>
 
+        <View
+            android:layout_width="80dp"
+            android:layout_height="15sp"
             app:layout_constraintStart_toEndOf="@id/tvPenulisBerita"
             app:layout_constraintTop_toBottomOf="@id/tvJudulBerita"
             app:layout_constraintEnd_toEndOf="parent"
             android:id="@+id/tvTanggalBerita"
-            android:text="Selasa, 12 maret 2024"
-            android:fontFamily="@font/poppins"
-            android:textSize="12sp"
-            android:textColor="@color/black"
+            android:background="#DDDDDD"
             android:textAlignment="textEnd"
-            android:layout_marginEnd="10dp"/>
-        <TextView
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="5dp"/>
+
+        <View
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="40sp"
             android:id="@+id/tvKontenBerita"
-            android:text="Judul saddasasd fadsfasd fasdfaw efr ewwrq rfdgsdfgsdfgs dfg resterw twre"
-            android:maxLines="2"
-            android:ellipsize="end"
-            android:fontFamily="@font/poppins"
-            android:textSize="14sp"
-            android:textColor="@color/black"
+            android:background="#DDDDDD"
             app:layout_constraintTop_toBottomOf="@id/tvPenulisBerita"
             app:layout_constraintStart_toEndOf="@id/imgBerita"
             android:layout_marginStart="10dp"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="10dp"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
-</com.google.android.material.card.MaterialCardView >
+</com.google.android.material.card.MaterialCardView>

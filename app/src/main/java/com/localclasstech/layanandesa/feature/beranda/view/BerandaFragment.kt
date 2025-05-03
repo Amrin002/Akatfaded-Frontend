@@ -26,6 +26,7 @@ import com.localclasstech.layanandesa.databinding.FragmentBerandaBinding
 import com.localclasstech.layanandesa.feature.beranda.view.helper.BeritaBerandaAdapterHelper
 import com.localclasstech.layanandesa.feature.beranda.viewmodel.BerandaViewModel
 import com.localclasstech.layanandesa.feature.beranda.viewmodel.BerandaViewModelFactory
+import com.localclasstech.layanandesa.feature.berita.view.DetailBeritaFragment
 import com.localclasstech.layanandesa.settings.PreferencesHelper
 
 class BerandaFragment : Fragment() {
@@ -54,32 +55,56 @@ class BerandaFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val factory = BerandaViewModelFactory(loginViewModel)
+        val factory = BerandaViewModelFactory(loginViewModel) //No value passed for parameter 'context'
         viewModel = ViewModelProvider(this, factory)[BerandaViewModel::class.java]
         val tvTanggal = view.findViewById<TextView>(R.id.tvCalender)
 
         viewModel.tanggalSekarang.observe(viewLifecycleOwner) { tanggal ->
             tvTanggal.text = tanggal
         }
+        setupRecyclerView()
 
-        binding.rvBerita.layoutManager = LinearLayoutManager(requireContext())
-        viewModel.beritaList.observe(viewLifecycleOwner) { beritaList ->
-            binding.rvBerita.adapter = BeritaBerandaAdapterHelper(beritaList)
-        }
+
 
         observeViewModel()
 
     }
 
+    private fun setupRecyclerView() {
+        binding.rvBerita.layoutManager = LinearLayoutManager(requireContext())
+    }
+
     private fun observeViewModel() {
+        viewModel.beritaList.observe(viewLifecycleOwner) { beritaList ->
+            // Create adapter with click listener
+            val adapter = BeritaBerandaAdapterHelper(beritaList, object : BeritaBerandaAdapterHelper.OnAdapterListener {
+                override fun onClick(beritaId: Int) {
+                    // Navigate to DetailBeritaFragment
+                    parentFragmentManager.beginTransaction()
+                        .replace(R.id.fragmentView, DetailBeritaFragment.newInstance(beritaId))
+                        .addToBackStack(null)
+                        .commit()
+                }
+            })
+            binding.rvBerita.adapter = adapter
+        }
+
         loginViewModel.loginMode.observe(viewLifecycleOwner){ loginMode->
             binding.tvUsername.text = loginMode ?: "Guest"
         }
+
+        // Observe loading state
+        viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
+            if (isLoading) {
+                showShimmer()
+            } else {
+                hideShimmer()
+            }
+        }
+
         loginViewModel.image.observe(viewLifecycleOwner) { image ->
             val baseUrl = "http://192.168.56.1:8000/storage/" //ingat untuk selalu di ganti ketika memulai project
             val fullImageUrl = if (image.startsWith("http")) image else baseUrl + image
-
-            Log.d("Profile Image", "Full URL: $image")
 
             if (!image.isNullOrEmpty()) {
                 Glide.with(this)
@@ -87,57 +112,26 @@ class BerandaFragment : Fragment() {
                     .transform(CircleCrop())
                     .into(binding.imageProfile)
             } else {
-                val userName = loginViewModel.userName.value ?: "null"
-                Log.d("Profile Image", "Using initials, userName: $userName")
-                val initialsBitmap = getInitials(loginViewModel.userName.value)
-                binding.imageProfile.setImageBitmap(initialsBitmap)
+                binding.imageProfile.setImageResource(R.drawable.ic_profile_default)
             }
-
         }
-
     }
-    private fun getInitials(name: String?): Bitmap {
-        val initials = if (!name.isNullOrBlank()) {
-            val words = name.trim().split("\\s+".toRegex())
-            when {
-                words.size >= 2 -> "${words[0].first()}${words[1].first()}".uppercase()
-                words.size == 1 -> "${words[0].first()}".uppercase()
-                else -> "A"
-            }
-        } else {
-            "-"
-        }
+    private fun showShimmer() {
+        // Sembunyikan RecyclerView
+        binding.rvBerita.visibility = View.GONE
 
-        val size = 200
-        val bitmap = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888)
-        val canvas = Canvas(bitmap)
-        val paint = Paint().apply {
-            color = Color.parseColor("#6200EE")
-            style = Paint.Style.FILL
-            isAntiAlias = true
-        }
-        val textPaint = Paint().apply {
-            color = Color.WHITE
-            textSize = 64f
-            typeface = Typeface.DEFAULT_BOLD
-            textAlign = Paint.Align.CENTER
-            isAntiAlias = true
-        }
-
-        // Buat lingkaran
-        val path = Path()
-        path.addCircle(size / 2f, size / 2f, size / 2f, Path.Direction.CCW)
-        canvas.drawPath(path, paint)
-
-        // Posisi teks
-        val textBounds = Rect()
-        textPaint.getTextBounds(initials, 0, initials.length, textBounds)
-        val x = size / 2f
-        val y = (size / 2f) - textBounds.exactCenterY()
-        canvas.drawText(initials, x, y, textPaint)
-
-        return bitmap
+        // Tampilkan shimmer layout
+        binding.shimerBeritaBeranda.root.visibility = View.VISIBLE
     }
+
+    private fun hideShimmer() {
+        // Tampilkan RecyclerView
+        binding.rvBerita.visibility = View.VISIBLE
+
+        // Sembunyikan shimmer layout
+        binding.shimerBeritaBeranda.root.visibility = View.GONE
+    }
+
 
     override fun onDestroyView() {
         super.onDestroyView()

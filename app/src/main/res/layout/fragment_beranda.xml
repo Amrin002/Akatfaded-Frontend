@@ -9,6 +9,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+
         >
 
 
@@ -16,8 +17,9 @@
             android:id="@+id/imageProfile"
             android:layout_width="55dp"
             android:layout_height="55dp"
-            android:scaleType="centerCrop"
+
             android:clipToOutline="true"
+
             android:layout_marginStart="20dp"
             android:layout_marginTop="10dp"
             android:background="@drawable/bg_profile_settings"
@@ -111,26 +113,162 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/bgFitur"
             android:layout_width="0dp"
-            android:layout_height="240dp"
+            android:layout_height="wrap_content"
             android:background="@drawable/bg_fitur"
             android:elevation="8dp"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="20dp"
             android:layout_marginHorizontal="10dp"
+            android:paddingVertical="16dp"
             app:layout_constraintTop_toBottomOf="@id/bgTimeBeranda"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" >
+            app:layout_constraintEnd_toEndOf="parent">
 
-        <ImageView
-            android:layout_width="140dp"
-            android:layout_height="80dp"
-            android:background="@drawable/bg_fitur_button"
-            app:layout_constraintStart_toStartOf="@id/bgFitur"
-            app:layout_constraintTop_toTopOf="@id/bgFitur"
-            android:layout_marginTop="10dp"
-            />
+            <!-- First Row: Guidelines for positioning -->
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline_vertical_middle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.50383633" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline_horizontal_middle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.5" />
+
+            <!-- First item: Pengaduan Surat -->
+            <ImageView
+                android:id="@+id/btnPengaduanSurat"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:src="@drawable/ic_aduan_surat"
+                android:padding="10dp"
+                android:scaleType="fitCenter"
+                app:layout_constraintWidth_percent="0.4"
+                app:layout_constraintDimensionRatio="16:9"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/guideline_vertical_middle"
+                app:layout_constraintTop_toTopOf="parent"
+
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="10dp" />
+
+            <TextView
+                android:id="@+id/tvAduanSurat"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Pengaduan Surat"
+                android:textAlignment="center"
+                android:fontFamily="@font/poppins_bold"
+                android:textColor="@color/black"
+                android:textSize="12sp"
+                app:layout_constraintStart_toStartOf="@id/btnPengaduanSurat"
+                app:layout_constraintEnd_toEndOf="@id/btnPengaduanSurat"
+                app:layout_constraintTop_toBottomOf="@id/btnPengaduanSurat"
+                />
+
+            <!-- Second item: Berita -->
+            <ImageView
+                android:id="@+id/btnBerita"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:src="@drawable/ic_berita_beranda"
+                android:padding="10dp"
+                android:scaleType="fitCenter"
+                app:layout_constraintWidth_percent="0.4"
+                app:layout_constraintDimensionRatio="16:9"
+                app:layout_constraintStart_toEndOf="@id/guideline_vertical_middle"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="10dp" />
+
+            <TextView
+                android:id="@+id/tvBerita"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Berita"
+                android:textAlignment="center"
+                android:fontFamily="@font/poppins_bold"
+                android:textColor="@color/black"
+                android:textSize="12sp"
+                app:layout_constraintStart_toStartOf="@id/btnBerita"
+                app:layout_constraintEnd_toEndOf="@id/btnBerita"
+                app:layout_constraintTop_toBottomOf="@id/btnBerita" />
+
+            <!-- Horizontal guideline for separating rows -->
+            <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/barrier_first_row"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:barrierDirection="bottom"
+                app:constraint_referenced_ids="tvAduanSurat,tvBerita" />
+
+            <!-- Third item: Transparansi APBDes -->
+            <ImageView
+                android:id="@+id/btnTransparansiApbdes"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:src="@drawable/ic_apbdes"
+                android:padding="10dp"
+                android:scaleType="fitCenter"
+                app:layout_constraintWidth_percent="0.4"
+                app:layout_constraintDimensionRatio="16:9"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/guideline_vertical_middle"
+                app:layout_constraintTop_toBottomOf="@id/barrier_first_row"
+                android:layout_marginTop="5dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="16dp" />
+
+            <TextView
+                android:id="@+id/tvApbdes"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Transparansi APBDes"
+                android:textAlignment="center"
+                android:fontFamily="@font/poppins_bold"
+                android:textColor="@color/black"
+                android:textSize="12sp"
+                app:layout_constraintStart_toStartOf="@id/btnTransparansiApbdes"
+                app:layout_constraintEnd_toEndOf="@id/btnTransparansiApbdes"
+                app:layout_constraintTop_toBottomOf="@id/btnTransparansiApbdes"
+               />
+
+            <!-- Fourth item: Keluhan -->
+            <ImageView
+                android:id="@+id/btnKeluhan"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:src="@drawable/ic_keluhan"
+                android:padding="10dp"
+                android:scaleType="fitCenter"
+                app:layout_constraintWidth_percent="0.4"
+                app:layout_constraintDimensionRatio="16:9"
+                app:layout_constraintStart_toEndOf="@id/guideline_vertical_middle"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/barrier_first_row"
+                android:layout_marginTop="5dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="16dp" />
+
+            <TextView
+                android:id="@+id/tvKeluhan"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Keluhan"
+                android:textAlignment="center"
+                android:fontFamily="@font/poppins_bold"
+                android:textColor="@color/black"
+                android:textSize="12sp"
+                app:layout_constraintStart_toStartOf="@id/btnKeluhan"
+                app:layout_constraintEnd_toEndOf="@id/btnKeluhan"
+                app:layout_constraintTop_toBottomOf="@id/btnKeluhan" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
-
         <!--        Fitur-->
 
 
@@ -161,6 +299,15 @@
             app:layout_constraintEnd_toEndOf="parent"
 
             android:layout_marginHorizontal="10dp"
+        />
+        <include android:id="@+id/shimerBeritaBeranda"
+            layout="@layout/shimer_berita"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/tvBeritaTerkini"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
         />
 
 

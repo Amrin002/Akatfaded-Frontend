@@ -75,6 +75,29 @@ class SuratKtmViewModel(private val repository: SuratKtmRepository) : ViewModel(
             }
         }
     }
+
+    private val _downloadUrlResult = MutableLiveData<DownloadUrlResult>()
+    val downloadUrlResult: LiveData<DownloadUrlResult> = _downloadUrlResult
+
+    fun getDownloadUrl(id: Int) {
+        viewModelScope.launch {
+            try {
+                val response = repository.getDownloadUrl(id)
+
+                if (response.isSuccessful && response.body() != null) {
+                    val downloadUrl = response.body()?.download_url
+                    _downloadUrlResult.postValue(DownloadUrlResult(true, downloadUrl))
+                } else {
+                    _error.postValue("Gagal mendapatkan URL download: ${response.message()}")
+                    _downloadUrlResult.postValue(DownloadUrlResult(false, null))
+                }
+            } catch (e: Exception) {
+                _error.postValue("Error: ${e.message}")
+                _downloadUrlResult.postValue(DownloadUrlResult(false, null))
+            }
+        }
+    }
+    data class DownloadUrlResult(val success: Boolean, val downloadUrl: String?)
     fun exportPdfSuratKtm(id: Int) {
         viewModelScope.launch {
             try {

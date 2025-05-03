@@ -31,7 +31,9 @@ import java.util.Calendar
 import java.util.Locale
 import android.Manifest
 import android.content.ContentValues
+import android.content.Intent
 import android.media.MediaScannerConnection
+import android.net.Uri
 import android.os.Environment
 import android.provider.MediaStore
 import android.util.Log
@@ -275,39 +277,61 @@ class SuratKtmFragment : Fragment() {
         }
     }
     private fun downloadPdf(idSurat: Int) {
-        // Request runtime permissions for storage if needed (Android 10+ handles differently)
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q &&
-            ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE)
-            != PackageManager.PERMISSION_GRANTED) {
-
-            requestPermissions(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), 1001)
-            return
-        }
-
         // Show loading indicator
         binding.progressBar.visibility = View.VISIBLE
 
-        // Use viewModel to export PDF
-        viewModel.exportPdfSuratKtm(idSurat)
+        // Get the download URL from your API
+        viewModel.getDownloadUrl(idSurat)
 
-        // Observe the response
-        viewModel.pdfDownloadResult.observe(viewLifecycleOwner) { result ->
+        // Observe the result
+        viewModel.downloadUrlResult.observe(viewLifecycleOwner) { result ->
             binding.progressBar.visibility = View.GONE
 
-            val (isSuccess, responseBody) = result
-
-            if (isSuccess && responseBody != null) {
-                try {
-                    savePdfFile(responseBody, "SuratKTM_${idSurat}.pdf")
-                } catch (e: Exception) {
-                    Toast.makeText(requireContext(), "Error saving PDF: ${e.message}", Toast.LENGTH_SHORT).show()
-                    Log.e("SuratKtmFragment", "Error saving PDF: ${e.message}")
-                }
+            if (result.success && result.downloadUrl != null) {
+                // Open the URL directly in a browser or PDF viewer
+                val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(result.downloadUrl))
+                browserIntent.flags = Intent.FLAG_ACTIVITY_NO_HISTORY
+                startActivity(browserIntent)
             } else {
-                Toast.makeText(requireContext(), "Gagal mengunduh PDF", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Gagal mendapatkan URL download", Toast.LENGTH_SHORT).show()
             }
         }
     }
+
+    //    private fun downloadPdf(idSurat: Int) {
+//        // Request runtime permissions for storage if needed (Android 10+ handles differently)
+//        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q &&
+//            ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE)
+//            != PackageManager.PERMISSION_GRANTED) {
+//
+//            requestPermissions(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), 1001)
+//            return
+//        }
+//
+//        // Show loading indicator
+//        binding.progressBar.visibility = View.VISIBLE
+//
+//        // Use viewModel to export PDF
+//        viewModel.exportPdfSuratKtm(idSurat)
+//
+//        // Observe the response
+//        viewModel.pdfDownloadResult.observe(viewLifecycleOwner) { result ->
+//            binding.progressBar.visibility = View.GONE
+//
+//            val (isSuccess, responseBody) = result
+//
+//            if (isSuccess && responseBody != null) {
+//                try {
+//                    savePdfFile(responseBody, "SuratKTM_${idSurat}.pdf")
+//                } catch (e: Exception) {
+//                    Toast.makeText(requireContext(), "Error saving PDF: ${e.message}", Toast.LENGTH_SHORT).show()
+//                    Log.e("SuratKtmFragment", "Error saving PDF: ${e.message}")
+//                }
+//            } else {
+//                Toast.makeText(requireContext(), "Gagal mengunduh PDF", Toast.LENGTH_SHORT).show()
+//            }
+//        }
+//    }
     private fun savePdfFile(responseBody: ResponseBody, fileName: String) {
         try {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {

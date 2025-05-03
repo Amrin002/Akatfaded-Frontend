@@ -14,6 +14,9 @@ import com.localclasstech.layanandesa.R
 import com.localclasstech.layanandesa.auth.view.LoginActivity
 import com.localclasstech.layanandesa.databinding.ActivityGetstartedBinding
 import com.localclasstech.layanandesa.view.MainActivity
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class GetstartedActivity : AppCompatActivity() {
     private val viewModel: GetStartedViewModel by viewModels {
@@ -31,6 +34,18 @@ class GetstartedActivity : AppCompatActivity() {
             insets
         }
         // Observe koneksi
+        setupInternetAndNavigate()
+
+        MainScope().launch {
+            delay(2000)
+            viewModel.checkInternetConnection()
+            setupInternetAndNavigate()
+            finish()
+        }
+
+    }
+
+    private fun setupInternetAndNavigate() {
         viewModel.isOnline.observe(this) { online ->
             if (online) {
                 startActivity(Intent(this, LoginActivity::class.java))
@@ -40,10 +55,6 @@ class GetstartedActivity : AppCompatActivity() {
                 viewModel.setupOfflineMode() // Setup SQLite atau logika offline lainnya
                 startActivity(Intent(this, LoginActivity::class.java))
             }
-        }
-
-        binding.btnGetstarted.setOnClickListener {
-            viewModel.checkInternetConnection()
         }
     }
 }

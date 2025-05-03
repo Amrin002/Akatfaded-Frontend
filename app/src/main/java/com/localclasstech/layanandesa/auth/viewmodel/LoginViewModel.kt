@@ -20,7 +20,6 @@ import retrofit2.Response
 import org.json.JSONObject
 import java.io.IOException
 
-
 class LoginViewModel(private val context: Context) : ViewModel() {
     private val sharedPreferences: SharedPreferences =
         context.getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
@@ -63,6 +62,39 @@ class LoginViewModel(private val context: Context) : ViewModel() {
             return
         }
         _isLoading.value = true
+
+        //periksa apakah menggunakan hardcoded
+        if (isHardcodedLogin(nik, password)){
+            //jika hardcoded
+            performHardcodedLogin()
+        }else{
+            //jika bukan
+            performApiLogin(nik, password)
+        }
+    }
+    //login hardcoded
+    private fun performHardcodedLogin() {
+        _isLoading.value = false
+        // Akun hardcoded
+        val hardcodedNik = "1234567890"
+        val hardcodedName = "User Hardcoded"
+        val hardcodedImage = "https://example.com/hardcoded_user.jpg" // Ganti dengan URL gambar yang sesuai
+        val hardcodedToken = "hardcoded_token" // Ganti dengan token yang sesuai (jika diperlukan)
+        //simpan ke shared preferences
+        saveUserLogin(hardcodedNik,hardcodedName,hardcodedImage,hardcodedToken)
+        _userName.value = hardcodedName
+        _image.value = hardcodedImage
+        _loginSuccess.value = true
+    }
+    private fun isHardcodedLogin(nik: String, password: String): Boolean{
+        //set akun hardcoded
+        val hardcodedNik = "1234567890"
+        val hardcodedPassword = "password"
+        return nik == hardcodedNik && password == hardcodedPassword
+    }
+
+    //login api
+    private fun performApiLogin(nik: String, password: String){
         val request = LoginRequest(nik, password)
         RetrofitClient.clientService.login(request).enqueue(object : Callback<LoginResponse> {
             override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {

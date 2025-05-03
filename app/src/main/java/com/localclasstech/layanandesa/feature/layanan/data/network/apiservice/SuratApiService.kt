@@ -1,6 +1,7 @@
 package com.localclasstech.layanandesa.feature.layanan.data.network.apiservice
 
 import com.localclasstech.layanandesa.feature.layanan.data.network.data.BaseResponse
+import com.localclasstech.layanandesa.feature.layanan.data.network.data.DownloadUrlResponse
 import com.localclasstech.layanandesa.feature.layanan.data.network.data.suratdomisili.CreateSuratDomisiliRequest
 import com.localclasstech.layanandesa.feature.layanan.data.network.data.suratdomisili.SuratDomisiliResponse
 import com.localclasstech.layanandesa.feature.layanan.data.network.data.suratktm.CreateSktmRequest
@@ -55,6 +56,11 @@ interface SuratApiService {
         @Path("id") id: Int
     ): Response<ResponseBody>
 
+    @GET("api/suratktm/{id}/get-download-url")
+    suspend fun getDownloadUrl(
+        @Header("Authorization") token: String,
+        @Path("id") id: Int
+    ): Response<DownloadUrlResponse>
 
     //Surat Domisili
     @GET("api/suratdomisili")

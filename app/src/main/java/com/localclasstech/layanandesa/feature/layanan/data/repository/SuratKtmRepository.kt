@@ -3,6 +3,7 @@ package com.localclasstech.layanandesa.feature.layanan.data.repository
 import android.util.Log
 import com.localclasstech.layanandesa.feature.layanan.data.network.apiservice.SuratApiService
 import com.localclasstech.layanandesa.feature.layanan.data.network.data.BaseResponse
+import com.localclasstech.layanandesa.feature.layanan.data.network.data.DownloadUrlResponse
 import com.localclasstech.layanandesa.feature.layanan.data.network.data.suratktm.CreateSktmRequest
 import com.localclasstech.layanandesa.feature.layanan.data.network.data.suratktm.SktmResponse
 import com.localclasstech.layanandesa.settings.PreferencesHelper
@@ -38,6 +39,10 @@ class SuratKtmRepository(
     }
     suspend fun exportPdfSuratKtm(id: Int): Response<ResponseBody> {
         return apiService.exportPdfSuratKtm(getBearerToken(), id)
+    }
+
+    suspend fun getDownloadUrl(id: Int): Response<DownloadUrlResponse> {
+        return apiService.getDownloadUrl(getBearerToken(), id)
     }
     suspend fun deleteSuratKtm(id: Int): Response<BaseResponse<String>> {
         return apiService.deleteSuratKtm(getBearerToken(), id)

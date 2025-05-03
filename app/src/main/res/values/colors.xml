@@ -20,7 +20,8 @@
     <color name="button_modern_stroke">#6200EE</color>
     <color name="button_modern_ripple">#6200EE</color>
 
-
+<!--    Tema Component-->
+    <color name="cardBerita">#80FFFFFF</color>
     <!-- Tema Modern -->
     <color name="colorPrimary_modern">#59CDFF</color>
     <color name="colorBtnPrimary_modern">#1ABAFF</color>

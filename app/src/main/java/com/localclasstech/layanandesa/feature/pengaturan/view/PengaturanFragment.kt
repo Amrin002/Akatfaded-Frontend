@@ -113,10 +113,7 @@ class PengaturanFragment : Fragment() {
                     .transform(CircleCrop())
                     .into(binding.imageProfile)
             } else {
-                val userName = loginViewModel.userName.value ?: "null"
-                Log.d("Profile Image", "Using initials, userName: $userName")
-                val initialsBitmap = getInitials(loginViewModel.userName.value)
-                binding.imageProfile.setImageBitmap(initialsBitmap)
+               binding.imageProfile.setImageResource(R.drawable.ic_profile_default)
             }
         }
 
@@ -143,7 +140,7 @@ class PengaturanFragment : Fragment() {
                 message = "Apakah anda yakin ingin keluar?",
                 onConfirm = {
                     viewModel.confirmLogout()
-                    performLogout()
+                    navigateToLogin()
                     Log.d("PengaturanVM", "login_mode cleared? ${preferencesHelper.getLoginMode() == null}")
                 }
             )
@@ -151,14 +148,14 @@ class PengaturanFragment : Fragment() {
 
     }
 
-    private fun performLogout() {
-        val context = requireContext().applicationContext
-        val restartIntent = Intent(context, GetstartedActivity::class.java)
-        restartIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
-
-        requireActivity().finish() // Tutup semua aktivitas saat ini
-        context.startActivity(restartIntent) // Mulai aktivitas login
+    // New centralized method for navigating to login
+    private fun navigateToLogin() {
+        val intent = Intent(requireContext(), LoginActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        }
+        startActivity(intent)
         Toast.makeText(requireContext(), "Anda berhasil keluar", Toast.LENGTH_SHORT).show()
+        requireActivity().finish()
     }
     private fun observeViewModel() {
         viewModel.logoutEvent.observe(viewLifecycleOwner) { shouldLogout ->
@@ -174,20 +171,6 @@ class PengaturanFragment : Fragment() {
     }
 
 
-//    private fun confirmSwitchTheme(isModern: Boolean){
-//        val message = "Apakah anda ingin mengganti tampilan"
-//
-//        showCustomDialog(
-//            message = message,
-//            onConfirm = {
-//                viewModel.setTheme(isModern)
-//                restartApp()
-//            },
-//            onCancel = {
-//                binding.switchThema.isChecked = !isModern
-//            }
-//        )
-//    }
 
     private fun showCustomDialog(
         message: String,
@@ -237,47 +220,6 @@ class PengaturanFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
-    private fun getInitials(name: String?): Bitmap {
-        val initials = if (!name.isNullOrBlank()) {
-            val words = name.trim().split("\\s+".toRegex())
-            when {
-                words.size >= 2 -> "${words[0].first()}${words[1].first()}".uppercase()
-                words.size == 1 -> "${words[0].first()}".uppercase()
-                else -> "A"
-            }
-        } else {
-            "-"
-        }
 
-        val size = 200
-        val bitmap = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888)
-        val canvas = Canvas(bitmap)
-        val paint = Paint().apply {
-            color = Color.parseColor("#6200EE")
-            style = Paint.Style.FILL
-            isAntiAlias = true
-        }
-        val textPaint = Paint().apply {
-            color = Color.WHITE
-            textSize = 64f
-            typeface = Typeface.DEFAULT_BOLD
-            textAlign = Paint.Align.CENTER
-            isAntiAlias = true
-        }
-
-        // Buat lingkaran
-        val path = Path()
-        path.addCircle(size / 2f, size / 2f, size / 2f, Path.Direction.CCW)
-        canvas.drawPath(path, paint)
-
-        // Posisi teks
-        val textBounds = Rect()
-        textPaint.getTextBounds(initials, 0, initials.length, textBounds)
-        val x = size / 2f
-        val y = (size / 2f) - textBounds.exactCenterY()
-        canvas.drawText(initials, x, y, textPaint)
-
-        return bitmap
-    }
 
 }

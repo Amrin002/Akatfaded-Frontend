@@ -6,50 +6,31 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".view.getstarted.GetstartedActivity"
-    android:background="@drawable/background1">
+    android:background="@color/white">
+
 
     <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="390dp"
-        android:layout_height="510dp"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="80dp"
-        android:src="@drawable/image_splash"
-        />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:src="@drawable/logo_apps"
+        android:id="@+id/logo"/>
 
     <TextView
-        android:id="@+id/textView"
-        android:layout_width="350dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/poppins_bold"
-        android:text="Layanan Desa, di Genggaman  Ponsel Anda"
-        app:layout_constraintTop_toBottomOf="@id/imageView"
+        app:layout_constraintTop_toBottomOf="@id/logo"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="40dp"
-        android:textStyle="bold"
-        android:textAlignment="center"
-        android:textColor="@color/black"
-        android:textSize="20dp"
-        android:maxLines="2"/>
-
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btnGetstarted"
-        android:layout_marginTop="20dp"
-        android:layout_width="301dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:fontFamily="@font/poppins_semibold"
-        android:textStyle="bold"
-        android:text="Get Started"
-        android:background="@drawable/stroke_button"
-        android:textAllCaps="false"
+        android:text="Layanan Desa"
+        android:layout_marginTop="10dp"
+        android:textSize="30sp"
+        android:elevation="10dp"
+        android:fontFamily="@font/poppins_bold"
         android:textColor="@color/colorPrimary"
-        app:layout_constraintTop_toBottomOf="@+id/textView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:textStyle="bold"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

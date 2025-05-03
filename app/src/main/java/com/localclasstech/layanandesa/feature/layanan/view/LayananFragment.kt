@@ -109,13 +109,24 @@ class LayananFragment : Fragment() {
                 // Show shimmer effect
                 binding.shimmerLayoutSurat.visibility = View.VISIBLE
                 binding.shimmerLayoutSurat.startShimmer()
+
+                // Hide recyclerviews and filter layouts during loading
                 binding.recyclerViewSuratItemKtm.visibility = View.GONE
+                binding.recyclerViewSuratItemDomisili.visibility = View.GONE
+
+                // Hide filter layouts
+                binding.layoutFilterSktm.visibility = View.GONE
+                binding.layoutFilterSdomisili.visibility = View.GONE
             } else {
                 // Hide shimmer effect
                 binding.shimmerLayoutSurat.stopShimmer()
                 binding.shimmerLayoutSurat.visibility = View.GONE
 
-                // RecyclerView visibility will be managed in the data observer
+                // Show filter layouts after loading is complete
+                binding.layoutFilterSktm.visibility = View.VISIBLE
+                binding.layoutFilterSdomisili.visibility = View.VISIBLE
+
+                // RecyclerViews will be managed by dropdown behavior
             }
         }
     }
