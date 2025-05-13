@@ -1,147 +1,109 @@
 package com.localclasstech.layanandesa.feature.pengaturan.viewmodel.editprofile
 
+import android.content.Context
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelStoreOwner
+import androidx.lifecycle.viewModelScope
+import com.localclasstech.layanandesa.auth.viewmodel.LoginViewModel
+import com.localclasstech.layanandesa.auth.viewmodel.LoginViewModelFactory
 import com.localclasstech.layanandesa.network.ApiService
-import com.localclasstech.layanandesa.network.UpdateUserResponse
-import com.localclasstech.layanandesa.network.User
-import com.localclasstech.layanandesa.network.UserResponse
+import com.localclasstech.layanandesa.network.RetrofitClient
+import com.localclasstech.layanandesa.network.UserData
 import com.localclasstech.layanandesa.settings.PreferencesHelper
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.MultipartBody
-import okhttp3.RequestBody.Companion.asRequestBody
-import okhttp3.RequestBody.Companion.toRequestBody
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import kotlinx.coroutines.launch
 import java.io.File
 
 class EditProfileViewModel(
-    private val apiService: ApiService,
-    private val preferencesHelper: PreferencesHelper
-) : ViewModel() {
+    private val updateProfileRepository: UpdateProfileRepository,
+    private val preferencesHelper: PreferencesHelper) : ViewModel() {
+    private val _userProfile = MutableLiveData<UserData>()
+    val userProfile: LiveData<UserData> get() = _userProfile
 
-    private val _user = MutableLiveData<User>()
-    val user: LiveData<User> get() = _user
+    private val _operationResult = MutableLiveData<Boolean>()
+    val operationResult: LiveData<Boolean> get() = _operationResult
+
+    private val _error = MutableLiveData<String>()
+    val error: LiveData<String> get() = _error
 
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> get() = _isLoading
 
-    private val _errorMessage = MutableLiveData<String?>()
-    val errorMessage: LiveData<String?> get() = _errorMessage
-
-    fun loadUserData() {
+    fun fetchUserProfile() {
         _isLoading.value = true
-        val token = "Bearer ${preferencesHelper.getToken()}"
+        viewModelScope.launch {
+            try {
+                val response = updateProfileRepository.getUserProfile()
 
-        apiService.getUser(token).enqueue(object : Callback<UserResponse> {
-            override fun onResponse(call: Call<UserResponse>, response: Response<UserResponse>) {
-                _isLoading.value = false
                 if (response.isSuccessful) {
-                    response.body()?.let { userResponse ->
-                        _user.value = userResponse.toUser()
-                        Log.d("EditProfileViewModel", "Data user diterima: $userResponse")
+                    response.body()?.let { userData ->
+                        preferencesHelper.updateUserProfile(userData.name, userData.image)
+                        Log.d("EditProfileViewModel", "User Data: $userData")
+                        _userProfile.postValue(userData)
+                    } ?: run {
+                        Log.e("EditProfileViewModel", "Data profil kosong")
+                        _error.postValue("Data profil kosong")
                     }
                 } else {
-                    _errorMessage.value = "Gagal memuat data: ${response.errorBody()?.string()}"
+                    val errorBody = response.errorBody()?.string()
+                    Log.e("EditProfileViewModel", "Error Body: $errorBody")
+                    _error.postValue("Gagal memuat profil: ${response.message()} - $errorBody")
                 }
-            }
-
-            override fun onFailure(call: Call<UserResponse>, t: Throwable) {
+            } catch (e: Exception) {
+                Log.e("EditProfileViewModel", "Exception: ${e.message}", e)
+                _error.postValue("Error: ${e.message}")
+            } finally {
                 _isLoading.value = false
-                _errorMessage.value = "Error jaringan: ${t.message}"
             }
-        })
+        }
     }
 
-    fun updateUser(
-        userId: Int,
+    fun updateUserProfile(
         name: String,
         email: String,
         nik: String,
-        password: String?,
         noTelp: String,
-        imageFile: File?
+        password: String? = null,
+        imageFile: File? = null
     ) {
         _isLoading.value = true
-
-        // Convert semua field ke RequestBody
-        val nameBody = name.toRequestBody("text/plain".toMediaTypeOrNull())
-        val emailBody = email.toRequestBody("text/plain".toMediaTypeOrNull())
-        val nikBody = nik.toRequestBody("text/plain".toMediaTypeOrNull())
-        val noTelpBody = noTelp.toRequestBody("text/plain".toMediaTypeOrNull())
-        val passwordBody = password?.toRequestBody("text/plain".toMediaTypeOrNull())
-
-        // Handle file upload
-        val imagePart = imageFile?.let { file ->
-            val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull())
-            MultipartBody.Part.createFormData("image", file.name, requestFile)
-        }
-
-        val authHeader = "Bearer ${preferencesHelper.getToken()}"
-
-        apiService.updateUser(
-            userId,
-            nameBody,
-            emailBody,
-            nikBody,
-            passwordBody,
-            noTelpBody,
-            imagePart,
-            authHeader
-        ).enqueue(object : Callback<UpdateUserResponse> {
-            override fun onResponse(call: Call<UpdateUserResponse>, response: Response<UpdateUserResponse>) {
-                _isLoading.value = false
-
+        viewModelScope.launch {
+            try {
+                val userId = userProfile.value?.id ?: return@launch
+                val response = updateProfileRepository.updateUserProfile(
+                    userId, name, email, nik, noTelp, password, imageFile
+                )
                 if (response.isSuccessful) {
-                    response.body()?.let { updateResponse ->
-                        val userData = updateResponse.user
-                        val updatedUser = User(
-                            id = userData.id,
-                            nik = userData.nik,
-                            name = userData.name,
-                            no_telp = userData.noTelp,
-                            email = userData.email,
-                            password = null,
-                            image = userData.profileImage ?: "",
-                            email_verified_at = null,
-                            role = "user",
-                            created_at = userData.createdAt,
-                            updated_at = userData.updatedAt
-                        )
-
-                        _user.value = updatedUser
-                        preferencesHelper.saveUser(updatedUser)
-                        Log.d("EditProfileViewModel", "Update berhasil: $updatedUser")
+                    val body = response.body()
+                    if (body != null) {
+                        val updatedUser = body.user  // <-- ambil UserData di dalam wrapper
+                        // simpan ke prefs
+                        preferencesHelper.syncUserProfile(updatedUser.name, updatedUser.image)
+                        // update live data
+                        _userProfile.postValue(updatedUser)
+                        _operationResult.postValue(true)
+                        Log.d("EditProfileVM", "Profile updated: $updatedUser")
+                    } else {
+                        _error.postValue("Response kosong dari server")
+                        _operationResult.postValue(false)
                     }
                 } else {
-                    _errorMessage.value = "Gagal update: ${response.errorBody()?.string()}"
+                    val err = response.errorBody()?.string()
+                    _error.postValue("Gagal: ${response.message()} – $err")
+                    _operationResult.postValue(false)
                 }
-            }
-
-            // Perbaikan tipe parameter di sini
-            override fun onFailure(call: Call<UpdateUserResponse>, t: Throwable) {
+            } catch (e: Exception) {
+                _error.postValue("Error: ${e.localizedMessage}")
+                _operationResult.postValue(false)
+                Log.e("EditProfileVM", "Exception", e)
+            } finally {
                 _isLoading.value = false
-                _errorMessage.value = "Error jaringan: ${t.message}"
             }
-        })
+        }
+
     }
 
-    // Extension function untuk konversi UserResponse ke User
-    private fun UserResponse.toUser() = User(
-        id = id,
-        nik = nik ?: "",
-        name = name ?: "",
-        no_telp = noTelp ?: "",
-        email = email ?: "",
-        password = null,
-        // Di ViewModel
-        image = if (profileImage.isNullOrEmpty()) "" else "http://192.168.56.1:8000/$profileImage",
-        email_verified_at = null,
-        role = "",
-        created_at = "",
-        updated_at = ""
-    )
 }

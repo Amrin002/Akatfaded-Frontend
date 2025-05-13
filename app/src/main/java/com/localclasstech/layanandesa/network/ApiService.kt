@@ -5,6 +5,7 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.ResponseBody
 import retrofit2.Call
+import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Header
@@ -33,6 +34,7 @@ interface ApiService {
     @Multipart
     @PUT("api/update/{id}")
     fun updateUser(
+        @Header("Authorization") authHeader: String,  // Perhatikan urutan ini
         @Path("id") userId: Int,
         @Part("name") name: RequestBody,
         @Part("email") email: RequestBody,
@@ -40,9 +42,35 @@ interface ApiService {
         @Part("password") password: RequestBody?,
         @Part("no_telp") noTelp: RequestBody,
         @Part image: MultipartBody.Part?,
-        @Header("Authorization") authHeader: String
     ): Call<UpdateUserResponse>
 
+//    api baru untuk update user
+@GET("api/user")
+suspend fun getUserProfile(
+    @Header("Authorization") token: String
+): Response<UserData>  // Langsung kembalikan UserData
+
+    @PUT("api/update/{id}")
+    suspend fun updateUserProfile(
+        @Header("Authorization") token: String,
+        @Path("id") userId: Int,
+        @Body updateData: Map<String, @JvmSuppressWildcards Any>
+    ): Response<UserData>
+
+    // API untuk update user profile dengan gambar
+    @Multipart
+    @POST("api/update/{id}")
+    suspend fun updateUserWithImage(
+        @Header("Authorization") token: String,
+        @Path("id") userId: Int,
+        @Part("_method") method: RequestBody,
+        @Part("name") name: RequestBody,
+        @Part("email") email: RequestBody,
+        @Part("nik") nik: RequestBody,
+        @Part("no_telp") noTelp: RequestBody,
+        @Part("password") password: RequestBody?,
+        @Part image: MultipartBody.Part?
+    ): Response<UpdateUserResponse>
     // API untuk mengirim OTP ke email
     @POST("api/send-otp")
     fun sendOtp(@Body request: SendOtpRequest): Call<ResetPasswordOtpResponse>

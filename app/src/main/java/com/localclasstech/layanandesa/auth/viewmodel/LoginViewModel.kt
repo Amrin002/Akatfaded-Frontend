@@ -14,13 +14,14 @@ import com.localclasstech.layanandesa.network.ErrorResponse
 import com.localclasstech.layanandesa.network.LoginRequest
 import com.localclasstech.layanandesa.network.LoginResponse
 import com.localclasstech.layanandesa.network.RetrofitClient
+import com.localclasstech.layanandesa.settings.PreferencesHelper
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import org.json.JSONObject
 import java.io.IOException
 
-class LoginViewModel(private val context: Context) : ViewModel() {
+class LoginViewModel(val context: Context) : ViewModel() {
     private val sharedPreferences: SharedPreferences =
         context.getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
 
@@ -167,6 +168,17 @@ class LoginViewModel(private val context: Context) : ViewModel() {
         return sharedPreferences.getString("user_name", "Guest") ?: "Guest"
     }
 
+    fun updateUserProfile(name: String, profileImage: String?) {
+        val preferencesHelper = PreferencesHelper(context)
+        preferencesHelper.syncUserProfile(name, profileImage)
+
+        // Pastikan update LiveData
+        _loginMode.postValue(name)
+        _userName.postValue(name)
+        _image.postValue(profileImage ?: "")
+
+        Log.d("LoginViewModel", "Profile updated: name=$name, image=$profileImage")
+    }
     private fun saveUserLogin(nik: String, name: String,profileImage : String?, token: String?) {
         with(sharedPreferences.edit()) {
             putString("login_mode", name)

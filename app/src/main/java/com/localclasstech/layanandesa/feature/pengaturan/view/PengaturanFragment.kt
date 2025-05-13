@@ -31,8 +31,11 @@ import com.localclasstech.layanandesa.auth.viewmodel.LoginViewModelFactory
 import com.localclasstech.layanandesa.databinding.FragmentPengaturanBinding
 import com.localclasstech.layanandesa.feature.pengaturan.view.editprofille.EditProfileFragment
 import com.localclasstech.layanandesa.feature.pengaturan.viewmodel.PengaturanViewModel
+import com.localclasstech.layanandesa.feature.pengaturan.viewmodel.PengaturanViewModelFactory
 import com.localclasstech.layanandesa.feature.pengaturan.viewmodel.SharedThemeViewModel
 import com.localclasstech.layanandesa.feature.pengaturan.viewmodel.SharedThemeViewModelFactory
+import com.localclasstech.layanandesa.network.ApiService
+import com.localclasstech.layanandesa.network.RetrofitClient
 import com.localclasstech.layanandesa.settings.PreferencesHelper
 import com.localclasstech.layanandesa.view.getstarted.GetstartedActivity
 
@@ -43,6 +46,7 @@ class PengaturanFragment : Fragment() {
     private var _binding: FragmentPengaturanBinding? = null
     private val binding get() = _binding!!
 
+    private lateinit var apiService: ApiService
     private lateinit var preferencesHelper: PreferencesHelper
 
     private val sharedThemeViewModel: SharedThemeViewModel by activityViewModels {
@@ -53,18 +57,15 @@ class PengaturanFragment : Fragment() {
         LoginViewModelFactory(requireContext())
     }
 
-    private val viewModel: PengaturanViewModel by viewModels{
-        object : ViewModelProvider.Factory {
-            override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                return PengaturanViewModel(preferencesHelper) as T
-            }
-        }
+    private val viewModel: PengaturanViewModel by viewModels {
+        PengaturanViewModelFactory(preferencesHelper, apiService)
     }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         preferencesHelper = PreferencesHelper(requireContext())
+        apiService = RetrofitClient.clientService
 
     }
 
@@ -79,22 +80,11 @@ class PengaturanFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-//        viewModel.isModernTheme.observe(viewLifecycleOwner) { isModern ->
-//            if (!isUpdatingSwitch) {
-//                isUpdatingSwitch = true
-//                updateUi(isModern)
-//                binding.switchThema.isChecked = isModern
-//                sharedThemeViewModel.setTheme(isModern)
-//                isUpdatingSwitch = false
-//            }
-//        }
-
-
-
         observeViewModel()
 
         // Observer untuk mengupdate textUsername sesuai status login
         loginViewModel.loginMode.observe(viewLifecycleOwner) { loginMode ->
+            Log.d("Fragment", "Login Mode Updated: $loginMode")
             binding.textUsername.text = when {
                 loginMode.isNullOrEmpty() -> "Tidak ada yang login"
                 loginMode == "Guest" -> "Guest"
@@ -116,17 +106,6 @@ class PengaturanFragment : Fragment() {
                binding.imageProfile.setImageResource(R.drawable.ic_profile_default)
             }
         }
-
-
-//        binding.switchThema.setOnCheckedChangeListener { _, isChecked ->
-//            if (!isUpdatingSwitch) {
-//                isUpdatingSwitch = true
-//                confirmSwitchTheme(isChecked) // Tampilkan dialog
-//                sharedThemeViewModel.setTheme(isChecked)
-//                viewModel.toggleTheme()
-//                isUpdatingSwitch = false
-//            }
-//        }
         binding.layoutEditProfille.setOnClickListener{
             val fragmentEditProfile = EditProfileFragment()
             val transaction = parentFragmentManager.beginTransaction()
@@ -196,25 +175,7 @@ class PengaturanFragment : Fragment() {
         dialog.show()
     }
 
-    private fun restartApp() {
-        val context = requireContext().applicationContext
-        val intent = requireActivity().intent
-        val restartIntent = context.packageManager.getLaunchIntentForPackage(context.packageName)
-        restartIntent?.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
-        requireActivity().finish()
-        android.os.Handler().postDelayed({
-            context.startActivity(restartIntent) // Mulai ulang aplikasi
-        }, 500)
-    }
 
-//    private fun updateUi(isModern: Boolean) {
-//        binding.switchThema.isChecked = isModern
-//        if (isModern) {
-//            Toast.makeText(requireContext(),"Tampilan Modern", Toast.LENGTH_SHORT).show()
-//        } else {
-//            Toast.makeText(requireContext(),"Tampilan Simple", Toast.LENGTH_SHORT).show()
-//        }
-//    }
 
     override fun onDestroyView() {
         super.onDestroyView()

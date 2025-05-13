@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     tools:context=".auth.view.LoginActivity"
     android:theme="@style/Base.Theme.LayananDesa"
-    android:background="@drawable/background1">
+    android:background="@color/white">
 
     <!-- Using guideline for consistent percentage-based spacing -->
     <androidx.constraintlayout.widget.Guideline
@@ -24,49 +24,33 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.03" />
 
+    <androidx.appcompat.widget.AppCompatImageView
+        android:layout_width="140dp"
+        android:layout_height="140dp"
+        android:id="@+id/imgLogo"
+        android:src="@drawable/logo_apps"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/guideline_top"
+        />
+
+
+
     <TextView
         android:id="@+id/textView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/poppins_semibold"
+        android:fontFamily="@font/poppins"
         android:maxLines="2"
-        android:text="Login ke Layanan Desa"
-        android:textColor="@color/white"
-        android:textSize="20sp"
+        android:text="Layanan Desa"
+        android:textColor="#1ABAFF"
+        android:textSize="30sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="@id/guideline_start"
-        app:layout_constraintWidth_percent="0.5"
-        app:layout_constraintTop_toTopOf="@id/guideline_top" />
-
-    <ImageView
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:id="@+id/imageView"
-        android:background="@drawable/imglogin"
-        app:layout_constraintTop_toBottomOf="@id/textView"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:textAlignment="center"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintWidth_percent="0.9"
-        app:layout_constraintHeight_percent="0.3"
-        android:scaleType="centerCrop"
-        app:layout_constraintVertical_bias="0"
-        android:layout_marginTop="16dp"/>
-
-    <!-- Container untuk form dengan background -->
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/formContainer"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="40dp"
-        android:background="@drawable/backgroundformlogin"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintWidth_percent="0.9"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/imageView">
+        app:layout_constraintTop_toBottomOf="@id/imgLogo" />
 
-        <!-- Label NIK -->
         <TextView
             android:id="@+id/labelNik"
             android:layout_width="wrap_content"
@@ -74,29 +58,30 @@
             android:layout_marginStart="15dp"
             android:layout_marginTop="10dp"
             android:fontFamily="@font/poppins"
+
             android:text="NIK"
             android:textColor="@color/black"
             android:textSize="16sp"
             android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintStart_toStartOf="@id/guideline_start"
+            app:layout_constraintTop_toBottomOf="@id/textView" />
 
-        <!-- Input NIK -->
         <EditText
             android:id="@+id/loginNik"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_marginHorizontal="15dp"
             android:fontFamily="@font/poppins"
             android:hint="Masukan NIK"
             android:maxLength="16"
+            android:paddingHorizontal="8dp"
             android:textColor="@color/black"
             android:textColorHint="@color/textColor"
+            android:background="@drawable/backgroundetlogin"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="@id/guideline_start"
             app:layout_constraintTop_toBottomOf="@id/labelNik" />
 
-        <!-- Label Kata Sandi -->
         <TextView
             android:id="@+id/labelPassword"
             android:layout_width="wrap_content"
@@ -108,27 +93,26 @@
             android:textColor="@color/black"
             android:textSize="16sp"
             android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="@id/guideline_start"
             app:layout_constraintTop_toBottomOf="@id/loginNik" />
-
-        <!-- Input Kata Sandi -->
         <EditText
             android:id="@+id/loginPassword"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_marginHorizontal="15dp"
             android:drawableEnd="@drawable/ic_eye_block"
             android:drawablePadding="20dp"
             android:fontFamily="@font/poppins"
             android:hint="Masukan kata sandi"
             android:inputType="textPassword"
+            android:paddingHorizontal="8dp"
             android:textColor="@color/black"
             android:textColorHint="@color/textColor"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="@id/guideline_start"
+            android:background="@drawable/backgroundetlogin"
             app:layout_constraintTop_toBottomOf="@id/labelPassword" />
 
-        <!-- Lupa Kata Sandi -->
         <TextView
             android:id="@+id/forgotPassword"
             android:layout_width="wrap_content"
@@ -140,10 +124,9 @@
             android:textColor="#4586FF"
             android:textSize="16sp"
             android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="@id/guideline_start"
             app:layout_constraintTop_toBottomOf="@id/loginPassword" />
 
-        <!-- Container untuk Tombol Login -->
         <FrameLayout
             android:id="@+id/btnLoginContainer"
             android:layout_width="0dp"
@@ -180,7 +163,6 @@
                 android:visibility="gone" />
         </FrameLayout>
 
-        <!-- Text "Belum punya akun?" -->
         <TextView
             android:id="@+id/textViewRegister"
             android:layout_width="wrap_content"
@@ -193,7 +175,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/btnLoginContainer" />
 
-        <!-- Tombol Daftar -->
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnDaftar"
             android:layout_width="0dp"
@@ -215,8 +196,51 @@
             app:layout_constraintTop_toBottomOf="@id/textViewRegister"
             app:layout_constraintVertical_bias="0.0"
             app:layout_constraintWidth_percent="0.85" />
+<!--    <ImageView-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="0dp"-->
+<!--        android:id="@+id/imageView"-->
+<!--        android:background="@drawable/imglogin"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/textView"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintWidth_percent="0.9"-->
+<!--        app:layout_constraintHeight_percent="0.3"-->
+<!--        android:scaleType="centerCrop"-->
+<!--        app:layout_constraintVertical_bias="0"-->
+<!--        android:layout_marginTop="16dp"/>-->
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+<!--    &lt;!&ndash; Container untuk form dengan background &ndash;&gt;-->
+<!--    <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--        android:id="@+id/formContainer"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="0dp"-->
+<!--        android:layout_marginTop="10dp"-->
+<!--        android:layout_marginBottom="40dp"-->
+<!--        android:background="@drawable/backgroundformlogin"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintWidth_percent="0.9"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/imageView">-->
+
+<!--        &lt;!&ndash; Label NIK &ndash;&gt;-->
+
+        <!-- Input NIK -->
+
+<!--        &lt;!&ndash; Label Kata Sandi &ndash;&gt;-->
+
+<!--        &lt;!&ndash; Input Kata Sandi &ndash;&gt;-->
+
+<!--        &lt;!&ndash; Lupa Kata Sandi &ndash;&gt;-->
+
+<!--        &lt;!&ndash; Container untuk Tombol Login &ndash;&gt;-->
+
+<!--        &lt;!&ndash; Text "Belum punya akun?" &ndash;&gt;-->
+
+<!--        &lt;!&ndash; Tombol Daftar &ndash;&gt;-->
+
+<!--    </androidx.constraintlayout.widget.ConstraintLayout>-->
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

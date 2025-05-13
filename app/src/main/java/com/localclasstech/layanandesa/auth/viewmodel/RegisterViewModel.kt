@@ -25,6 +25,9 @@ class RegisterViewModel(private val context: Context) : ViewModel() {
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
 
+    private val _registrationSuccess = MutableLiveData<Boolean>()
+    val registrationSuccess: LiveData<Boolean> = _registrationSuccess
+
 
     fun registerUser(
         name: String,
@@ -72,10 +75,12 @@ class RegisterViewModel(private val context: Context) : ViewModel() {
                 if (response.isSuccessful) {
                     _registerResult.value = response.body()
                     _errorMessage.value = null // bersihkan error
+                    _registrationSuccess.value = true
                     Toast.makeText(context, "Berhasil Register!", Toast.LENGTH_SHORT).show()
                 } else {
                     val errorBody = response.errorBody()?.string()
                     Log.e("RegisterViewModel", "Gagal: $errorBody")
+                    _registrationSuccess.value = false
 
                     // Cek apakah error-nya tentang NIK
                     if (errorBody?.contains("NIK") == true || errorBody?.contains("nik") == true) { //Only safe (?.) or non-null asserted (!!.) calls are allowed on a nullable receiver of type String?
@@ -88,6 +93,7 @@ class RegisterViewModel(private val context: Context) : ViewModel() {
 
             override fun onFailure(call: Call<RegisterResponse>, t: Throwable) {
                 _isLoading.value = false // sembunyikan loading
+                _registrationSuccess.value = false
                 Log.e("RegisterViewModel", "Error: ${t.message}", t)
                 _errorMessage.value = "Terjadi Kesalahan. Silahkan coba lagi."
             }

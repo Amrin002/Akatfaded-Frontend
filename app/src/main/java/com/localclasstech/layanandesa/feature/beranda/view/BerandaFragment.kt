@@ -14,6 +14,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -64,11 +65,14 @@ class BerandaFragment : Fragment() {
         }
         setupRecyclerView()
 
+        setupNavigasi()
 
 
         observeViewModel()
 
     }
+
+
 
     private fun setupRecyclerView() {
         binding.rvBerita.layoutManager = LinearLayoutManager(requireContext())
@@ -89,8 +93,13 @@ class BerandaFragment : Fragment() {
             binding.rvBerita.adapter = adapter
         }
 
-        loginViewModel.loginMode.observe(viewLifecycleOwner){ loginMode->
-            binding.tvUsername.text = loginMode ?: "Guest"
+        loginViewModel.loginMode.observe(viewLifecycleOwner) { loginMode ->
+            Log.d("Fragment", "Login Mode Updated: $loginMode")
+            binding.tvUsername.text = when {
+                loginMode.isNullOrEmpty() -> "Tidak ada yang login"
+                loginMode == "Guest" -> "Guest"
+                else -> loginMode
+            }
         }
 
         // Observe loading state
@@ -130,6 +139,21 @@ class BerandaFragment : Fragment() {
 
         // Sembunyikan shimmer layout
         binding.shimerBeritaBeranda.root.visibility = View.GONE
+    }
+    private fun setupNavigasi() {
+        binding.btnBerita.setOnClickListener {
+            //
+        }
+        binding.btnKeluhan.setOnClickListener {
+            //
+        }
+        binding.btnPengaduanSurat.setOnClickListener {
+            //
+        }
+        binding.btnTransparansiApbdes.setOnClickListener {
+            //
+        }
+
     }
 
 

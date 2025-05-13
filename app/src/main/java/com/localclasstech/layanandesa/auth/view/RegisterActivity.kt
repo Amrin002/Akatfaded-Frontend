@@ -111,12 +111,24 @@ class RegisterActivity : AppCompatActivity() {
                 confirmPassword = confirmPassword
             )
         }
-        viewModel.isLoading.observe(this) { isLoading ->
-            if (isLoading) {
-                binding.loadingRegister.visibility = View.VISIBLE
-            } else {
-                binding.loadingRegister.visibility = View.GONE
+        viewModel.registrationSuccess.observe(this) { success ->
+            if (success) {
+                // Pindah ke LoginActivity
+                val intent = Intent(this, LoginActivity::class.java).apply {
+                    // Tambahkan extra untuk menampilkan pesan sukses di LoginActivity
+                    putExtra("REGISTRATION_SUCCESS", true)
+                }
+                startActivity(intent)
+                finish() // Tutup RegisterActivity
             }
+        }
+
+        viewModel.isLoading.observe(this) { isLoading ->
+            // Update the button and progress bar visibility
+            binding.btnRegister.isEnabled = !isLoading
+            binding.progressBarRegister.visibility = if (isLoading) View.VISIBLE else View.GONE
+            binding.btnRegister.text = if (isLoading) "" else "Daftar"
+
         }
 
         viewModel.errorMessage.observe(this) { message ->

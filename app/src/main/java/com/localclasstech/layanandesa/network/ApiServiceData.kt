@@ -58,14 +58,16 @@ data class UpdateUserResponse(
     @SerializedName("message") val message: String,
     @SerializedName("user") val user: UserData
 )
-
 data class UserData(
     @SerializedName("id") val id: Int,
     @SerializedName("nik") val nik: String,
+    @SerializedName("penduduk_id") val pendudukId: String?,
     @SerializedName("name") val name: String,
-    @SerializedName("no_telp") val noTelp: String,
     @SerializedName("email") val email: String,
-    @SerializedName("profile_image") val profileImage: String?,
+    @SerializedName("email_verified_at") val emailVerifiedAt: String?,
+    @SerializedName("role") val role: String,
+    @SerializedName("image") val image: String?,
+    @SerializedName("no_telp") val noTelp: String,
     @SerializedName("created_at") val createdAt: String,
     @SerializedName("updated_at") val updatedAt: String
 )
@@ -81,5 +83,20 @@ data class ResetPasswordOtpRequest(
 )
 data class ResetPasswordOtpResponse(
     @SerializedName("message") val message: String
+)
+data class BaseResponse<T>(
+    @SerializedName("id") val id: Int? = null,
+    @SerializedName("nik") val nik: String? = null,
+    @SerializedName("penduduk_id") val pendudukId: String? = null,
+    @SerializedName("name") val name: String? = null,
+    @SerializedName("email") val email: String? = null,
+    @SerializedName("email_verified_at") val emailVerifiedAt: String? = null,
+    @SerializedName("role") val role: String? = null,
+    @SerializedName("image") val image: String? = null,
+    @SerializedName("no_telp") val noTelp: String? = null,
+    @SerializedName("created_at") val createdAt: String? = null,
+    @SerializedName("updated_at") val updatedAt: String? = null,
+    @SerializedName("message") val message: String? = null,
+    @SerializedName("data") val data: T? = null
 )
 
