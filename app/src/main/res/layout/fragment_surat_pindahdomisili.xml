@@ -4,11 +4,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".feature.layanan.view.surat.SuratKtuFragment">
+    tools:context=".feature.layanan.view.surat.SuratPindahdomisiliFragment">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
+        android:layout_height="match_parent">
         <androidx.appcompat.widget.AppCompatImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/tvSuratKtm"
 
-            android:text="Surat Keterangan Tepat Usaha"
+            android:text="Surat Pindah Domisili"
             android:textColor="@color/black"
             android:fontFamily="@font/poppins_bold"
             android:textStyle="bold"
@@ -33,6 +33,7 @@
             app:layout_constraintTop_toTopOf="parent"
             android:layout_marginTop="23dp"
             android:layout_marginStart="10dp"/>
+
         <androidx.appcompat.widget.AppCompatImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -40,11 +41,11 @@
             android:src="@drawable/ic_edit"
             android:background="@color/transparant"
             app:layout_constraintEnd_toEndOf="@id/btnDeleteSurat"
-            app:layout_constraintStart_toEndOf="@id/tvSuratKtm"
+
             app:layout_constraintTop_toTopOf="@id/tvSuratKtm"
             app:layout_constraintBottom_toBottomOf="@id/tvSuratKtm"
             android:layout_marginEnd="30dp"
-            android:layout_marginStart="10dp"/>
+        />
         <androidx.appcompat.widget.AppCompatImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -113,7 +114,6 @@
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
             android:background="@drawable/edit_text_border"
-            android:hint=""
             android:paddingStart="8dp"
             android:layout_marginTop="5dp"
             android:maxLength="16"
@@ -160,61 +160,90 @@
             android:textStyle="normal"
             android:textColor="@color/black"
             android:textSize="15sp"
-            android:id="@id/labelPassword"
+            android:id="@id/labelJenisKelamin"
             android:fontFamily="@font/poppins_bold"
             app:layout_constraintTop_toBottomOf="@id/etTanggalLahir"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginTop="15dp"
             android:layout_marginStart="20dp"
             />
-        <Spinner
+        <LinearLayout
             android:layout_width="0dp"
+            android:id="@+id/layoutSpinerJk"
             android:layout_height="wrap_content"
-            android:id="@+id/spinerJK"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/labelPassword"
+            app:layout_constraintTop_toBottomOf="@id/labelJenisKelamin"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
             android:background="@drawable/edit_text_border"
-
-
             android:drawablePadding="20dp"
             android:paddingStart="8dp"
             android:layout_marginTop="5dp"
+            android:orientation="horizontal">
 
-            android:textColorHint="@color/abu_abu_modern"/>
-<!--        <TextView-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:text="Status Kawin"-->
-<!--            android:textStyle="normal"-->
-<!--            android:textColor="@color/black"-->
-<!--            android:textSize="15sp"-->
-<!--            android:id="@+id/labelKonfirmasiPassword"-->
-<!--            android:fontFamily="@font/poppins_bold"-->
-<!--            app:layout_constraintTop_toBottomOf="@id/spinerJK"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            android:layout_marginTop="15dp"-->
-<!--            android:layout_marginStart="20dp"-->
-<!--            />-->
-<!--        <Spinner-->
-<!--            android:layout_width="0dp"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:id="@+id/spinerSK"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintTop_toBottomOf="@id/labelKonfirmasiPassword"-->
-<!--            android:layout_marginStart="20dp"-->
-<!--            android:layout_marginEnd="20dp"-->
-<!--            android:background="@drawable/edit_text_border"-->
+            <Spinner
+                android:layout_gravity="center_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/spinerJK"
+                android:background="@color/transparant"
+                android:layout_weight="1"
+                android:textColorHint="@color/black"/>
 
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:src="@drawable/ic_dropdown"
+                android:layout_gravity="center_vertical"
+                android:padding="8dp"
+                android:contentDescription="Dropdown arrow"/>
+        </LinearLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Status Kawin"
+            android:textStyle="normal"
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            android:id="@+id/labelKonfirmasiPassword"
+            android:fontFamily="@font/poppins_bold"
+            app:layout_constraintTop_toBottomOf="@id/layoutSpinerJk"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="15dp"
+            android:layout_marginStart="20dp"
+            />
+        <LinearLayout
+            android:layout_width="0dp"
+            android:id="@+id/layoutSpinerSk"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/labelKonfirmasiPassword"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/edit_text_border"
+            android:orientation="horizontal"
+            android:layout_marginTop="5dp">
 
-<!--            android:drawablePadding="20dp"-->
-<!--            android:paddingStart="8dp"-->
-<!--            android:layout_marginTop="5dp"-->
+            <Spinner
+                android:id="@+id/spinerSK"
+                android:layout_width="0dp"
+                android:layout_gravity="center_vertical"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"/>
 
-<!--            android:textColorHint="@color/abu_abu_modern"/>-->
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:src="@drawable/ic_dropdown"
+                android:padding="8dp"
+                android:layout_gravity="center_vertical"
+                android:contentDescription="Dropdown arrow"/>
+        </LinearLayout>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -224,7 +253,7 @@
             android:textSize="15sp"
             android:id="@+id/labelNoTelp"
             android:fontFamily="@font/poppins_bold"
-            app:layout_constraintTop_toBottomOf="@id/spinerJK"
+            app:layout_constraintTop_toBottomOf="@id/layoutSpinerSk"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginTop="15dp"
             android:layout_marginStart="20dp"
@@ -249,44 +278,13 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Agama"
-            android:textStyle="normal"
-            android:textColor="@color/black"
-            android:textSize="15sp"
-            android:id="@+id/labelAgama"
-            android:fontFamily="@font/poppins_bold"
-            app:layout_constraintTop_toBottomOf="@id/etKewarganegaraan"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="15dp"
-            android:layout_marginStart="20dp"
-            />
-        <EditText
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/etAgama"
-            android:textColor="@color/black"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/labelAgama"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            android:background="@drawable/edit_text_border"
-
-
-            android:paddingStart="8dp"
-            android:layout_marginTop="5dp"
-
-            android:textColorHint="@color/abu_abu_modern"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:text="Pekerjaan"
             android:textStyle="normal"
             android:textColor="@color/black"
             android:textSize="15sp"
             android:id="@+id/tvPekerjaan"
             android:fontFamily="@font/poppins_bold"
-            app:layout_constraintTop_toBottomOf="@id/etAgama"
+            app:layout_constraintTop_toBottomOf="@id/etKewarganegaraan"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginTop="15dp"
             android:layout_marginStart="20dp"
@@ -311,13 +309,75 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="Kecamatan"
+            android:textStyle="normal"
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            android:id="@+id/tvKecamatan"
+            android:fontFamily="@font/poppins_bold"
+            app:layout_constraintTop_toBottomOf="@id/etPekerjaan"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="15dp"
+            android:layout_marginStart="20dp"
+            />
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/etKecamatan"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvKecamatan"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/edit_text_border"
+
+
+            android:paddingStart="8dp"
+            android:layout_marginTop="5dp"
+
+            android:textColorHint="@color/abu_abu_modern"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Kabupaten"
+            android:textStyle="normal"
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            android:id="@+id/tvKabupaten"
+            android:fontFamily="@font/poppins_bold"
+            app:layout_constraintTop_toBottomOf="@id/etKecamatan"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="15dp"
+            android:layout_marginStart="20dp"
+            />
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/etKabupaten"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvKabupaten"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/edit_text_border"
+
+
+            android:paddingStart="8dp"
+            android:layout_marginTop="5dp"
+
+            android:textColorHint="@color/abu_abu_modern"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="Alamat"
             android:textStyle="normal"
             android:textColor="@color/black"
             android:textSize="15sp"
-            android:id="@+id/labelAlamat"
+            android:id="@+id/tvAlamat"
             android:fontFamily="@font/poppins_bold"
-            app:layout_constraintTop_toBottomOf="@id/etPekerjaan"
+            app:layout_constraintTop_toBottomOf="@id/etKabupaten"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginTop="15dp"
             android:layout_marginStart="20dp"
@@ -329,7 +389,7 @@
             android:textColor="@color/black"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/labelAlamat"
+            app:layout_constraintTop_toBottomOf="@id/tvAlamat"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
             android:background="@drawable/edit_text_border"
@@ -342,11 +402,11 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Nama Tempat Usaha"
+            android:text="Desa Tujuan"
             android:textStyle="normal"
             android:textColor="@color/black"
             android:textSize="15sp"
-            android:id="@+id/labelNamaUsaha"
+            android:id="@+id/tvDesaTujuan"
             android:fontFamily="@font/poppins_bold"
             app:layout_constraintTop_toBottomOf="@id/etAlamat"
             app:layout_constraintStart_toStartOf="parent"
@@ -356,11 +416,11 @@
         <EditText
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:id="@+id/etNamaTempatUsaha"
+            android:id="@+id/etDesaTujuan"
             android:textColor="@color/black"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/labelNamaUsaha"
+            app:layout_constraintTop_toBottomOf="@id/tvDesaTujuan"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
             android:background="@drawable/edit_text_border"
@@ -373,13 +433,13 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Jenis Usaha"
+            android:text="RT Tujuan"
             android:textStyle="normal"
             android:textColor="@color/black"
             android:textSize="15sp"
-            android:id="@+id/labelJenisUsaha"
+            android:id="@+id/tvRtTujuan"
             android:fontFamily="@font/poppins_bold"
-            app:layout_constraintTop_toBottomOf="@id/etNamaTempatUsaha"
+            app:layout_constraintTop_toBottomOf="@id/etDesaTujuan"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginTop="15dp"
             android:layout_marginStart="20dp"
@@ -387,11 +447,11 @@
         <EditText
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:id="@+id/etJenisUsaha"
+            android:id="@+id/etRtTujuan"
             android:textColor="@color/black"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/labelJenisUsaha"
+            app:layout_constraintTop_toBottomOf="@id/tvRtTujuan"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
             android:background="@drawable/edit_text_border"
@@ -404,13 +464,13 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Alamat Usaha"
+            android:text="RW Tujuan"
             android:textStyle="normal"
             android:textColor="@color/black"
             android:textSize="15sp"
-            android:id="@+id/labelAlamatUsaha"
+            android:id="@+id/tvRwTujuan"
             android:fontFamily="@font/poppins_bold"
-            app:layout_constraintTop_toBottomOf="@id/etJenisUsaha"
+            app:layout_constraintTop_toBottomOf="@id/etRtTujuan"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginTop="15dp"
             android:layout_marginStart="20dp"
@@ -418,11 +478,11 @@
         <EditText
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:id="@+id/etAlamatUsaha"
+            android:id="@+id/etRwTujuan"
             android:textColor="@color/black"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/labelAlamatUsaha"
+            app:layout_constraintTop_toBottomOf="@id/tvRwTujuan"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
             android:background="@drawable/edit_text_border"
@@ -435,13 +495,13 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Pemilik Usaha"
+            android:text="Jalan Tujuan"
             android:textStyle="normal"
             android:textColor="@color/black"
             android:textSize="15sp"
-            android:id="@+id/labelPemilikUsaha"
+            android:id="@+id/tvJalanTujuan"
             android:fontFamily="@font/poppins_bold"
-            app:layout_constraintTop_toBottomOf="@id/etAlamatUsaha"
+            app:layout_constraintTop_toBottomOf="@id/etRwTujuan"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginTop="15dp"
             android:layout_marginStart="20dp"
@@ -449,11 +509,105 @@
         <EditText
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:id="@+id/etPemilikUsaha"
+            android:id="@+id/etJalanTujuan"
             android:textColor="@color/black"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/labelPemilikUsaha"
+            app:layout_constraintTop_toBottomOf="@id/tvJalanTujuan"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/edit_text_border"
+
+
+            android:paddingStart="8dp"
+            android:layout_marginTop="5dp"
+
+            android:textColorHint="@color/abu_abu_modern"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Kecamatan Tujuan"
+            android:textStyle="normal"
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            android:id="@+id/tvKecamatanTujuan"
+            android:fontFamily="@font/poppins_bold"
+            app:layout_constraintTop_toBottomOf="@id/etJalanTujuan"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="15dp"
+            android:layout_marginStart="20dp"
+            />
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/etKecamatanTujuan"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvKecamatanTujuan"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/edit_text_border"
+
+
+            android:paddingStart="8dp"
+            android:layout_marginTop="5dp"
+
+            android:textColorHint="@color/abu_abu_modern"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Kabupaten Tujuan"
+            android:textStyle="normal"
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            android:id="@+id/tvKabupatenTujuan"
+            android:fontFamily="@font/poppins_bold"
+            app:layout_constraintTop_toBottomOf="@id/etKecamatanTujuan"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="15dp"
+            android:layout_marginStart="20dp"
+            />
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/etKabupatenTujuan"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvKabupatenTujuan"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/edit_text_border"
+
+
+            android:paddingStart="8dp"
+            android:layout_marginTop="5dp"
+
+            android:textColorHint="@color/abu_abu_modern"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Provinsi Tujuan"
+            android:textStyle="normal"
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            android:id="@+id/tvProvinsiTujuan"
+            android:fontFamily="@font/poppins_bold"
+            app:layout_constraintTop_toBottomOf="@id/etKabupatenTujuan"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="15dp"
+            android:layout_marginStart="20dp"
+            />
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/etProvinsiTujuan"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvProvinsiTujuan"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
             android:background="@drawable/edit_text_border"
@@ -472,7 +626,7 @@
             android:textSize="15sp"
             android:id="@+id/tvKeterangan"
             android:fontFamily="@font/poppins_bold"
-            app:layout_constraintTop_toBottomOf="@id/etPemilikUsaha"
+            app:layout_constraintTop_toBottomOf="@id/etProvinsiTujuan"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginTop="15dp"
             android:layout_marginStart="20dp"
@@ -495,7 +649,6 @@
             android:paddingStart="8dp"
             android:layout_marginTop="5dp"
             android:textColorHint="@color/abu_abu_modern"/>
-
         <ProgressBar
             android:id="@+id/progressBar"
             android:layout_width="wrap_content"
@@ -504,7 +657,9 @@
             android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/btnAjukan"/>
+            app:layout_constraintBottom_toTopOf="@id/btnAjukan"/>
+
+
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnAjukan"
             android:layout_width="0dp"
@@ -524,6 +679,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.52"
             app:layout_constraintStart_toStartOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.core.widget.NestedScrollView>

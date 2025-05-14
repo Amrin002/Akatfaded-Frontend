@@ -23,6 +23,8 @@ import com.localclasstech.layanandesa.databinding.FragmentLayananBinding
 import com.localclasstech.layanandesa.feature.layanan.data.DataClassCardSurat
 import com.localclasstech.layanandesa.feature.layanan.data.repository.SuratDomisiliRepository
 import com.localclasstech.layanandesa.feature.layanan.data.repository.SuratKtmRepository
+import com.localclasstech.layanandesa.feature.layanan.data.repository.SuratKtuRepository
+import com.localclasstech.layanandesa.feature.layanan.data.repository.SuratPindahRepository
 import com.localclasstech.layanandesa.feature.layanan.view.helper.surathelper.SuratKtmAdater
 import com.localclasstech.layanandesa.feature.layanan.viewmodel.LayananViewModel
 import com.localclasstech.layanandesa.feature.layanan.viewmodel.LayananViewModelFactory
@@ -32,8 +34,12 @@ import com.localclasstech.layanandesa.network.RetrofitClient
 import com.localclasstech.layanandesa.settings.PreferencesHelper
 import com.localclasstech.layanandesa.settings.utils.Constant
 import com.localclasstech.layanandesa.feature.layanan.view.helper.surathelper.SuratDomisiliAdapter
+import com.localclasstech.layanandesa.feature.layanan.view.helper.surathelper.SuratDomisilipindahAdapter
+import com.localclasstech.layanandesa.feature.layanan.view.helper.surathelper.SuratKtuAdapter
 import com.localclasstech.layanandesa.feature.layanan.view.surat.SuratDomisiliFragment
 import com.localclasstech.layanandesa.feature.layanan.view.surat.SuratKtmFragment
+import com.localclasstech.layanandesa.feature.layanan.view.surat.SuratKtuFragment
+import com.localclasstech.layanandesa.feature.layanan.view.surat.SuratPindahdomisiliFragment
 
 
 class LayananFragment : Fragment() {
@@ -66,7 +72,9 @@ class LayananFragment : Fragment() {
             this,
             LayananViewModelFactory(
                 SuratKtmRepository(RetrofitClient.suratApiService, preferencesHelper),
-                SuratDomisiliRepository(RetrofitClient.suratApiService, preferencesHelper)
+                SuratDomisiliRepository(RetrofitClient.suratApiService, preferencesHelper),
+                SuratPindahRepository(RetrofitClient.suratApiService, preferencesHelper),
+                SuratKtuRepository(RetrofitClient.suratApiService, preferencesHelper)
             )
         )[LayananViewModel::class.java]
     }
@@ -101,6 +109,8 @@ class LayananFragment : Fragment() {
         // Mengambil data surat dari server
         viewModel.fetchSuratKtmByUser(id)
         viewModel.fetchSuratDomisiliByUser(id)
+        viewModel.fetchSuratPindahByUser(id)
+        viewModel.fetchSuratKtuByUser(id)
     }
 
     private fun observeLoadingState() {
@@ -171,6 +181,46 @@ class LayananFragment : Fragment() {
             this.adapter = adapterDomisili
             visibility = View.GONE // Sembunyikan recycler view saat awal
         }
+        // Setup for Surat Pindah Adapter
+        val adapterPindah = SuratDomisilipindahAdapter(
+            cardSuratList = emptyList(),
+            object : SuratDomisilipindahAdapter.OnAdapterListener {
+                override fun onClick(cardSuratList: DataClassCardSurat) {
+                    navigateToDetailSuratPindah(cardSuratList.id)
+                }
+
+                override fun onUpdate(cardSuratList: DataClassCardSurat) {
+                    TODO("Not yet implemented")
+                }
+
+            }
+        )
+        binding.recyclerViewSuratItemPindah.apply {
+            layoutManager = LinearLayoutManager(requireContext())
+            this.adapter = adapterPindah
+            visibility = View.GONE // Initially hidden
+        }
+
+        // Setup for Surat KTU Adapter
+        val adapterKtu = SuratKtuAdapter(
+            cardSuratList = emptyList(),
+            object : SuratKtuAdapter.OnAdapterListener {
+                override fun onClick(cardSuratList: DataClassCardSurat) {
+                    navigateToDetailSuratKtu(cardSuratList.id)
+                }
+
+                override fun onUpdate(cardSuratList: DataClassCardSurat) {
+                    TODO("Not yet implemented")
+                }
+
+
+            }
+        )
+        binding.recyclerViewSuratItemKtu.apply {
+            layoutManager = LinearLayoutManager(requireContext())
+            this.adapter = adapterKtu
+            visibility = View.GONE // Initially hidden
+        }
     }
 
     private fun navigateToDetailSuratDomisili(suratId: Int) {
@@ -212,7 +262,47 @@ class LayananFragment : Fragment() {
             .commit()
     }
 
+    private fun navigateToDetailSuratPindah(suratId: Int) {
+        val bundle = Bundle().apply {
+            putInt("id_surat", suratId)
+            putInt("type", Constant.TYPE_DETAIL)
+        }
+        val fragment = SuratPindahdomisiliFragment().apply {
+            arguments = bundle
+        }
+        parentFragmentManager.beginTransaction()
+            .replace(R.id.fragmentView, fragment)
+            .addToBackStack(null)
+            .commit()
+    }
 
+    private fun navigateToDetailSuratKtu(suratId: Int) {
+        val bundle = Bundle().apply {
+            putInt("id_surat", suratId)
+            putInt("type", Constant.TYPE_DETAIL)
+        }
+        val fragment = SuratKtuFragment().apply {
+            arguments = bundle
+        }
+        parentFragmentManager.beginTransaction()
+            .replace(R.id.fragmentView, fragment)
+            .addToBackStack(null)
+            .commit()
+    }
+
+    private fun navigateToDetailSuratPindahDomisili(suratId: Int){
+        val bundle = Bundle().apply {
+            putInt("id_surat", suratId)
+            putInt("type", Constant.TYPE_DETAIL)
+        }
+        val fragment = SuratPindahdomisiliFragment().apply {
+            arguments = bundle
+        }
+        parentFragmentManager.beginTransaction()
+            .replace(R.id.fragmentView, fragment)
+            .addToBackStack(null)
+            .commit()
+    }
 
     /**
      * Fungsi untuk mengatur perilaku dropdown surat
@@ -250,6 +340,26 @@ class LayananFragment : Fragment() {
             )
             Log.d("RecyclerDebug", "RecyclerView Toggled: ${if (isRecyclerVisibleDomisili) "Visible" else "Gone"}")
         }
+        var isRecyclerVisibleKtu = false
+        binding.layoutFilterSktu.setOnClickListener {
+            isRecyclerVisibleKtu = !isRecyclerVisibleKtu
+            binding.recyclerViewSuratItemKtu.visibility =
+                if (isRecyclerVisibleKtu) View.VISIBLE else View.GONE
+            binding.dropdownSuratKtu.setImageResource(
+                if (isRecyclerVisibleKtu) R.drawable.ic_dropdown_close else R.drawable.ic_dropdown
+            )
+        }
+
+        var isRecyclerVisiblePindah = false
+        binding.layoutFilterSdomisiliPindah.setOnClickListener {
+            isRecyclerVisiblePindah = !isRecyclerVisiblePindah
+            binding.recyclerViewSuratItemPindah.visibility =
+                if (isRecyclerVisiblePindah) View.VISIBLE else View.GONE
+            binding.dropdownSuratDomisiliPindah.setImageResource(
+                if (isRecyclerVisiblePindah) R.drawable.ic_dropdown_close else R.drawable.ic_dropdown
+            )
+        }
+
     }
 
     /**
@@ -292,6 +402,26 @@ class LayananFragment : Fragment() {
             }
 
         }
+        viewModel.suratListPindah.observe(viewLifecycleOwner) { list ->
+            Log.d("RecyclerDebugPindah", "Jumlah surat pindah masuk: ${list.size}")
+            (binding.recyclerViewSuratItemPindah.adapter as SuratDomisilipindahAdapter).updateDataDomisiliPindah(list)
+            binding.tvJumlahSuratDomisiliPindah.text = "(${list.size})"
+            val isRecyclerVisible = binding.recyclerViewSuratItemPindah.visibility == View.VISIBLE
+            if (isRecyclerVisible && list.isEmpty()) {
+                binding.recyclerViewSuratItemPindah.visibility = View.GONE
+            }
+        }
+
+        viewModel.suratListKtu.observe(viewLifecycleOwner) { list ->
+            Log.d("RecyclerDebugKtu", "Jumlah surat KTU masuk: ${list.size}")
+            (binding.recyclerViewSuratItemKtu.adapter as SuratKtuAdapter).updateDataKtu(list)
+            binding.tvJumlahSuratKtu.text = "(${list.size})"
+            val isRecyclerVisible = binding.recyclerViewSuratItemKtu.visibility == View.VISIBLE
+            if (isRecyclerVisible && list.isEmpty()) {
+                binding.recyclerViewSuratItemKtu.visibility = View.GONE
+            }
+        }
+
     }
 
     /**
@@ -337,6 +467,7 @@ class LayananFragment : Fragment() {
         val btnKtu = dialogView.findViewById<AppCompatButton>(R.id.addSuratKtu)
         val btnLainnya = dialogView.findViewById<AppCompatButton>(R.id.addSuratLainnya)
         val btnClose = dialogView.findViewById<AppCompatImageButton>(R.id.closeBtn)
+        val btnPindah = dialogView.findViewById<AppCompatButton>(R.id.addSuratPindah)
 
         // Tombol surat domisili
         btnDomisili.setOnClickListener {
@@ -354,7 +485,14 @@ class LayananFragment : Fragment() {
 
         // Tombol surat KTU
         btnKtu.setOnClickListener {
+            navigateToCreateSuratKtu(Constant.TYPE_CREATE)
             Toast.makeText(requireContext(), "Surat KTU dipilih", Toast.LENGTH_SHORT).show()
+            dialog.dismiss()
+        }
+
+        btnPindah.setOnClickListener {
+            navigateToCreateSuratDomisliPindah(Constant.TYPE_CREATE)
+            Toast.makeText(requireContext(), "Surat Pindah Domisili dipilih", Toast.LENGTH_SHORT).show()
             dialog.dismiss()
         }
 
@@ -399,6 +537,41 @@ class LayananFragment : Fragment() {
 
         // Buat instance fragment baru dengan bundle
         val fragment = SuratDomisiliFragment().apply {
+            arguments = bundle
+        }
+
+        // Navigasi ke fragment pembuatan surat
+        parentFragmentManager.beginTransaction()
+            .replace(R.id.fragmentView, fragment)
+            .addToBackStack(null)
+            .commit()
+    }
+    private fun navigateToCreateSuratDomisliPindah(type: Int) {
+        // Siapkan bundle dengan tipe operasi
+        val bundle = Bundle().apply {
+            putInt("type", type)
+        }
+
+        // Buat instance fragment baru dengan bundle
+        val fragment = SuratPindahdomisiliFragment().apply {
+            arguments = bundle
+        }
+
+        // Navigasi ke fragment pembuatan surat
+        parentFragmentManager.beginTransaction()
+            .replace(R.id.fragmentView, fragment)
+            .addToBackStack(null)
+            .commit()
+    }
+
+    private fun navigateToCreateSuratKtu(type: Int) {
+        // Siapkan bundle dengan tipe operasi
+        val bundle = Bundle().apply {
+            putInt("type", type)
+        }
+
+        // Buat instance fragment baru dengan bundle
+        val fragment = SuratKtuFragment().apply {
             arguments = bundle
         }
 

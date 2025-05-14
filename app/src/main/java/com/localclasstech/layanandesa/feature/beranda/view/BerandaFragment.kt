@@ -29,6 +29,7 @@ import com.localclasstech.layanandesa.feature.beranda.viewmodel.BerandaViewModel
 import com.localclasstech.layanandesa.feature.beranda.viewmodel.BerandaViewModelFactory
 import com.localclasstech.layanandesa.feature.berita.view.DetailBeritaFragment
 import com.localclasstech.layanandesa.settings.PreferencesHelper
+import com.localclasstech.layanandesa.settings.utils.UrlConstant
 
 class BerandaFragment : Fragment() {
 
@@ -112,8 +113,7 @@ class BerandaFragment : Fragment() {
         }
 
         loginViewModel.image.observe(viewLifecycleOwner) { image ->
-            val baseUrl = "http://192.168.56.1:8000/storage/" //ingat untuk selalu di ganti ketika memulai project
-            val fullImageUrl = if (image.startsWith("http")) image else baseUrl + image
+            val fullImageUrl = UrlConstant.getValidImageUrl(image)
 
             if (!image.isNullOrEmpty()) {
                 Glide.with(this)

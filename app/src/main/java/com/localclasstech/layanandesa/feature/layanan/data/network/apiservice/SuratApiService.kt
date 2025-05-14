@@ -6,6 +6,10 @@ import com.localclasstech.layanandesa.feature.layanan.data.network.data.suratdom
 import com.localclasstech.layanandesa.feature.layanan.data.network.data.suratdomisili.SuratDomisiliResponse
 import com.localclasstech.layanandesa.feature.layanan.data.network.data.suratktm.CreateSktmRequest
 import com.localclasstech.layanandesa.feature.layanan.data.network.data.suratktm.SktmResponse
+import com.localclasstech.layanandesa.feature.layanan.data.network.data.suratktu.CreateSuratKtuRequest
+import com.localclasstech.layanandesa.feature.layanan.data.network.data.suratktu.SuratKtuResponse
+import com.localclasstech.layanandesa.feature.layanan.data.network.data.suratpindahdomisili.CreateSuratPindahRequest
+import com.localclasstech.layanandesa.feature.layanan.data.network.data.suratpindahdomisili.SuratPindahResponse
 import okhttp3.ResponseBody
 import retrofit2.Response
 import retrofit2.http.Body
@@ -92,6 +96,94 @@ interface SuratApiService {
     // Untuk mendapatkan URL download Surat Domisili
     @GET("api/suratdomisili/{id}/get-download-url")
     suspend fun getDownloadUrlDomisili(
+        @Header("Authorization") token: String,
+        @Path("id") id: Int
+    ): Response<DownloadUrlResponse>
+
+//    Surat Pindah
+@POST("api/suratpindah")
+suspend fun createSuratPindah(
+    @Header("Authorization") token: String,
+    @Body request: CreateSuratPindahRequest
+): Response<BaseResponse<SuratPindahResponse>>
+
+    @GET("api/suratpindah")
+    suspend fun getSuratPindahByUser(
+        @Header("Authorization") token: String,
+    ): Response<BaseResponse<List<SuratPindahResponse>>>
+
+    @GET("api/suratpindah/{id}")
+    suspend fun getDetailSuratPindahById(
+        @Header("Authorization") token: String,
+        @Path("id") id: Int
+    ): Response<BaseResponse<SuratPindahResponse>>
+
+    @PUT("api/suratpindah/{id}")
+    suspend fun updateSuratPindah(
+        @Header("Authorization") token: String,
+        @Path("id") id: Int,
+        @Body request: CreateSuratPindahRequest
+    ): Response<BaseResponse<SuratPindahResponse>>
+
+    @DELETE("api/suratpindah/{id}")
+    suspend fun deleteSuratPindah(
+        @Header("Authorization") token: String,
+        @Path("id") id: Int
+    ): Response<BaseResponse<String>>
+
+    @GET("api/suratpindah/{id}/export")
+    @Streaming
+    suspend fun exportPdfSuratPindah(
+        @Header("Authorization") token: String,
+        @Path("id") id: Int
+    ): Response<ResponseBody>
+
+    @GET("api/suratpindah/{id}/get-download-url")
+    suspend fun getDownloadUrlSuratPindah(
+        @Header("Authorization") token: String,
+        @Path("id") id: Int
+    ): Response<DownloadUrlResponse>
+
+    //Surat KTU
+    @POST("api/suratktu")
+    suspend fun createSuratKtu(
+        @Header("Authorization") token: String,
+        @Body request: CreateSuratKtuRequest
+    ): Response<BaseResponse<SuratKtuResponse>>
+
+    @GET("api/suratktu")
+    suspend fun getSuratKtuByUser(
+        @Header("Authorization") token: String
+    ): Response<BaseResponse<List<SuratKtuResponse>>>
+
+    @GET("api/suratktu/{id}")
+    suspend fun getDetailSuratKtuById(
+        @Header("Authorization") token: String,
+        @Path("id") id: Int
+    ): Response<BaseResponse<SuratKtuResponse>>
+
+    @PUT("api/suratktu/{id}")
+    suspend fun updateSuratKtu(
+        @Header("Authorization") token: String,
+        @Path("id") id: Int,
+        @Body request: CreateSuratKtuRequest
+    ): Response<BaseResponse<SuratKtuResponse>>
+
+    @DELETE("api/suratktu/{id}")
+    suspend fun deleteSuratKtu(
+        @Header("Authorization") token: String,
+        @Path("id") id: Int
+    ): Response<BaseResponse<String>>
+
+    @GET("api/suratktu/{id}/export")
+    @Streaming
+    suspend fun exportPdfSuratKtu(
+        @Header("Authorization") token: String,
+        @Path("id") id: Int
+    ): Response<ResponseBody>
+
+    @GET("api/suratktu/{id}/get-download-url")
+    suspend fun getDownloadUrlSuratKtu(
         @Header("Authorization") token: String,
         @Path("id") id: Int
     ): Response<DownloadUrlResponse>

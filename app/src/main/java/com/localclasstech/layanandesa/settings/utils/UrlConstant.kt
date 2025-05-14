@@ -7,7 +7,7 @@ import java.net.URL
 object UrlConstant {
     private const val TAG = "UrlConstant"
     // Base URL untuk API
-    const val BASE_URL = "http://192.168.56.1:8000/"
+    const val BASE_URL = "https://a584-180-253-184-50.ngrok-free.app/"
 
     // Base URL untuk gambar (mengarah ke direktori storage Laravel)
     const val IMAGE_BASE_URL = "${BASE_URL}storage/"

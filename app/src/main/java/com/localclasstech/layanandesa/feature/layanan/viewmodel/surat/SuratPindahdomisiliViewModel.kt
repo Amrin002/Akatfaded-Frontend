@@ -5,15 +5,16 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.localclasstech.layanandesa.feature.layanan.data.network.data.suratktu.CreateSuratKtuRequest
-import com.localclasstech.layanandesa.feature.layanan.data.network.data.suratktu.SuratKtuResponse
-import com.localclasstech.layanandesa.feature.layanan.data.repository.SuratKtuRepository
+import com.localclasstech.layanandesa.feature.layanan.data.network.data.suratpindahdomisili.CreateSuratPindahRequest
+import com.localclasstech.layanandesa.feature.layanan.data.network.data.suratpindahdomisili.SuratPindahResponse
+import com.localclasstech.layanandesa.feature.layanan.data.repository.SuratPindahRepository
 import kotlinx.coroutines.launch
 import okhttp3.ResponseBody
 
-class SuratKtuViewModel(private val repository: SuratKtuRepository) : ViewModel() {
-    private val _detailSuratKtu = MutableLiveData<SuratKtuResponse>()
-    val detailSuratKtu: LiveData<SuratKtuResponse> get() = _detailSuratKtu
+class SuratPindahdomisiliViewModel(private val repository: SuratPindahRepository) : ViewModel() {
+
+    private val _detailSuratPindah = MutableLiveData<SuratPindahResponse>()
+    val detailSuratPindah: LiveData<SuratPindahResponse> get() = _detailSuratPindah
 
     private val _operationResult = MutableLiveData<Boolean>()
     val operationResult: LiveData<Boolean> get() = _operationResult
@@ -27,28 +28,26 @@ class SuratKtuViewModel(private val repository: SuratKtuRepository) : ViewModel(
     private val _pdfDownloadResult = MutableLiveData<Pair<Boolean, ResponseBody?>>()
     val pdfDownloadResult: LiveData<Pair<Boolean, ResponseBody?>> get() = _pdfDownloadResult
 
-    // Fetch Surat KTU Detail
-    fun fetchSuratKtuDetail(id: Int) {
+    fun fetchSuratPindahDetail(id: Int) {
         viewModelScope.launch {
             try {
-                val response = repository.getDetailSuratKtuById(id)
+                val response = repository.getDetailSuratPindahById(id)
                 if (response.isSuccessful && response.body() != null) {
-                    _detailSuratKtu.postValue(response.body()?.data)
+                    _detailSuratPindah.postValue(response.body()?.data)
                 } else {
                     _error.postValue("Gagal memuat detail surat: ${response.message()}")
                 }
             } catch (e: Exception) {
                 _error.postValue("Error: ${e.message}")
-                Log.e("SuratKtuViewModel", "Exception: ${e.message}")
+                Log.e("SuratPindahViewModel", "Exception: ${e.message}")
             }
         }
     }
 
-    // Create Surat KTU
-    fun createSuratKtu(suratKtuRequest: CreateSuratKtuRequest) {
+    fun createSuratPindah(suratPindahRequest: CreateSuratPindahRequest) {
         viewModelScope.launch {
             try {
-                val response = repository.createSuratKtu(suratKtuRequest)
+                val response = repository.createSuratPindah(suratPindahRequest)
                 if (response.isSuccessful) {
                     _operationResult.postValue(true)
                 } else {
@@ -58,16 +57,15 @@ class SuratKtuViewModel(private val repository: SuratKtuRepository) : ViewModel(
             } catch (e: Exception) {
                 _error.postValue("Error: ${e.message}")
                 _operationResult.postValue(false)
-                Log.e("SuratKtuViewModel", "Exception: ${e.message}")
+                Log.e("SuratPindahViewModel", "Exception: ${e.message}")
             }
         }
     }
 
-    // Update Surat KTU
-    fun updateSuratKtu(id: Int, suratKtuRequest: CreateSuratKtuRequest) {
+    fun updateSuratPindah(id: Int, suratPindahRequest: CreateSuratPindahRequest) {
         viewModelScope.launch {
             try {
-                val response = repository.updateSuratKtu(id, suratKtuRequest)
+                val response = repository.updateSuratPindah(id, suratPindahRequest)
                 if (response.isSuccessful) {
                     _operationResult.postValue(true)
                 } else {
@@ -77,16 +75,15 @@ class SuratKtuViewModel(private val repository: SuratKtuRepository) : ViewModel(
             } catch (e: Exception) {
                 _error.postValue("Error: ${e.message}")
                 _operationResult.postValue(false)
-                Log.e("SuratKtuViewModel", "Exception: ${e.message}")
+                Log.e("SuratPindahViewModel", "Exception: ${e.message}")
             }
         }
     }
 
-    // Delete Surat KTU
-    fun deleteSuratKtu(id: Int) {
+    fun deleteSuratPindah(id: Int) {
         viewModelScope.launch {
             try {
-                val response = repository.deleteSuratKtu(id)
+                val response = repository.deleteSuratPindah(id)
                 if (response.isSuccessful) {
                     _deleteResult.postValue(true)
                 } else {
@@ -96,19 +93,18 @@ class SuratKtuViewModel(private val repository: SuratKtuRepository) : ViewModel(
             } catch (e: Exception) {
                 _error.postValue("Error: ${e.message}")
                 _deleteResult.postValue(false)
-                Log.e("SuratKtuViewModel", "Exception during delete: ${e.message}")
+                Log.e("SuratPindahViewModel", "Exception during delete: ${e.message}")
             }
         }
     }
 
-    // Get Download URL for Surat KTU
     private val _downloadUrlResult = MutableLiveData<DownloadUrlResult>()
     val downloadUrlResult: LiveData<DownloadUrlResult> = _downloadUrlResult
 
     fun getDownloadUrl(id: Int) {
         viewModelScope.launch {
             try {
-                val response = repository.getDownloadUrlSuratKtu(id)
+                val response = repository.getDownloadUrl(id)
 
                 if (response.isSuccessful && response.body() != null) {
                     val downloadUrl = response.body()?.download_url
@@ -126,23 +122,22 @@ class SuratKtuViewModel(private val repository: SuratKtuRepository) : ViewModel(
 
     data class DownloadUrlResult(val success: Boolean, val downloadUrl: String?)
 
-    // Export PDF for Surat KTU
-    fun exportPdfSuratKtu(id: Int) {
+    fun exportPdfSuratPindah(id: Int) {
         viewModelScope.launch {
             try {
-                val response = repository.exportPdfSuratKtu(id)
+                val response = repository.exportPdfSuratPindah(id)
 
                 if (response.isSuccessful && response.body() != null) {
                     _pdfDownloadResult.postValue(Pair(true, response.body()))
                 } else {
                     _error.postValue("Gagal mengunduh PDF: ${response.message()}")
                     _pdfDownloadResult.postValue(Pair(false, null))
-                    Log.e("SuratKtuViewModel", "PDF export failed: ${response.message()}")
+                    Log.e("SuratPindahViewModel", "PDF export failed: ${response.message()}")
                 }
             } catch (e: Exception) {
                 _error.postValue("Error: ${e.message}")
                 _pdfDownloadResult.postValue(Pair(false, null))
-                Log.e("SuratKtuViewModel", "Exception during PDF export: ${e.message}")
+                Log.e("SuratPindahViewModel", "Exception during PDF export: ${e.message}")
             }
         }
     }

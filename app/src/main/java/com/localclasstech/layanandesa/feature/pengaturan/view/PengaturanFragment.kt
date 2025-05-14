@@ -37,6 +37,7 @@ import com.localclasstech.layanandesa.feature.pengaturan.viewmodel.SharedThemeVi
 import com.localclasstech.layanandesa.network.ApiService
 import com.localclasstech.layanandesa.network.RetrofitClient
 import com.localclasstech.layanandesa.settings.PreferencesHelper
+import com.localclasstech.layanandesa.settings.utils.UrlConstant
 import com.localclasstech.layanandesa.view.getstarted.GetstartedActivity
 
 class PengaturanFragment : Fragment() {
@@ -92,8 +93,8 @@ class PengaturanFragment : Fragment() {
             }
         }
         loginViewModel.image.observe(viewLifecycleOwner) { image ->
-            val baseUrl = "http://192.168.56.1:8000/storage/" //ingat untuk selalu di ganti ketika memulai project
-            val fullImageUrl = if (image.startsWith("http")) image else baseUrl + image
+
+            val fullImageUrl = UrlConstant.getValidImageUrl(image)
 
             Log.d("Profile Image", "Full URL: $image")
 
@@ -119,7 +120,6 @@ class PengaturanFragment : Fragment() {
                 message = "Apakah anda yakin ingin keluar?",
                 onConfirm = {
                     viewModel.confirmLogout()
-                    navigateToLogin()
                     Log.d("PengaturanVM", "login_mode cleared? ${preferencesHelper.getLoginMode() == null}")
                 }
             )
@@ -139,12 +139,7 @@ class PengaturanFragment : Fragment() {
     private fun observeViewModel() {
         viewModel.logoutEvent.observe(viewLifecycleOwner) { shouldLogout ->
             if (shouldLogout) {
-                // Clear semua aktivitas dan mulai LoginActivity
-                val intent = Intent(requireContext(), LoginActivity::class.java).apply {
-                    flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                }
-                startActivity(intent)
-                activity?.finish()
+                navigateToLogin()
             }
         }
     }
