@@ -26,7 +26,7 @@ Aplikasi menyediakan dua tampilan UI yang dapat dipilih sesuai preferensi penggu
 
 ## 🔧 Teknologi yang Digunakan
 
-- **Backend**: Laravel 10 + Laravel Sanctum (untuk autentikasi)  
+- **Backend**: Laravel 11 + Laravel Sanctum (untuk autentikasi)  
 - **Frontend Web (Admin Panel & Landing Page)**: Laravel Blade + Bootstrap  
 - **Aplikasi Android**: Kotlin + Android XML
 - **Database**: Firebase Firestore untuk data real-time  
