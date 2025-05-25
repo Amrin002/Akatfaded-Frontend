@@ -171,6 +171,23 @@ class SuratKtuFragment : Fragment() {
             }
         }
 
+        viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
+            binding.btnAjukan.isEnabled = !isLoading
+            binding.progressBarButton.visibility = if (isLoading) View.VISIBLE else View.GONE
+            binding.btnAjukan.text = if (isLoading) "" else when(type){
+                Constant.TYPE_CREATE -> "Ajukan Surat KTU"
+                Constant.TYPE_UPDATE -> "Perbarui Surat KTU"
+                Constant.TYPE_DETAIL -> "Unduh Surat"
+                else -> ""
+            }
+
+        }
+        viewModel.error.observe(viewLifecycleOwner) { errorMessage ->
+            if (!errorMessage.isNullOrEmpty()) {
+                Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_LONG).show()
+            }
+        }
+
         viewModel.detailSuratKtu.observe(viewLifecycleOwner) { dataSktu ->
             if (dataSktu != null && (type == Constant.TYPE_DETAIL || type == Constant.TYPE_UPDATE)) {
                 // Isi form dengan data dari detail surat
@@ -274,14 +291,14 @@ class SuratKtuFragment : Fragment() {
 
     private fun downloadPdf(idSurat: Int) {
         // Show loading indicator
-        binding.progressBar.visibility = View.VISIBLE
+       // binding.progressBar.visibility = View.VISIBLE
 
         // Get the download URL from your API
         viewModel.getDownloadUrl(idSurat)
 
         // Observe the result
         viewModel.downloadUrlResult.observe(viewLifecycleOwner) { result ->
-            binding.progressBar.visibility = View.GONE
+          //  binding.progressBar.visibility = View.GONE
 
             if (result.success && result.downloadUrl != null) {
                 // Open the URL directly in a browser or PDF viewer

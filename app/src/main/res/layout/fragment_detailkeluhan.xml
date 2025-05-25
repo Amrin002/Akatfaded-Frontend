@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".feature.keluhan.view.DetailkeluhanFragment">
+
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_back_button"
+        android:background="@color/transparant"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="20dp"
+        android:id="@+id/btnBack"
+        android:layout_marginTop="20dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvKeluhan"
+        android:text="Detail Keluhan"
+        android:textColor="@color/black"
+        android:fontFamily="@font/poppins_bold"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        app:layout_constraintStart_toEndOf="@id/btnBack"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="23dp"
+        android:layout_marginStart="10dp"/>
+
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/btnDeleteKeluhan"
+        android:src="@drawable/ic_delete_surat"
+        android:background="@color/transparant"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tvKeluhan"
+        app:layout_constraintBottom_toBottomOf="@id/tvKeluhan"
+        android:layout_marginEnd="10dp"/>
+
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/btnEditKeluhan"
+        android:src="@drawable/ic_edit"
+        android:background="@color/transparant"
+        app:layout_constraintEnd_toStartOf="@id/btnDeleteKeluhan"
+        app:layout_constraintTop_toTopOf="@id/tvKeluhan"
+        app:layout_constraintBottom_toBottomOf="@id/tvKeluhan"
+        android:layout_marginEnd="10dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Judul"
+            android:textStyle="normal"
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            android:id="@+id/labelNama"
+            android:fontFamily="@font/poppins_bold"
+            android:layout_marginTop="30dp"
+            app:layout_constraintTop_toBottomOf="@id/btnBack"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="20dp"/>
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:id="@+id/etJudul"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/labelNama"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/edit_text_border"
+            android:paddingStart="8dp"
+            android:layout_marginTop="5dp"
+            android:maxLength="30"
+            android:maxLines="1"
+            android:textColorHint="@color/abu_abu_modern"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Isi Keluhan"
+            android:textStyle="normal"
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            android:id="@+id/labelTl"
+            android:fontFamily="@font/poppins_bold"
+            app:layout_constraintTop_toBottomOf="@id/etJudul"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="15dp"
+            android:layout_marginStart="20dp"/>
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="120dp"
+            android:textColor="@color/black"
+            android:id="@+id/etIsiKeluhan"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/labelTl"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/edit_text_border"
+            android:paddingStart="8dp"
+            android:layout_marginTop="5dp"
+            android:textAlignment="textStart"
+            android:textColorHint="@color/abu_abu_modern"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnAjukan"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="50dp"
+            android:layout_marginBottom="30dp"
+            android:background="@drawable/backgroundbuttonloginguest"
+            android:fontFamily="@font/poppins_bold"
+            android:text="Ajukan"
+            android:textAllCaps="false"
+            android:textColor="@color/colorBtnPrimary"
+            android:textSize="20sp"
+            android:textStyle="bold"
+
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>
+

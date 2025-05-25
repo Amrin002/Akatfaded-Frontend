@@ -64,14 +64,8 @@ class LoginViewModel(val context: Context) : ViewModel() {
         }
         _isLoading.value = true
 
-        //periksa apakah menggunakan hardcoded
-        if (isHardcodedLogin(nik, password)){
-            //jika hardcoded
-            performHardcodedLogin()
-        }else{
-            //jika bukan
-            performApiLogin(nik, password)
-        }
+        performApiLogin(nik, password)
+
     }
     //login hardcoded
     private fun performHardcodedLogin() {

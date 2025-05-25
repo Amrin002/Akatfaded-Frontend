@@ -213,6 +213,11 @@ class SuratKtmFragment : Fragment() {
                 Toast.makeText(requireContext(), "Gagal menghapus surat", Toast.LENGTH_SHORT).show()
             }
         }
+        viewModel.error.observe(viewLifecycleOwner) { errorMessage ->
+            if (!errorMessage.isNullOrEmpty()) {
+                Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_LONG).show()
+            }
+        }
         viewModel.detailSuratKtm.observe(viewLifecycleOwner) { dataSktm ->
             if (dataSktm != null && (type == Constant.TYPE_DETAIL || type == Constant.TYPE_UPDATE)) {
                 // Fill form with existing data
@@ -252,6 +257,16 @@ class SuratKtmFragment : Fragment() {
                         binding.btnAjukan.visibility = View.GONE
                     }
                 }
+            }
+        }
+        viewModel.isLoading.observe(viewLifecycleOwner){ isLoading->
+            binding.btnAjukan.isEnabled = !isLoading
+            binding.progressBarButton.visibility = if (isLoading) View.VISIBLE else View.GONE
+            binding.btnAjukan.text = if (isLoading) "" else when(type){
+                Constant.TYPE_CREATE -> "Ajukan Surat"
+                Constant.TYPE_DETAIL -> "Unduh Surat"
+                Constant.TYPE_UPDATE -> "Perbarui Surat"
+                else -> "Ajukan"
             }
         }
     }
@@ -306,14 +321,14 @@ class SuratKtmFragment : Fragment() {
     }
     private fun downloadPdf(idSurat: Int) {
         // Show loading indicator
-        binding.progressBar.visibility = View.VISIBLE
+        //binding.progressBar.visibility = View.VISIBLE
 
         // Get the download URL from your API
         viewModel.getDownloadUrl(idSurat)
 
         // Observe the result
         viewModel.downloadUrlResult.observe(viewLifecycleOwner) { result ->
-            binding.progressBar.visibility = View.GONE
+           // binding.progressBar.visibility = View.GONE
 
             if (result.success && result.downloadUrl != null) {
                 // Open the URL directly in a browser or PDF viewer

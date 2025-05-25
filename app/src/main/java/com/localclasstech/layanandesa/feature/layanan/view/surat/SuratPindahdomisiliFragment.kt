@@ -31,6 +31,7 @@ class SuratPindahdomisiliFragment : Fragment() {
     private var _binding: FragmentSuratPindahdomisiliBinding? = null
     private val binding get() = _binding!!
 
+    private var type = Constant.TYPE_CREATE
 
     companion object {
         fun newInstance() = SuratPindahdomisiliFragment()
@@ -147,9 +148,8 @@ class SuratPindahdomisiliFragment : Fragment() {
                 binding.etKabupatenTujuan.isEnabled = true
                 binding.etProvinsiTujuan.isEnabled = true
                 binding.etKeterangan.isEnabled = true
-
+                binding.btnAjukan.text = "Perbarui Surat"
                 // Show submit button with update text
-                binding.btnAjukan.text = "Perbarui Surat Pindah Domisili"
                 binding.btnAjukan.visibility = View.VISIBLE
             }
             Constant.TYPE_CREATE -> {
@@ -179,9 +179,8 @@ class SuratPindahdomisiliFragment : Fragment() {
                 binding.etKabupatenTujuan.isEnabled = true
                 binding.etProvinsiTujuan.isEnabled = true
                 binding.etKeterangan.isEnabled = true
-
+                binding.btnAjukan.text = "Ajukan Surat"
                 // Show submit button with appropriate text
-                binding.btnAjukan.text = "Ajukan Surat Pindah Domisili"
                 binding.btnAjukan.visibility = View.VISIBLE
             }
         }
@@ -274,14 +273,14 @@ class SuratPindahdomisiliFragment : Fragment() {
     }
     private fun downloadPdf(idSurat: Int) {
         // Show loading indicator
-        binding.progressBar.visibility = View.VISIBLE
+
 
         // Get the download URL from your API
         viewModel.getDownloadUrl(idSurat)
 
         // Observe the result
         viewModel.downloadUrlResult.observe(viewLifecycleOwner) { result ->
-            binding.progressBar.visibility = View.GONE
+
 
             if (result.success && result.downloadUrl != null) {
                 // Open the URL directly in a browser or PDF viewer
@@ -302,6 +301,11 @@ class SuratPindahdomisiliFragment : Fragment() {
                 parentFragmentManager.popBackStack()
             } else {
                 Toast.makeText(requireContext(), "Gagal menghapus surat", Toast.LENGTH_SHORT).show()
+            }
+        }
+        viewModel.error.observe(viewLifecycleOwner) { errorMessage ->
+            if (!errorMessage.isNullOrEmpty()) {
+                Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_LONG).show()
             }
         }
         viewModel.detailSuratPindah.observe(viewLifecycleOwner) { dataSuratPindah ->
@@ -353,6 +357,19 @@ class SuratPindahdomisiliFragment : Fragment() {
             }
 
         }
+
+
+        viewModel.isLoading.observe(viewLifecycleOwner){ isLoading->
+            binding.btnAjukan.isEnabled = !isLoading
+            binding.progressBarButton.visibility = if (isLoading) View.VISIBLE else View.GONE
+            binding.btnAjukan.text = if(isLoading) "" else when (type) {
+                Constant.TYPE_CREATE -> "Ajukan Surat"
+                Constant.TYPE_UPDATE -> "Perbarui Surat"
+                Constant.TYPE_DETAIL -> "Unduh Surat"
+                else -> "Ajukan"
+            }
+
+        }
     }
 
     private fun setupSpinner() {
@@ -371,6 +388,23 @@ class SuratPindahdomisiliFragment : Fragment() {
             }
         }
     }
+    private fun setLoadingButton(isLoading: Boolean) {
+        binding.btnAjukan.isEnabled = !isLoading
+        if (isLoading) {
+            binding.btnAjukan.text = ""
+            binding.progressBarButton.visibility = View.VISIBLE
+        } else {
+            binding.progressBarButton.visibility = View.GONE
+            // Reset teks tombol sesuai tipe saat ini (bisa simpan currentType di class)
+            binding.btnAjukan.text = when (type) {
+                Constant.TYPE_CREATE -> "Ajukan Surat"
+                Constant.TYPE_UPDATE -> "Perbarui Surat"
+                Constant.TYPE_DETAIL -> "Unduh Surat"
+                else -> "Ajukan"
+            }
+        }
+    }
+
     // And update the showDeleteConfirmationDialog method to use the helper
     private fun showDeleteConfirmationDialog(idSurat: Int) {
         DialogHelper.showConfirmationDialog(

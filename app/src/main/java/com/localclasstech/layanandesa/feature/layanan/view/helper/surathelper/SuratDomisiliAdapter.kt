@@ -16,7 +16,7 @@ class SuratDomisiliAdapter(private var cardSuratList: List<DataClassCardSurat>, 
             binding.tvTanggalPembuatan.text = DateUtils.formatDate(cardSurat.tanggalPembuatan)
             // Translate status to Indonesian
             val statusIndonesia = when (cardSurat.statusSurat) {
-                "On Progress" -> "Sedang Diproses"
+                "On Progress" -> "Diproses"
                 "Approve" -> "Disetujui"
                 "Cancel" -> "Dibatalkan"
                 else -> cardSurat.statusSurat

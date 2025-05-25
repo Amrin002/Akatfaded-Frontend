@@ -111,6 +111,14 @@ class LayananFragment : Fragment() {
         viewModel.fetchSuratDomisiliByUser(id)
         viewModel.fetchSuratPindahByUser(id)
         viewModel.fetchSuratKtuByUser(id)
+
+        binding.swipeRefreshLayanan.setOnRefreshListener {
+            viewModel.fetchSuratKtmByUser(id)
+            viewModel.fetchSuratDomisiliByUser(id)
+            viewModel.fetchSuratPindahByUser(id)
+            viewModel.fetchSuratKtuByUser(id)
+        }
+
     }
 
     private fun observeLoadingState() {
@@ -123,21 +131,29 @@ class LayananFragment : Fragment() {
                 // Hide recyclerviews and filter layouts during loading
                 binding.recyclerViewSuratItemKtm.visibility = View.GONE
                 binding.recyclerViewSuratItemDomisili.visibility = View.GONE
+                binding.recyclerViewSuratItemKtu.visibility = View.GONE
+                binding.recyclerViewSuratItemPindah.visibility = View.GONE
 
                 // Hide filter layouts
                 binding.layoutFilterSktm.visibility = View.GONE
                 binding.layoutFilterSdomisili.visibility = View.GONE
+                binding.layoutFilterSktu.visibility = View.GONE
+                binding.layoutFilterSdomisiliPindah.visibility = View.GONE
             } else {
                 // Hide shimmer effect
                 binding.shimmerLayoutSurat.stopShimmer()
                 binding.shimmerLayoutSurat.visibility = View.GONE
 
+
                 // Show filter layouts after loading is complete
                 binding.layoutFilterSktm.visibility = View.VISIBLE
                 binding.layoutFilterSdomisili.visibility = View.VISIBLE
+                binding.layoutFilterSktu.visibility = View.VISIBLE
+                binding.layoutFilterSdomisiliPindah.visibility = View.VISIBLE
 
                 // RecyclerViews will be managed by dropdown behavior
             }
+            binding.swipeRefreshLayanan.isRefreshing = false
         }
     }
 
@@ -322,8 +338,8 @@ class LayananFragment : Fragment() {
 
             // Ubah ikon dropdown sesuai status
             binding.dropdownSurat.setImageResource(
-                if (isRecyclerVisible) R.drawable.ic_dropdown_close
-                else R.drawable.ic_dropdown
+                if (isRecyclerVisible) R.drawable.ic_dropdown
+                else R.drawable.ic_dropdown_close
             )
 
             Log.d("RecyclerDebug", "RecyclerView Toggled: ${if (isRecyclerVisible) "Visible" else "Gone"}")
@@ -335,8 +351,8 @@ class LayananFragment : Fragment() {
             binding.recyclerViewSuratItemDomisili.visibility =
                 if (isRecyclerVisibleDomisili) View.VISIBLE else View.GONE
             binding.dropdownSuratDomisili.setImageResource(
-                if (isRecyclerVisibleDomisili) R.drawable.ic_dropdown_close
-                else R.drawable.ic_dropdown
+                if (isRecyclerVisibleDomisili) R.drawable.ic_dropdown
+                else R.drawable.ic_dropdown_close
             )
             Log.d("RecyclerDebug", "RecyclerView Toggled: ${if (isRecyclerVisibleDomisili) "Visible" else "Gone"}")
         }
@@ -346,7 +362,7 @@ class LayananFragment : Fragment() {
             binding.recyclerViewSuratItemKtu.visibility =
                 if (isRecyclerVisibleKtu) View.VISIBLE else View.GONE
             binding.dropdownSuratKtu.setImageResource(
-                if (isRecyclerVisibleKtu) R.drawable.ic_dropdown_close else R.drawable.ic_dropdown
+                if (isRecyclerVisibleKtu) R.drawable.ic_dropdown else R.drawable.ic_dropdown_close
             )
         }
 
@@ -356,7 +372,7 @@ class LayananFragment : Fragment() {
             binding.recyclerViewSuratItemPindah.visibility =
                 if (isRecyclerVisiblePindah) View.VISIBLE else View.GONE
             binding.dropdownSuratDomisiliPindah.setImageResource(
-                if (isRecyclerVisiblePindah) R.drawable.ic_dropdown_close else R.drawable.ic_dropdown
+                if (isRecyclerVisiblePindah) R.drawable.ic_dropdown else R.drawable.ic_dropdown_close
             )
         }
 
@@ -387,6 +403,8 @@ class LayananFragment : Fragment() {
         viewModel.error.observe(viewLifecycleOwner) { errorMsg ->
             if (!errorMsg.isNullOrEmpty()) {
                 Toast.makeText(requireContext(), errorMsg, Toast.LENGTH_SHORT).show()
+
+                binding.swipeRefreshLayanan.isRefreshing = false
             }
         }
 

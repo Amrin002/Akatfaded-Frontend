@@ -137,6 +137,9 @@ class ForgetPasswordViewModel : ViewModel() {
         val passValue = _password.value.orEmpty()
         val confirmValue = _confirmPassword.value.orEmpty()
 
+        // Menambahkan log untuk memeriksa nilai input sebelum validasi
+        Log.d(TAG, "Email: $emailValue, OTP: $otpValue, Password: $passValue, Confirm Password: $confirmValue")
+
         if (emailValue.isBlank() || otpValue.isBlank() || passValue.isBlank() || confirmValue.isBlank()) {
             _errorMessage.value = "Semua field harus diisi"
             Log.e(TAG, "Form reset kosong")
@@ -152,6 +155,7 @@ class ForgetPasswordViewModel : ViewModel() {
         _isResettingPassword.value = true
         Log.d(TAG, "Mengirim permintaan reset password untuk: $emailValue")
 
+        // Proses request untuk reset password
         val request = ResetPasswordOtpRequest(
             email = emailValue,
             otp = otpValue,
@@ -184,4 +188,5 @@ class ForgetPasswordViewModel : ViewModel() {
                 }
             })
     }
+
 }

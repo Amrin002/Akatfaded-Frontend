@@ -29,10 +29,16 @@ class MainActivity : AppCompatActivity() {
         enableEdgeToEdge()
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+        // Menggunakan WindowInsetsListener untuk menangani padding
+        ViewCompat.setOnApplyWindowInsetsListener(binding.bottomNavigation) { v, insets ->
+            // Mendapatkan insets untuk systemBars dan navigationBars
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
+            val navigationBars = insets.getInsets(WindowInsetsCompat.Type.navigationBars())
+
+            // Menyesuaikan padding untuk BottomNavigationView
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, navigationBars.bottom)
+
+            insets // Mengembalikan insets yang dimodifikasi
         }
         val sharedPreferences = getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
         val loginMode = sharedPreferences.getString("login_mode", null)
@@ -50,7 +56,7 @@ class MainActivity : AppCompatActivity() {
             ViewTreeObserver.OnGlobalLayoutListener {
             override fun onGlobalLayout() {
                 bottomNavigation.viewTreeObserver.removeOnGlobalLayoutListener(this)
-                animateIndicator(activeIndicator, 0) // Atur indikator di posisi tab pertama (index 0)
+                //animateIndicator(activeIndicator, 0) // Atur indikator di posisi tab pertama (index 0)
             }
         })
 
@@ -79,19 +85,25 @@ class MainActivity : AppCompatActivity() {
                     0
                 }
             }
-            animateIndicator(activeIndicator, selectedIndex)
+//            animateIndicator(activeIndicator, selectedIndex)
             true
         }
     }
-    fun animateIndicator(indicator: View, index: Int) {
-        val bottomNavigation =binding.bottomNavigation
-        val menuView = bottomNavigation.getChildAt(0) as ViewGroup
-        val itemWidth = menuView.getChildAt(index).width
-        val translationX = (menuView.getChildAt(index).left + itemWidth / 1.30) - (indicator.width / 1.30)
+//    fun animateIndicator(indicator: View, index: Int) {
+//        val bottomNavigation = binding.bottomNavigation
+//        val menuView = bottomNavigation.getChildAt(0) as ViewGroup
+//        val item = menuView.getChildAt(index)
+//        val itemWidth = item.width
+//
+//        // Menghitung posisi X yang lebih presisi
+//        val itemLeft = item.left
+//        val translationX = itemLeft + (itemWidth - indicator.width) / 2
+//
+//        // Menampilkan indikator
+//        indicator.visibility = View.VISIBLE
+//        indicator.animate().translationX(translationX.toFloat()).setDuration(200).start()
+//    }
 
-        indicator.visibility = View.VISIBLE
-        indicator.animate().translationX(translationX.toFloat()).setDuration(200).start()
-    }
     private fun showToast(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }

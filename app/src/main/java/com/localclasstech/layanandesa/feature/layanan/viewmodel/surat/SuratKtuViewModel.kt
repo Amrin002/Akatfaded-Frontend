@@ -24,12 +24,16 @@ class SuratKtuViewModel(private val repository: SuratKtuRepository) : ViewModel(
     private val _deleteResult = MutableLiveData<Boolean>()
     val deleteResult: LiveData<Boolean> get() = _deleteResult
 
+    private val _isLoading = MutableLiveData<Boolean>()
+    val isLoading: LiveData<Boolean> get() = _isLoading
+
     private val _pdfDownloadResult = MutableLiveData<Pair<Boolean, ResponseBody?>>()
     val pdfDownloadResult: LiveData<Pair<Boolean, ResponseBody?>> get() = _pdfDownloadResult
 
     // Fetch Surat KTU Detail
     fun fetchSuratKtuDetail(id: Int) {
         viewModelScope.launch {
+            _isLoading.postValue(true)
             try {
                 val response = repository.getDetailSuratKtuById(id)
                 if (response.isSuccessful && response.body() != null) {
@@ -41,12 +45,16 @@ class SuratKtuViewModel(private val repository: SuratKtuRepository) : ViewModel(
                 _error.postValue("Error: ${e.message}")
                 Log.e("SuratKtuViewModel", "Exception: ${e.message}")
             }
+            finally {
+                _isLoading.postValue(false)
+            }
         }
     }
 
     // Create Surat KTU
     fun createSuratKtu(suratKtuRequest: CreateSuratKtuRequest) {
         viewModelScope.launch {
+            _isLoading.postValue(true)
             try {
                 val response = repository.createSuratKtu(suratKtuRequest)
                 if (response.isSuccessful) {
@@ -60,13 +68,18 @@ class SuratKtuViewModel(private val repository: SuratKtuRepository) : ViewModel(
                 _operationResult.postValue(false)
                 Log.e("SuratKtuViewModel", "Exception: ${e.message}")
             }
+            finally {
+                _isLoading.postValue(false)
+            }
         }
     }
 
     // Update Surat KTU
     fun updateSuratKtu(id: Int, suratKtuRequest: CreateSuratKtuRequest) {
         viewModelScope.launch {
+            _isLoading.postValue(true)
             try {
+
                 val response = repository.updateSuratKtu(id, suratKtuRequest)
                 if (response.isSuccessful) {
                     _operationResult.postValue(true)
@@ -78,6 +91,9 @@ class SuratKtuViewModel(private val repository: SuratKtuRepository) : ViewModel(
                 _error.postValue("Error: ${e.message}")
                 _operationResult.postValue(false)
                 Log.e("SuratKtuViewModel", "Exception: ${e.message}")
+            }
+            finally {
+                _isLoading.postValue(false)
             }
         }
     }
@@ -107,6 +123,7 @@ class SuratKtuViewModel(private val repository: SuratKtuRepository) : ViewModel(
 
     fun getDownloadUrl(id: Int) {
         viewModelScope.launch {
+            _isLoading.postValue(true)
             try {
                 val response = repository.getDownloadUrlSuratKtu(id)
 
@@ -120,6 +137,9 @@ class SuratKtuViewModel(private val repository: SuratKtuRepository) : ViewModel(
             } catch (e: Exception) {
                 _error.postValue("Error: ${e.message}")
                 _downloadUrlResult.postValue(DownloadUrlResult(false, null))
+            }
+            finally {
+                _isLoading.postValue(false)
             }
         }
     }

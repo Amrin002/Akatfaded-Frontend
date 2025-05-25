@@ -20,7 +20,7 @@ class SuratDomisilipindahAdapter(private var cardSuratList: List<DataClassCardSu
 
             // Translate status to Indonesian
             val statusIndonesia = when (cardSurat.statusSurat) {
-                "On Progress" -> "Sedang Diproses"
+                "On Progress" -> "Diproses"
                 "Approve" -> "Disetujui"
                 "Cancel" -> "Dibatalkan"
                 else -> cardSurat.statusSurat

@@ -151,14 +151,14 @@ class SuratDomisiliFragment : Fragment() {
     // Tambahkan method downloadPdf yang sama seperti di SuratKtmFragment
     private fun downloadPdf(idSurat: Int) {
         // Tampilkan indikator loading
-        binding.progressBar.visibility = View.VISIBLE
+        //binding.progressBar.visibility = View.VISIBLE
 
         // Dapatkan URL download dari API
         viewModel.getDownloadUrl(idSurat)
 
         // Observasi hasilnya
         viewModel.downloadUrlResult.observe(viewLifecycleOwner) { result ->
-            binding.progressBar.visibility = View.GONE
+//            binding.progressBar.visibility = View.GONE
 
             if (result.success && result.downloadUrl != null) {
                 // Buka URL secara langsung di browser atau PDF viewer
@@ -212,6 +212,7 @@ class SuratDomisiliFragment : Fragment() {
             binding.btnEditSurat.visibility= View.GONE
             binding.btnDeleteSurat.visibility= View.GONE
             binding.btnAjukan.visibility = View.VISIBLE
+            binding.btnAjukan.text = "Ajukan Surat"
         }Constant.TYPE_UPDATE->{
 
             binding.etNama.isEnabled = true
@@ -226,7 +227,7 @@ class SuratDomisiliFragment : Fragment() {
             binding.btnAjukan.visibility = View.VISIBLE
             binding.btnEditSurat.visibility= View.GONE
             binding.btnDeleteSurat.visibility= View.GONE
-            binding.btnAjukan.text = "Perbarui Surat Domisili"
+            binding.btnAjukan.text = "Perbarui Surat"
         }
         }
     }
@@ -300,6 +301,17 @@ class SuratDomisiliFragment : Fragment() {
                 Toast.makeText(requireContext(), "PDF berhasil diunduh", Toast.LENGTH_SHORT).show()
             } else {
                 Toast.makeText(requireContext(), "Gagal mengunduh PDF", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
+            binding.btnAjukan.isEnabled = !isLoading
+            binding.progressBarButton.visibility = if (isLoading) View.VISIBLE else View.GONE
+            binding.btnAjukan.text = if (isLoading) "" else when(type){
+                Constant.TYPE_CREATE -> "Ajukan Surat"
+                Constant.TYPE_UPDATE -> "Perbarui Surat"
+                Constant.TYPE_DETAIL -> "Unduh Surat"
+                else -> "Ajukan"
             }
         }
     }

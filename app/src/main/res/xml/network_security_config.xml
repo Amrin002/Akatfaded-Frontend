@@ -2,7 +2,7 @@
 <network-security-config>
     <domain-config cleartextTrafficPermitted="true">
 <!--        Ini setiap masuk ubah ip-->
-        <domain includeSubdomains="true">192.168.56.1</domain>
+        <domain includeSubdomains="true">https://93fe-180-253-184-50.ngrok-free.apps</domain>
 
     </domain-config>
 </network-security-config>

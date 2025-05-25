@@ -27,7 +27,10 @@ import com.localclasstech.layanandesa.databinding.FragmentBerandaBinding
 import com.localclasstech.layanandesa.feature.beranda.view.helper.BeritaBerandaAdapterHelper
 import com.localclasstech.layanandesa.feature.beranda.viewmodel.BerandaViewModel
 import com.localclasstech.layanandesa.feature.beranda.viewmodel.BerandaViewModelFactory
+import com.localclasstech.layanandesa.feature.berita.view.BeritaFragment
 import com.localclasstech.layanandesa.feature.berita.view.DetailBeritaFragment
+import com.localclasstech.layanandesa.feature.keluhan.view.KeluhanFragment
+import com.localclasstech.layanandesa.feature.layanan.view.LayananFragment
 import com.localclasstech.layanandesa.settings.PreferencesHelper
 import com.localclasstech.layanandesa.settings.utils.UrlConstant
 
@@ -143,15 +146,24 @@ class BerandaFragment : Fragment() {
     private fun setupNavigasi() {
         binding.btnBerita.setOnClickListener {
             //
+            loadFragment(BeritaFragment())
+            Toast.makeText(requireContext(), "Berita", Toast.LENGTH_SHORT).show()
         }
         binding.btnKeluhan.setOnClickListener {
             //
+            loadFragment(KeluhanFragment())
+
+            Toast.makeText(requireContext(), "Keluhan", Toast.LENGTH_SHORT).show()
         }
         binding.btnPengaduanSurat.setOnClickListener {
             //
+            loadFragment(LayananFragment())
+            Toast.makeText(requireContext(), "Pengaduan Surat", Toast.LENGTH_SHORT).show()
         }
         binding.btnTransparansiApbdes.setOnClickListener {
             //
+
+            Toast.makeText(requireContext(), "Transparansi APBDES", Toast.LENGTH_SHORT).show()
         }
 
     }
@@ -159,6 +171,12 @@ class BerandaFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+    }
+    private fun loadFragment(fragment: Fragment){
+        parentFragmentManager.beginTransaction()
+            .replace(R.id.fragmentView, fragment)
+            .commit()
+
     }
 
 }

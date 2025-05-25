@@ -25,11 +25,20 @@ class SuratPindahdomisiliViewModel(private val repository: SuratPindahRepository
     private val _deleteResult = MutableLiveData<Boolean>()
     val deleteResult: LiveData<Boolean> get() = _deleteResult
 
+    private val _isLoading = MutableLiveData<Boolean>()
+    val isLoading: LiveData<Boolean> get() = _isLoading
+
     private val _pdfDownloadResult = MutableLiveData<Pair<Boolean, ResponseBody?>>()
     val pdfDownloadResult: LiveData<Pair<Boolean, ResponseBody?>> get() = _pdfDownloadResult
 
+    private val _downloadUrlResult = MutableLiveData<DownloadUrlResult>()
+    val downloadUrlResult: LiveData<DownloadUrlResult> = _downloadUrlResult
+
+    data class DownloadUrlResult(val success: Boolean, val downloadUrl: String?)
+
     fun fetchSuratPindahDetail(id: Int) {
         viewModelScope.launch {
+            _isLoading.postValue(true)
             try {
                 val response = repository.getDetailSuratPindahById(id)
                 if (response.isSuccessful && response.body() != null) {
@@ -40,12 +49,15 @@ class SuratPindahdomisiliViewModel(private val repository: SuratPindahRepository
             } catch (e: Exception) {
                 _error.postValue("Error: ${e.message}")
                 Log.e("SuratPindahViewModel", "Exception: ${e.message}")
+            } finally {
+                _isLoading.postValue(false)
             }
         }
     }
 
     fun createSuratPindah(suratPindahRequest: CreateSuratPindahRequest) {
         viewModelScope.launch {
+            _isLoading.postValue(true)
             try {
                 val response = repository.createSuratPindah(suratPindahRequest)
                 if (response.isSuccessful) {
@@ -58,12 +70,15 @@ class SuratPindahdomisiliViewModel(private val repository: SuratPindahRepository
                 _error.postValue("Error: ${e.message}")
                 _operationResult.postValue(false)
                 Log.e("SuratPindahViewModel", "Exception: ${e.message}")
+            } finally {
+                _isLoading.postValue(false)
             }
         }
     }
 
     fun updateSuratPindah(id: Int, suratPindahRequest: CreateSuratPindahRequest) {
         viewModelScope.launch {
+            _isLoading.postValue(true)
             try {
                 val response = repository.updateSuratPindah(id, suratPindahRequest)
                 if (response.isSuccessful) {
@@ -76,12 +91,15 @@ class SuratPindahdomisiliViewModel(private val repository: SuratPindahRepository
                 _error.postValue("Error: ${e.message}")
                 _operationResult.postValue(false)
                 Log.e("SuratPindahViewModel", "Exception: ${e.message}")
+            } finally {
+                _isLoading.postValue(false)
             }
         }
     }
 
     fun deleteSuratPindah(id: Int) {
         viewModelScope.launch {
+            _isLoading.postValue(true)
             try {
                 val response = repository.deleteSuratPindah(id)
                 if (response.isSuccessful) {
@@ -94,18 +112,17 @@ class SuratPindahdomisiliViewModel(private val repository: SuratPindahRepository
                 _error.postValue("Error: ${e.message}")
                 _deleteResult.postValue(false)
                 Log.e("SuratPindahViewModel", "Exception during delete: ${e.message}")
+            } finally {
+                _isLoading.postValue(false)
             }
         }
     }
 
-    private val _downloadUrlResult = MutableLiveData<DownloadUrlResult>()
-    val downloadUrlResult: LiveData<DownloadUrlResult> = _downloadUrlResult
-
     fun getDownloadUrl(id: Int) {
         viewModelScope.launch {
+            _isLoading.postValue(true)
             try {
                 val response = repository.getDownloadUrl(id)
-
                 if (response.isSuccessful && response.body() != null) {
                     val downloadUrl = response.body()?.download_url
                     _downloadUrlResult.postValue(DownloadUrlResult(true, downloadUrl))
@@ -116,29 +133,11 @@ class SuratPindahdomisiliViewModel(private val repository: SuratPindahRepository
             } catch (e: Exception) {
                 _error.postValue("Error: ${e.message}")
                 _downloadUrlResult.postValue(DownloadUrlResult(false, null))
+            } finally {
+                _isLoading.postValue(false)
             }
         }
     }
 
-    data class DownloadUrlResult(val success: Boolean, val downloadUrl: String?)
-
-    fun exportPdfSuratPindah(id: Int) {
-        viewModelScope.launch {
-            try {
-                val response = repository.exportPdfSuratPindah(id)
-
-                if (response.isSuccessful && response.body() != null) {
-                    _pdfDownloadResult.postValue(Pair(true, response.body()))
-                } else {
-                    _error.postValue("Gagal mengunduh PDF: ${response.message()}")
-                    _pdfDownloadResult.postValue(Pair(false, null))
-                    Log.e("SuratPindahViewModel", "PDF export failed: ${response.message()}")
-                }
-            } catch (e: Exception) {
-                _error.postValue("Error: ${e.message}")
-                _pdfDownloadResult.postValue(Pair(false, null))
-                Log.e("SuratPindahViewModel", "Exception during PDF export: ${e.message}")
-            }
-        }
-    }
 }
+

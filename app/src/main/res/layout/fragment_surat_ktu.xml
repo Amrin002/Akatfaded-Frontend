@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/tvSuratKtm"
 
-            android:text="Surat Keterangan Tepat Usaha"
+            android:text="Surat Tempat Usaha"
             android:textColor="@color/black"
             android:fontFamily="@font/poppins_bold"
             android:textStyle="bold"
@@ -39,11 +39,10 @@
             android:id="@+id/btnEditSurat"
             android:src="@drawable/ic_edit"
             android:background="@color/transparant"
-            app:layout_constraintEnd_toEndOf="@id/btnDeleteSurat"
-            app:layout_constraintStart_toEndOf="@id/tvSuratKtm"
+            app:layout_constraintEnd_toStartOf="@id/btnDeleteSurat"
             app:layout_constraintTop_toTopOf="@id/tvSuratKtm"
             app:layout_constraintBottom_toBottomOf="@id/tvSuratKtm"
-            android:layout_marginEnd="30dp"
+            android:layout_marginEnd="10dp"
             android:layout_marginStart="10dp"/>
         <androidx.appcompat.widget.AppCompatImageButton
             android:layout_width="wrap_content"
@@ -496,34 +495,40 @@
             android:layout_marginTop="5dp"
             android:textColorHint="@color/abu_abu_modern"/>
 
-        <ProgressBar
-            android:id="@+id/progressBar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:visibility="gone"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/btnAjukan"/>
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btnAjukan"
+        <FrameLayout
+            android:id="@+id/button_container"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="50dp"
             android:layout_marginBottom="16dp"
-            android:background="@drawable/backgroundbuttonloginguest"
-            android:fontFamily="@font/poppins_bold"
-            android:text="Ajukan"
-            android:textAllCaps="false"
-            android:textColor="@color/colorBtnPrimary"
-            android:textSize="20sp"
-            android:textStyle="bold"
             android:layout_marginTop="20dp"
             app:layout_constraintTop_toBottomOf="@id/etKeterangan"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.52"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnAjukan"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/backgroundbuttonloginguest"
+                android:fontFamily="@font/poppins_bold"
+                android:text="Ajukan"
+                android:textAllCaps="false"
+                android:textColor="@color/colorBtnPrimary"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                />
+
+            <ProgressBar
+                android:id="@+id/progressBarButton"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center"
+                android:visibility="gone"
+                android:indeterminate="true" />
+
+        </FrameLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.core.widget.NestedScrollView>

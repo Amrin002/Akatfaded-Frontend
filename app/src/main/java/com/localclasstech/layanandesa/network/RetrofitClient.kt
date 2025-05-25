@@ -1,6 +1,7 @@
 package com.localclasstech.layanandesa.network
 
 import com.localclasstech.layanandesa.feature.berita.data.network.BeritaApiService
+import com.localclasstech.layanandesa.feature.keluhan.data.network.KeluhanApiService
 import com.localclasstech.layanandesa.feature.layanan.data.network.apiservice.SuratApiService
 import com.localclasstech.layanandesa.settings.utils.UrlConstant
 import okhttp3.OkHttpClient
@@ -52,5 +53,13 @@ object RetrofitClient {
             .client(client)
             .build()
             .create(BeritaApiService::class.java)
+    }
+    val keluhanApiService: KeluhanApiService by lazy {
+        Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .client(client)
+            .build()
+            .create(KeluhanApiService::class.java)
     }
 }

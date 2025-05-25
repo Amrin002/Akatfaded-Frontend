@@ -23,6 +23,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.localclasstech.layanandesa.R
 import com.localclasstech.layanandesa.auth.view.LoginActivity
@@ -37,6 +38,7 @@ import com.localclasstech.layanandesa.feature.pengaturan.viewmodel.SharedThemeVi
 import com.localclasstech.layanandesa.network.ApiService
 import com.localclasstech.layanandesa.network.RetrofitClient
 import com.localclasstech.layanandesa.settings.PreferencesHelper
+import com.localclasstech.layanandesa.settings.utils.DialogHelper
 import com.localclasstech.layanandesa.settings.utils.UrlConstant
 import com.localclasstech.layanandesa.view.getstarted.GetstartedActivity
 
@@ -102,7 +104,10 @@ class PengaturanFragment : Fragment() {
                 Glide.with(this)
                     .load(fullImageUrl)
                     .transform(CircleCrop())
+                    .skipMemoryCache(false)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .into(binding.imageProfile)
+
             } else {
                binding.imageProfile.setImageResource(R.drawable.ic_profile_default)
             }
@@ -115,15 +120,18 @@ class PengaturanFragment : Fragment() {
             transaction.commit()
         }
 
-        binding.layoutLogout.setOnClickListener{
-            showCustomDialog(
-                message = "Apakah anda yakin ingin keluar?",
+        binding.layoutLogout.setOnClickListener {
+            DialogHelper.showConfirmationDialog(
+                context = requireContext(),
+                message = "Apakah Anda yakin ingin keluar?",
                 onConfirm = {
+                    // Melakukan aksi logout
                     viewModel.confirmLogout()
                     Log.d("PengaturanVM", "login_mode cleared? ${preferencesHelper.getLoginMode() == null}")
                 }
             )
         }
+
 
     }
 

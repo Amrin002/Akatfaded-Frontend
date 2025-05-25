@@ -45,6 +45,7 @@ object ImageLoader {
                     .override(800, 600) // Tetapkan ukuran maksimum
                     .centerCrop() // Potong gambar agar sesuai
                     .diskCacheStrategy(DiskCacheStrategy.ALL) // Simpan cache
+                    .skipMemoryCache(false)
                     .listener(object : RequestListener<Drawable> {
                         override fun onLoadFailed(
                             e: GlideException?,

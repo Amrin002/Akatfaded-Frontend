@@ -7,6 +7,7 @@
     android:layout_height="match_parent"
     tools:context=".view.MainActivity"
     android:background="@color/white"
+    android:fitsSystemWindows="true"
     android:theme="@style/Base.Theme.LayananDesa"
     >
 
@@ -24,8 +25,9 @@
     <FrameLayout
         android:id="@+id/bottomNavigationFrame"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_gravity="center"
+        android:fitsSystemWindows="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -43,7 +45,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:menu="@menu/bottom_navigation"
-
             android:background="@color/transparant"
             android:paddingHorizontal="20dp"
             style="@style/BottomNavView" />

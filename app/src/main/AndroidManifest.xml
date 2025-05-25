@@ -4,13 +4,13 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         android:maxSdkVersion="28" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES"/>
-    <uses-permission android:name="android.permission.READ_MEDIA_AUDIO"/>
-    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO"/>
-
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+    <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" />
+    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
 
     <application
         android:allowBackup="true"
@@ -23,6 +23,9 @@
         android:theme="@style/Theme.LayananDesa"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
+        <activity
+            android:name=".view.getstarted.InternetlostActivity"
+            android:exported="false" />
         <activity
             android:name=".feature.pengaturan.view.aboutus.BantuanActivity"
             android:exported="false" />

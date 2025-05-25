@@ -52,7 +52,7 @@ class GetstartedActivity : AppCompatActivity() {
             } else {
                 Toast.makeText(this, "Offline Mode", Toast.LENGTH_SHORT).show()
                 viewModel.setupOfflineMode() // Setup SQLite atau logika offline lainnya
-                startActivity(Intent(this, LoginActivity::class.java))
+                startActivity(Intent(this, InternetlostActivity::class.java))
                 finish()
             }
         }

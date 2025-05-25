@@ -31,10 +31,14 @@ class SuratDomisiliViewModel(private val repository: SuratDomisiliRepository) : 
     private val _downloadUrlResult = MutableLiveData<DownloadUrlResult>()
     val downloadUrlResult: LiveData<DownloadUrlResult> = _downloadUrlResult
 
+    private val _isLoading = MutableLiveData<Boolean>()
+    val isLoading: LiveData<Boolean> get() = _isLoading
+
     data class DownloadUrlResult(val success: Boolean, val downloadUrl: String?)
 
     fun fetchSuratDomisiliDetail(id: Int) {
         viewModelScope.launch {
+            _isLoading.postValue(true)
             try {
                 val response = repository.getDetailSuratDomisiliById(id)
                 if (response.isSuccessful && response.body() != null) {
@@ -45,12 +49,15 @@ class SuratDomisiliViewModel(private val repository: SuratDomisiliRepository) : 
             } catch (e: Exception) {
                 _error.postValue("Error: ${e.message}")
                 Log.e("SuratDomisiliViewModel", "Exception: ${e.message}")
+            } finally {
+                _isLoading.postValue(false)
             }
         }
     }
 
     fun createSuratDomisili(request: CreateSuratDomisiliRequest) {
         viewModelScope.launch {
+            _isLoading.postValue(true)
             try {
                 val response = repository.createSuratDomisili(request)
                 if (response.isSuccessful && response.body() != null) {
@@ -63,12 +70,15 @@ class SuratDomisiliViewModel(private val repository: SuratDomisiliRepository) : 
                 _error.postValue("Gagal membuat surat: ${e.message}")
                 _operationResult.postValue(false)
                 Log.e("SuratDomisiliViewModel", "Exception: ${e.message}")
+            } finally {
+                _isLoading.postValue(false)
             }
         }
     }
 
     fun updateSuratDomisili(id: Int, request: CreateSuratDomisiliRequest) {
         viewModelScope.launch {
+            _isLoading.postValue(true)
             try {
                 val response = repository.updateSuratDomisili(id, request)
                 if (response.isSuccessful && response.body() != null) {
@@ -81,12 +91,15 @@ class SuratDomisiliViewModel(private val repository: SuratDomisiliRepository) : 
                 _error.postValue("Gagal memperbarui surat: ${e.message}")
                 _operationResult.postValue(false)
                 Log.e("SuratDomisiliViewModel", "Error message: ${e.message}")
+            } finally {
+                _isLoading.postValue(false)
             }
         }
     }
 
     fun deleteSuratDomisili(id: Int) {
         viewModelScope.launch {
+            _isLoading.postValue(true)
             try {
                 val response = repository.deleteSuratDomisili(id)
                 if (response.isSuccessful) {
@@ -99,12 +112,15 @@ class SuratDomisiliViewModel(private val repository: SuratDomisiliRepository) : 
                 _error.postValue("Error: ${e.message}")
                 _deleteResult.postValue(false)
                 Log.e("SuratDomisiliViewModel", "Exception during delete: ${e.message}")
+            } finally {
+                _isLoading.postValue(false)
             }
         }
     }
 
     fun getDownloadUrl(id: Int) {
         viewModelScope.launch {
+            _isLoading.postValue(true)
             try {
                 val response = repository.getDownloadUrl(id)
 
@@ -120,6 +136,10 @@ class SuratDomisiliViewModel(private val repository: SuratDomisiliRepository) : 
                 _downloadUrlResult.postValue(DownloadUrlResult(false, null))
                 Log.e("SuratDomisiliViewModel", "Exception: ${e.message}")
             }
+            finally {
+                _isLoading.postValue(false)
+            }
+
         }
     }
 

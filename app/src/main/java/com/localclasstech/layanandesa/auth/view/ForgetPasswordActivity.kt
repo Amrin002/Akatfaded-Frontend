@@ -1,5 +1,6 @@
 package com.localclasstech.layanandesa.auth.view
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -13,14 +14,19 @@ import com.localclasstech.layanandesa.R
 import com.localclasstech.layanandesa.auth.viewmodel.ForgetPasswordViewModel
 import com.localclasstech.layanandesa.databinding.ActivityForgetPasswordBinding
 
+@SuppressLint("ClickableViewAccessibility")
 class ForgetPasswordActivity : AppCompatActivity() {
     private lateinit var binding: ActivityForgetPasswordBinding
     private lateinit var viewModel: ForgetPasswordViewModel
+    private var isPasswordVisible = false
+    private var isConfirmPasswordVisible = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         binding = ActivityForgetPasswordBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        val originalTypefacePassword = binding.etFpPassword.typeface
+        val originalTypefaceConfirm = binding.etFpKonfirmasiPassword.typeface
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
@@ -36,13 +42,67 @@ class ForgetPasswordActivity : AppCompatActivity() {
         binding.etFpKode.addTextChangedListener {
             viewModel.onVerificationCodeChanged(it.toString())
         }
-
         binding.etFpPassword.addTextChangedListener {
             viewModel.onPasswordChanged(it.toString())
         }
 
         binding.etFpKonfirmasiPassword.addTextChangedListener {
             viewModel.onConfirmPasswordChanged(it.toString())
+        }
+
+
+        // Handle eye icon visibility toggle for Password
+        binding.etFpPassword.setOnTouchListener { v, event ->
+            if (event.action == android.view.MotionEvent.ACTION_UP) {
+                val drawableEnd = binding.etFpPassword.compoundDrawablesRelative[2]
+                if (drawableEnd != null) {
+                    val drawableWidth = drawableEnd.bounds.width()
+                    val touchX = event.rawX.toInt()
+                    val editTextRight = binding.etFpPassword.right
+                    val clickArea = editTextRight - drawableWidth - binding.etFpPassword.paddingEnd
+                    if (touchX >= clickArea) {
+                        isPasswordVisible = !isPasswordVisible
+                        if (isPasswordVisible) {
+                            binding.etFpPassword.inputType = android.text.InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+                            binding.etFpPassword.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.ic_show_pass, 0)
+                        } else {
+                            binding.etFpPassword.inputType = android.text.InputType.TYPE_CLASS_TEXT or android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD
+                            binding.etFpPassword.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.ic_eye_block, 0)
+                        }
+                        binding.etFpPassword.typeface = originalTypefacePassword
+                        binding.etFpPassword.setSelection(binding.etFpPassword.text.length)
+                        return@setOnTouchListener true
+                    }
+                }
+            }
+            false
+        }
+
+        // Handle eye icon visibility toggle for Confirm Password
+        binding.etFpKonfirmasiPassword.setOnTouchListener { v, event ->
+            if (event.action == android.view.MotionEvent.ACTION_UP) {
+                val drawableEnd = binding.etFpKonfirmasiPassword.compoundDrawablesRelative[2]
+                if (drawableEnd != null) {
+                    val drawableWidth = drawableEnd.bounds.width()
+                    val touchX = event.rawX.toInt()
+                    val editTextRight = binding.etFpKonfirmasiPassword.right
+                    val clickArea = editTextRight - drawableWidth - binding.etFpKonfirmasiPassword.paddingEnd
+                    if (touchX >= clickArea) {
+                        isConfirmPasswordVisible = !isConfirmPasswordVisible
+                        if (isConfirmPasswordVisible) {
+                            binding.etFpKonfirmasiPassword.inputType = android.text.InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+                            binding.etFpKonfirmasiPassword.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.ic_show_pass, 0)
+                        } else {
+                            binding.etFpKonfirmasiPassword.inputType = android.text.InputType.TYPE_CLASS_TEXT or android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD
+                            binding.etFpKonfirmasiPassword.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.ic_eye_block, 0)
+                        }
+                        binding.etFpKonfirmasiPassword.typeface = originalTypefaceConfirm
+                        binding.etFpKonfirmasiPassword.setSelection(binding.etFpKonfirmasiPassword.text.length)
+                        return@setOnTouchListener true
+                    }
+                }
+            }
+            false
         }
 
         // Tombol Kembali

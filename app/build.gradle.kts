@@ -81,4 +81,10 @@ dependencies {
 //    Loading Skleton Shimer fb
     implementation(libs.shimmer)
 
+    //debuging
+    testImplementation("com.squareup.okhttp3:mockwebserver:4.9.2")
+    testImplementation ("org.junit.jupiter:junit-jupiter-api:5.7.0")
+    testImplementation ("org.junit.jupiter:junit-jupiter-engine:5.7.0")
+
+
 }
