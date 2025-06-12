@@ -74,10 +74,12 @@ class KeluhanFragment : Fragment() {
             if (isLoading){
                 binding.shimmerLayoutKeluhan.visibility = View.VISIBLE
                 binding.shimmerLayoutKeluhan.startShimmer()
+                binding.recyclerViewKeluhan.visibility = View.GONE
             }else{
                 binding.shimmerLayoutKeluhan.stopShimmer()
                 binding.shimmerLayoutKeluhan.visibility = View.GONE
                 binding.keluhanSwipeRefresh.isRefreshing = false
+                binding.recyclerViewKeluhan.visibility = View.VISIBLE
             }
             binding.keluhanSwipeRefresh.isRefreshing = false
         }

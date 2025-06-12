@@ -17,8 +17,8 @@ class KeluhanRepository(
         return "Bearer $token"
     }
 
-    suspend fun createKeluhan(request: KeluhanRequest): Response<BaseResponse<Keluhan>>{
-        return apiService.createKeluhan(getBearerToken(), request)
+    suspend fun createKeluhan(request: KeluhanRequest): Response<BaseResponse<Keluhan>> {
+        return apiService.createKeluhan(getBearerToken(), request.gambar, request.judul, request.isi)
     }
 
     suspend fun getKeluhanByUser(id: Int): Response<BaseResponse<List<Keluhan>>>{
@@ -27,10 +27,9 @@ class KeluhanRepository(
     suspend fun getDetailKeluhanById(id: Int): Response<BaseResponse<Keluhan>>{
         return apiService.getKeluhanById(getBearerToken(), id)
     }
-    suspend fun updateKeluhan(id: Int, request: KeluhanRequest):Response<BaseResponse<Keluhan>>{
-        return apiService.updateKeluhan(getBearerToken(), id, request)
+    suspend fun updateKeluhan(id: Int, request: KeluhanRequest): Response<BaseResponse<Keluhan>> {
+        return apiService.updateKeluhan(getBearerToken(), id, request.gambar, request.judul, request.isi)
     }
-
     suspend fun deleteKeluhan(id: Int):Response<BaseResponse<String>>{
         return apiService.deleteKeluhan(getBearerToken(), id)
     }

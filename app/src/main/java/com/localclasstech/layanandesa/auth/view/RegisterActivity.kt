@@ -95,7 +95,6 @@ class RegisterActivity : AppCompatActivity() {
 
 
         binding.btnRegister.setOnClickListener {
-            val name = binding.etRegisterNama.text.toString()
             val nik = binding.etRegisterNik.text.toString()
             val email = binding.etRegisterEmail.text.toString()
             val password = binding.etRegisterPassword.text.toString()
@@ -103,7 +102,6 @@ class RegisterActivity : AppCompatActivity() {
             val phone = binding.etRegisterNoTelp.text.toString()
 
             viewModel.registerUser(
-                name = name,
                 email = email,
                 nik = nik,
                 noTelp = phone,

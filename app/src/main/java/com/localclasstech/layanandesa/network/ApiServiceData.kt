@@ -18,7 +18,6 @@ data class ErrorResponse(
 data class UserResponse(
     val id: Int,
     val nik: String?,
-    val name: String?,
     @SerializedName("no_telp") val noTelp: String?,
     val email: String?,
     val password: String?,
@@ -26,7 +25,6 @@ data class UserResponse(
     val token: String?
 )
 data class RegisterRequest(
-    val name: String,
     val email: String,
     val nik: String,
     val no_telp: String,

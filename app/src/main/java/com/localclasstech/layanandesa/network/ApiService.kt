@@ -20,8 +20,6 @@ import retrofit2.http.Path
 interface ApiService {
     @POST("api/login")
     fun login(@Body request: LoginRequest): Call<LoginResponse>
-    @GET("api/user")
-    fun getUser(@Header("Authorization") authHeader: String): Call<UserResponse>
 
     @POST("api/register")
     fun register(@Body request: RegisterRequest): Call<RegisterResponse>
@@ -30,19 +28,6 @@ interface ApiService {
     @POST("api/logout")
     fun logout(): Call<Void>
 
-    // API untuk memperbarui data user
-    @Multipart
-    @PUT("api/update/{id}")
-    fun updateUser(
-        @Header("Authorization") authHeader: String,  // Perhatikan urutan ini
-        @Path("id") userId: Int,
-        @Part("name") name: RequestBody,
-        @Part("email") email: RequestBody,
-        @Part("nik") nik: RequestBody,
-        @Part("password") password: RequestBody?,
-        @Part("no_telp") noTelp: RequestBody,
-        @Part image: MultipartBody.Part?,
-    ): Call<UpdateUserResponse>
 
 //    api baru untuk update user
 @GET("api/user")
@@ -64,7 +49,6 @@ suspend fun getUserProfile(
         @Header("Authorization") token: String,
         @Path("id") userId: Int,
         @Part("_method") method: RequestBody,
-        @Part("name") name: RequestBody,
         @Part("email") email: RequestBody,
         @Part("nik") nik: RequestBody,
         @Part("no_telp") noTelp: RequestBody,

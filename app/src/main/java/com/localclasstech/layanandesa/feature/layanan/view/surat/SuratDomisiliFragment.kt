@@ -187,6 +187,10 @@ class SuratDomisiliFragment : Fragment() {
     }
 
     private fun configureUIBasedOnType(type: Int) {
+        Log.d("SuratDomisiliFragment", "configureUIBasedOnType called with type: $type")
+        Log.d("SuratDomisiliFragment", "TYPE_CREATE constant value: ${Constant.TYPE_CREATE}")
+        Log.d("SuratDomisiliFragment", "TYPE_DETAIL constant value: ${Constant.TYPE_DETAIL}")
+        Log.d("SuratDomisiliFragment", "TYPE_UPDATE constant value: ${Constant.TYPE_UPDATE}")
         when (type){
             Constant.TYPE_DETAIL -> {
                 binding.etNama.isEnabled = false
@@ -199,36 +203,37 @@ class SuratDomisiliFragment : Fragment() {
                 binding.etAlamat.isEnabled = false
                 binding.etKeterangan.isEnabled = false
                 binding.btnAjukan.visibility = View.GONE
-            }Constant.TYPE_CREATE -> {
-            binding.etNama.isEnabled = true
-            binding.etTempatLahir.isEnabled = true
-            binding.etTanggalLahir.isEnabled = true
-            binding.spinerJK.isEnabled = true
-            binding.spinerSK.isEnabled = true
-            binding.etKewarganegaraan.isEnabled = true
-            binding.etPekerjaan.isEnabled = true
-            binding.etAlamat.isEnabled = true
-            binding.etKeterangan.isEnabled = true
-            binding.btnEditSurat.visibility= View.GONE
-            binding.btnDeleteSurat.visibility= View.GONE
-            binding.btnAjukan.visibility = View.VISIBLE
-            binding.btnAjukan.text = "Ajukan Surat"
-        }Constant.TYPE_UPDATE->{
-
-            binding.etNama.isEnabled = true
-            binding.etTempatLahir.isEnabled = true
-            binding.etTanggalLahir.isEnabled = true
-            binding.spinerJK.isEnabled = true
-            binding.spinerSK.isEnabled = true
-            binding.etKewarganegaraan.isEnabled = true
-            binding.etPekerjaan.isEnabled = true
-            binding.etAlamat.isEnabled = true
-            binding.etKeterangan.isEnabled = true
-            binding.btnAjukan.visibility = View.VISIBLE
-            binding.btnEditSurat.visibility= View.GONE
-            binding.btnDeleteSurat.visibility= View.GONE
-            binding.btnAjukan.text = "Perbarui Surat"
-        }
+            }
+            Constant.TYPE_CREATE -> {
+                binding.etNama.isEnabled = true
+                binding.etTempatLahir.isEnabled = true
+                binding.etTanggalLahir.isEnabled = true
+                binding.spinerJK.isEnabled = true
+                binding.spinerSK.isEnabled = true
+                binding.etKewarganegaraan.isEnabled = true
+                binding.etPekerjaan.isEnabled = true
+                binding.etAlamat.isEnabled = true
+                binding.etKeterangan.isEnabled = true
+                binding.btnEditSurat.visibility = View.GONE
+                binding.btnDeleteSurat.visibility = View.GONE
+                binding.btnAjukan.visibility = View.VISIBLE
+                binding.btnAjukan.text = "Ajukan Surat"
+            }
+            Constant.TYPE_UPDATE -> {
+                binding.etNama.isEnabled = true
+                binding.etTempatLahir.isEnabled = true
+                binding.etTanggalLahir.isEnabled = true
+                binding.spinerJK.isEnabled = true
+                binding.spinerSK.isEnabled = true
+                binding.etKewarganegaraan.isEnabled = true
+                binding.etPekerjaan.isEnabled = true
+                binding.etAlamat.isEnabled = true
+                binding.etKeterangan.isEnabled = true
+                binding.btnAjukan.visibility = View.VISIBLE
+                binding.btnEditSurat.visibility = View.GONE
+                binding.btnDeleteSurat.visibility = View.GONE
+                binding.btnAjukan.text = "Perbarui Surat"
+            }
         }
     }
 

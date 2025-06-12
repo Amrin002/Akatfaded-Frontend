@@ -47,19 +47,7 @@ class PreferencesHelper(context: Context) {
     fun getLoginMode(): String? {
         return sharedPreferencesLogin.getString("login_mode", null)
     }
-    fun saveUser(user: User) {
-        val editor = sharedPreferencesLogin.edit()
-        editor.putInt("user_id", user.id)
-        editor.putString("user_name", user.name)
-        editor.putString("user_email", user.email)
-        editor.putString("user_nik", user.nik)
-        editor.putString("user_no_telp", user.no_telp)
-        editor.putString("user_image", user.image)
-        editor.apply()
-    }
-    fun saveToken(token: String) {
-        sharedPreferencesLogin.edit().putString("auth_token", token).apply()
-    }
+
 
     fun edit(block: SharedPreferences.Editor.() -> Unit) {
         val editor = sharedPreferencesLogin.edit()

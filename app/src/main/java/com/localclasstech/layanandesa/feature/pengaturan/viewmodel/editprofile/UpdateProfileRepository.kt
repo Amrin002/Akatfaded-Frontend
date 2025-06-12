@@ -34,14 +34,14 @@ class UpdateProfileRepository(
 
     suspend fun updateUserProfile(
         userId: Int,
-        name: String,
+
         email: String,
         nik: String,
         noTelp: String,
         password: String? = null,
         imageFile: File? = null
     ): Response<UpdateUserResponse> {
-        val nameRequestBody = name.toRequestBody("text/plain".toMediaTypeOrNull())
+
         val emailRequestBody = email.toRequestBody("text/plain".toMediaTypeOrNull())
         val nikRequestBody = nik.toRequestBody("text/plain".toMediaTypeOrNull())
         val noTelpRequestBody = noTelp.toRequestBody("text/plain".toMediaTypeOrNull())
@@ -58,7 +58,6 @@ class UpdateProfileRepository(
             getBearerToken(),
             userId,
             methodPart,
-            nameRequestBody,
             emailRequestBody,
             nikRequestBody,
             noTelpRequestBody,

@@ -27,6 +27,7 @@ import com.localclasstech.layanandesa.auth.viewmodel.LoginViewModelFactory
 import com.localclasstech.layanandesa.databinding.FragmentEditProfileBinding
 import com.localclasstech.layanandesa.feature.pengaturan.viewmodel.editprofile.EditProfileViewModel
 import com.localclasstech.layanandesa.feature.pengaturan.viewmodel.editprofile.EditProfileViewModelFactory
+import com.localclasstech.layanandesa.settings.utils.UrlConstant
 import java.io.File
 import java.io.FileOutputStream
 
@@ -111,14 +112,15 @@ class EditProfileFragment : Fragment() {
         viewModel.userProfile.observe(viewLifecycleOwner) { userData ->
             Log.d("EditProfileFragment", "User Data Received: $userData")
             binding.etNamaEdit.setText(userData.name)
+            binding.etNamaEdit.isEnabled = false
             binding.etEmailEdit.setText(userData.email)
             binding.etNikEdit.setText(userData.nik)
+            binding.etNikEdit.isEnabled = false
             binding.etNomorEdit.setText(userData.noTelp)
 
             // Tampilkan gambar profil jika ada
             if (!userData.image.isNullOrEmpty()) {
-                val baseUrl = "http://192.168.56.1:8000/storage/" // Sesuaikan dengan base URL gambar
-                val fullImageUrl = if (userData.image.startsWith("http")) userData.image else baseUrl + userData.image
+                val fullImageUrl = UrlConstant.getValidImageUrl(userData.image)
 
                 Glide.with(this)
                     .load(fullImageUrl)

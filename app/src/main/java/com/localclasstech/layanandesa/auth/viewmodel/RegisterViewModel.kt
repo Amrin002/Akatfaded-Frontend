@@ -30,7 +30,6 @@ class RegisterViewModel(private val context: Context) : ViewModel() {
 
 
     fun registerUser(
-        name: String,
         email: String,
         nik: String,
         noTelp: String,
@@ -39,7 +38,7 @@ class RegisterViewModel(private val context: Context) : ViewModel() {
     ) {
         // Validasi input
         when {
-            name.isBlank() || email.isBlank() || nik.isBlank() || noTelp.isBlank() || password.isBlank() || confirmPassword.isBlank() -> {
+            email.isBlank() || nik.isBlank() || noTelp.isBlank() || password.isBlank() || confirmPassword.isBlank() -> {
                 _errorMessage.value = "Semua field harus diisi"
                 return
             }
@@ -57,7 +56,6 @@ class RegisterViewModel(private val context: Context) : ViewModel() {
 
         // Request ke API
         val request = RegisterRequest(
-            name = name,
             email = email,
             nik = nik,
             no_telp = noTelp,

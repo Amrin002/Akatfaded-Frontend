@@ -3,11 +3,11 @@ package com.localclasstech.layanandesa.settings.utils
 import android.util.Log
 import java.net.URL
 
-// Perbaikan URL Constant
+
 object UrlConstant {
     private const val TAG = "UrlConstant"
     // Base URL untuk API
-    const val BASE_URL = "https://36e3-180-253-190-96.ngrok-free.app/"
+    const val BASE_URL = "https://akatfadedo.com/"
 
     // Base URL untuk gambar (mengarah ke direktori storage Laravel)
     const val IMAGE_BASE_URL = "${BASE_URL}storage/"

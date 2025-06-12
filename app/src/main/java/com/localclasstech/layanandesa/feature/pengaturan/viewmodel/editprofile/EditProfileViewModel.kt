@@ -74,7 +74,7 @@ class EditProfileViewModel(
             try {
                 val userId = userProfile.value?.id ?: return@launch
                 val response = updateProfileRepository.updateUserProfile(
-                    userId, name, email, nik, noTelp, password, imageFile
+                    userId, email, nik, noTelp, password, imageFile
                 )
                 if (response.isSuccessful) {
                     val body = response.body()

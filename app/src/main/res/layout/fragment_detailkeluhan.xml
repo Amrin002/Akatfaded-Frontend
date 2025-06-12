@@ -114,6 +114,29 @@
             android:textAlignment="textStart"
             android:textColorHint="@color/abu_abu_modern"/>
 
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_height="220dp"
+        android:id="@+id/imageKeluhan"
+        android:src="@drawable/image_error"
+
+        app:layout_constraintTop_toBottomOf="@id/etIsiKeluhan"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toStartOf="@id/etIsiKeluhan"
+        app:layout_constraintEnd_toEndOf="@id/etIsiKeluhan"
+        />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/btnTambahGambar"
+        app:layout_constraintTop_toBottomOf="@id/imageKeluhan"
+        app:layout_constraintEnd_toEndOf="@id/imageKeluhan"
+        android:text="Pilih Foto"
+        android:textAllCaps="false"
+        android:fontFamily="@font/poppins"
+        android:layout_marginTop="10dp"/>
+
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnAjukan"
             android:layout_width="0dp"

@@ -147,23 +147,23 @@ class BerandaFragment : Fragment() {
         binding.btnBerita.setOnClickListener {
             //
             loadFragment(BeritaFragment())
-            Toast.makeText(requireContext(), "Berita", Toast.LENGTH_SHORT).show()
+
         }
         binding.btnKeluhan.setOnClickListener {
             //
             loadFragment(KeluhanFragment())
 
-            Toast.makeText(requireContext(), "Keluhan", Toast.LENGTH_SHORT).show()
+
         }
         binding.btnPengaduanSurat.setOnClickListener {
             //
             loadFragment(LayananFragment())
-            Toast.makeText(requireContext(), "Pengaduan Surat", Toast.LENGTH_SHORT).show()
+
         }
         binding.btnTransparansiApbdes.setOnClickListener {
             //
 
-            Toast.makeText(requireContext(), "Transparansi APBDES", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), "Transparansi APBDES (Masih Di Kembangkan)", Toast.LENGTH_SHORT).show()
         }
 
     }
