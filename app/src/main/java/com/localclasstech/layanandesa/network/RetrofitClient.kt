@@ -1,5 +1,6 @@
 package com.localclasstech.layanandesa.network
 
+import com.localclasstech.layanandesa.feature.apbdes.data.network.ApbdesApiService
 import com.localclasstech.layanandesa.feature.berita.data.network.BeritaApiService
 import com.localclasstech.layanandesa.feature.keluhan.data.network.KeluhanApiService
 import com.localclasstech.layanandesa.feature.layanan.data.network.apiservice.SuratApiService
@@ -12,6 +13,7 @@ import retrofit2.converter.scalars.ScalarsConverterFactory
 import java.util.concurrent.TimeUnit
 
 object RetrofitClient {
+
     val logging = HttpLoggingInterceptor().apply {
         level = HttpLoggingInterceptor.Level.BODY
     }
@@ -61,5 +63,13 @@ object RetrofitClient {
             .client(client)
             .build()
             .create(KeluhanApiService::class.java)
+    }
+    val apbdesApiService: ApbdesApiService by lazy {
+        Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .client(client)
+            .build()
+            .create(ApbdesApiService::class.java)
     }
 }

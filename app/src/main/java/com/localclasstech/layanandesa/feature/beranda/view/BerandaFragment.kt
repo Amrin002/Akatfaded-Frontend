@@ -24,6 +24,7 @@ import com.localclasstech.layanandesa.R
 import com.localclasstech.layanandesa.auth.viewmodel.LoginViewModel
 import com.localclasstech.layanandesa.auth.viewmodel.LoginViewModelFactory
 import com.localclasstech.layanandesa.databinding.FragmentBerandaBinding
+import com.localclasstech.layanandesa.feature.apbdes.view.ApbdesFragment
 import com.localclasstech.layanandesa.feature.beranda.view.helper.BeritaBerandaAdapterHelper
 import com.localclasstech.layanandesa.feature.beranda.viewmodel.BerandaViewModel
 import com.localclasstech.layanandesa.feature.beranda.viewmodel.BerandaViewModelFactory
@@ -162,19 +163,23 @@ class BerandaFragment : Fragment() {
         }
         binding.btnTransparansiApbdes.setOnClickListener {
             //
-
+            loadFragment(ApbdesFragment())
             Toast.makeText(requireContext(), "Transparansi APBDES (Masih Di Kembangkan)", Toast.LENGTH_SHORT).show()
         }
 
     }
 
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-    }
     private fun loadFragment(fragment: Fragment){
         parentFragmentManager.beginTransaction()
             .replace(R.id.fragmentView, fragment)
+            .addToBackStack(null)
+            .setCustomAnimations(
+                R.anim.slide_in_right,
+                R.anim.slide_out_left,
+                R.anim.slide_in_left,
+                R.anim.slide_out_right
+            )
             .commit()
 
     }

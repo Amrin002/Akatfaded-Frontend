@@ -492,8 +492,11 @@
             android:textAlignment="textStart"
             android:gravity="top|start"
             android:paddingStart="8dp"
+            android:paddingTop="8dp"
             android:layout_marginTop="5dp"
-            android:textColorHint="@color/abu_abu_modern"/>
+            android:textColorHint="@color/abu_abu_modern"
+            android:inputType="textMultiLine"
+            android:scrollbars="vertical" />
 
         <FrameLayout
             android:id="@+id/button_container"

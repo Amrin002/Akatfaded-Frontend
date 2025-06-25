@@ -77,6 +77,7 @@ dependencies {
     //glide
     implementation(libs.glide)
     annotationProcessor(libs.compiler)
+    implementation(libs.photoview)
 
 //    Loading Skleton Shimer fb
     implementation(libs.shimmer)

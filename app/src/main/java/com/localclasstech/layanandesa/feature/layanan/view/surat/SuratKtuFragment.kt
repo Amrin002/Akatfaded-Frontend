@@ -101,7 +101,7 @@ class SuratKtuFragment : Fragment() {
                 binding.btnEditSurat.visibility = View.GONE
                 binding.btnDeleteSurat.visibility = View.GONE
                 binding.btnAjukan.visibility = View.VISIBLE
-                binding.btnAjukan.text = "Ajukan Surat KTU"
+                binding.btnAjukan.text = "Ajukan Surat"
 
                 // Enable semua field input
                 binding.etNama.isEnabled = true
@@ -141,7 +141,7 @@ class SuratKtuFragment : Fragment() {
                 binding.btnEditSurat.visibility = View.GONE
                 binding.btnDeleteSurat.visibility = View.GONE
                 binding.btnAjukan.visibility = View.VISIBLE
-                binding.btnAjukan.text = "Perbarui Surat KTU"
+                binding.btnAjukan.text = "Perbarui Surat"
 
                 // Enable semua field input
                 binding.etNama.isEnabled = true
