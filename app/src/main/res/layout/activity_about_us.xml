@@ -1,88 +1,167 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
+    android:theme="@style/Base.Theme.LayananDesa"
     android:layout_height="match_parent"
     tools:context=".feature.pengaturan.view.aboutus.AboutUsActivity">
-    <androidx.appcompat.widget.AppCompatImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_back_button"
-        android:background="@color/transparant"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginStart="20dp"
-        android:id="@+id/back_button"
-        android:layout_marginTop="20dp"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/tvDaftar"
-        android:text="Tentang Kami"
-        android:textColor="@color/black"
-        android:fontFamily="@font/poppins_bold"
-        android:textStyle="bold"
-        android:textSize="18sp"
-        app:layout_constraintStart_toEndOf="@id/back_button"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="23dp"
-        android:layout_marginStart="10dp"/>
-
-    <ImageView
-        android:id="@+id/logoApps"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:clipToOutline="true"
-        android:src="@drawable/logo_apps"
-
-        android:layout_marginTop="25dp"
-        android:background="@drawable/bg_logo_apps"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvDaftar"
-        />
-
-    <TextView
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/tvNameApps"
-        android:text="Layanan Desa"
-        android:fontFamily="@font/poppins_bold"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:layout_marginTop="10dp"
-        app:layout_constraintTop_toBottomOf="@id/logoApps"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
-    <TextView
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/tvVersionApps"
-        android:text="Version 1.0"
-        android:fontFamily="@font/poppins_bold"
-        android:textAlignment="center"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:layout_constraintTop_toBottomOf="@id/tvNameApps"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
-    <androidx.cardview.widget.CardView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:cardCornerRadius="10dp"
-        app:layout_constraintTop_toBottomOf="@id/tvVersionApps"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_height="match_parent">
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_back_button"
+            android:background="@color/transparant"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="20dp"
+            android:id="@+id/back_button"
+            android:layout_marginTop="20dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tvDaftar"
+            android:text="Tentang Kami"
+            android:textColor="@color/black"
+            android:fontFamily="@font/poppins_bold"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            app:layout_constraintStart_toEndOf="@id/back_button"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="23dp"
+            android:layout_marginStart="10dp"/>
 
-        android:id="@+id/cardDevoloper">
+        <ImageView
+            android:id="@+id/logoApps"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:clipToOutline="true"
+            android:src="@drawable/logo_apps"
+
+            android:layout_marginTop="25dp"
+            android:background="@drawable/bg_logo_apps"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvDaftar"
+            />
+
+        <TextView
+            android:id="@+id/tvNameApps"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="28dp"
+            android:fontFamily="@font/poppins_bold"
+            android:text="Layanan Desa"
+            android:textAlignment="center"
+            android:textSize="20sp"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/logoApps" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/tvVersionApps"
+            android:text="Version 1.0"
+            android:fontFamily="@font/poppins_bold"
+            android:textAlignment="center"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@id/tvNameApps"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:textColor="@color/black"/>
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="10dp"
+            app:layout_constraintTop_toBottomOf="@id/tvVersionApps"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+
+            android:id="@+id/cardDevoloper">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:padding="14dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <!-- Paragraf 1 -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="13sp"
+                    android:lineSpacingExtra="4dp"
+                    android:justificationMode="inter_word"
+                    android:fontFamily="@font/poppins"
+                    android:textColor="@color/black"
+                    android:text="Aplikasi ini dikembangkan sebagai solusi digital untuk mempermudah proses layanan administrasi desa bagi masyarakat Desa Akad Fadedo. Melalui platform ini, warga desa kini dapat mengakses berbagai layanan administrasi dengan lebih cepat, efisien, dan transparan tanpa harus datang langsung ke kantor desa." />
+
+                <!-- Judul Tujuan -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:fontFamily="@font/poppins_bold"
+                    android:textSize="17sp"
+                    android:textColor="@color/black"
+                    android:layout_marginTop="12dp"
+                    android:text="Tujuan Kami" />
+
+                <!-- Tujuan List -->
+                <TextView
+                    android:id="@+id/textViewTujuan"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:lineSpacingExtra="6dp"
+                    android:fontFamily="@font/poppins"
+                    android:textColor="@color/black"
+                    android:justificationMode="inter_word"
+                    android:layout_marginTop="12dp"
+                    />
+
+
+                <!-- Paragraf 2 -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="13sp"
+                    android:lineSpacingExtra="4dp"
+                    android:textColor="@color/black"
+                    android:justificationMode="inter_word"
+                    android:fontFamily="@font/poppins"
+                    android:layout_marginTop="12dp"
+                    android:text="Aplikasi ini merupakan hasil kolaborasi antara pemerintah desa dan tim pengembang lokal yang peduli terhadap kemajuan pelayanan publik di pedesaan. Kami percaya bahwa kemajuan teknologi harus dirasakan oleh seluruh lapisan masyarakat, termasuk di desa." />
+
+                <!-- Slogan Bold -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="13sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:justificationMode="inter_word"
+                    android:fontFamily="@font/poppins_bold"
+                    android:layout_marginTop="12dp"
+                    android:text="Desa Akad Fadedo – Melayani dengan Teknologi, Membangun dengan Hati." />
+
+            </LinearLayout>
 
 
 
 
-    </androidx.cardview.widget.CardView>
+
+        </androidx.cardview.widget.CardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.core.widget.NestedScrollView>
