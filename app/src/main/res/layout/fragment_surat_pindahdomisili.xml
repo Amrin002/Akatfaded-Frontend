@@ -1,605 +1,649 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".feature.layanan.view.surat.SuratPindahdomisiliFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <androidx.appcompat.widget.AppCompatImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_back_button"
-            android:background="@color/transparant"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="20dp"
-            android:id="@+id/back_button"
-            android:layout_marginTop="20dp"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/tvSuratKtm"
+        android:layout_height="wrap_content"
+        android:paddingBottom="16dp">
 
+        <!-- Header Section -->
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/back_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:background="@color/transparant"
+            android:src="@drawable/ic_back_button"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvSuratKtm"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="23dp"
+            android:layout_marginEnd="10dp"
+            android:fontFamily="@font/poppins_bold"
             android:text="Surat Pindah Domisili"
             android:textColor="@color/black"
-            android:fontFamily="@font/poppins_bold"
-            android:textStyle="bold"
             android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@id/btnEditSurat"
             app:layout_constraintStart_toEndOf="@id/back_button"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="23dp"
-            android:layout_marginStart="10dp"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.appcompat.widget.AppCompatImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:id="@+id/btnEditSurat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:background="@color/transparant"
             android:src="@drawable/ic_edit"
-            android:background="@color/transparant"
+            app:layout_constraintBottom_toBottomOf="@id/tvSuratKtm"
             app:layout_constraintEnd_toStartOf="@id/btnDeleteSurat"
+            app:layout_constraintTop_toTopOf="@id/tvSuratKtm" />
 
-            app:layout_constraintTop_toTopOf="@id/tvSuratKtm"
-            app:layout_constraintBottom_toBottomOf="@id/tvSuratKtm"
-            android:layout_marginEnd="10dp"
-        />
         <androidx.appcompat.widget.AppCompatImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:id="@+id/btnDeleteSurat"
-            android:src="@drawable/ic_delete_surat"
-            android:background="@color/transparant"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tvSuratKtm"
-            app:layout_constraintBottom_toBottomOf="@id/tvSuratKtm"
-            android:layout_marginEnd="10dp"
-            />
-
-        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:background="@color/transparant"
+            android:src="@drawable/ic_delete_surat"
+            app:layout_constraintBottom_toBottomOf="@id/tvSuratKtm"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tvSuratKtm" />
+
+        <!-- Form Fields -->
+        <!-- Nama -->
+        <TextView
+            android:id="@+id/labelNama"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="25dp"
+            android:fontFamily="@font/poppins_bold"
             android:text="Nama"
-            android:textStyle="normal"
             android:textColor="@color/black"
             android:textSize="15sp"
-            android:id="@id/labelNama"
-            android:fontFamily="@font/poppins_bold"
-            app:layout_constraintTop_toBottomOf="@id/tvSuratKtm"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="25dp"
-            android:layout_marginStart="20dp"
-            />
+            app:layout_constraintTop_toBottomOf="@id/tvSuratKtm" />
+
         <EditText
+            android:id="@+id/etNama"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textColor="@color/black"
-            android:id="@+id/etNama"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/labelNama"
             android:layout_marginStart="20dp"
+            android:layout_marginTop="5dp"
             android:layout_marginEnd="20dp"
             android:background="@drawable/edit_text_border"
-            android:paddingStart="8dp"
-            android:layout_marginTop="5dp"
             android:maxLength="30"
             android:maxLines="1"
-            android:textColorHint="@color/abu_abu_modern"/>
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:paddingTop="12dp"
+            android:paddingBottom="12dp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/abu_abu_modern"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/labelNama" />
 
+        <!-- Tempat Lahir -->
         <TextView
+            android:id="@+id/labelTl"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="15dp"
+            android:fontFamily="@font/poppins_bold"
             android:text="Tempat Lahir"
-            android:textStyle="normal"
             android:textColor="@color/black"
             android:textSize="15sp"
-            android:id="@+id/labelTl"
-            android:fontFamily="@font/poppins_bold"
-            app:layout_constraintTop_toBottomOf="@id/etNama"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="15dp"
-            android:layout_marginStart="20dp"
-            />
+            app:layout_constraintTop_toBottomOf="@id/etNama" />
+
         <EditText
+            android:id="@+id/etTempatLahir"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textColor="@color/black"
-            android:id="@+id/etTempatLahir"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/labelTl"
             android:layout_marginStart="20dp"
+            android:layout_marginTop="5dp"
             android:layout_marginEnd="20dp"
             android:background="@drawable/edit_text_border"
-            android:paddingStart="8dp"
-            android:layout_marginTop="5dp"
-            android:maxLength="16"
+            android:maxLength="30"
             android:maxLines="1"
-            android:textColorHint="@color/abu_abu_modern"/>
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:paddingTop="12dp"
+            android:paddingBottom="12dp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/abu_abu_modern"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/labelTl" />
+
+        <!-- Tanggal Lahir -->
         <TextView
+            android:id="@+id/labelTanggalLahir"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="15dp"
+            android:fontFamily="@font/poppins_bold"
             android:text="Tanggal Lahir"
-            android:textStyle="normal"
             android:textColor="@color/black"
             android:textSize="15sp"
-            android:id="@+id/labelTanggalLahir"
-            android:fontFamily="@font/poppins_bold"
-            app:layout_constraintTop_toBottomOf="@id/etTempatLahir"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="15dp"
-            android:layout_marginStart="20dp"
-            />
+            app:layout_constraintTop_toBottomOf="@id/etTempatLahir" />
+
         <TextView
             android:id="@+id/etTanggalLahir"
             android:layout_width="0dp"
-            android:layout_height="32dp"
-            android:layout_marginTop="5dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
+            android:layout_marginTop="5dp"
             android:layout_marginEnd="20dp"
-            android:layout_marginBottom="15dp"
-            android:text="Pilih Tanggal Lahir"
-
-            android:textColor="@color/black"
             android:background="@drawable/edit_text_border"
-            android:paddingStart="8dp"
-            android:gravity="center_vertical"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/labelTanggalLahir"
             android:drawableEnd="@drawable/ic_calender"
-            android:drawablePadding="20dp"/>
+            android:drawablePadding="12dp"
+            android:gravity="center_vertical"
+            android:paddingStart="8dp"
+            android:paddingTop="12dp"
+            android:paddingEnd="8dp"
+            android:paddingBottom="12dp"
+            android:text="Pilih Tanggal Lahir"
+            android:textColor="@color/black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/labelTanggalLahir" />
 
+        <!-- Jenis Kelamin -->
         <TextView
+            android:id="@+id/labelJenisKelamin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="15dp"
+            android:fontFamily="@font/poppins_bold"
             android:text="Jenis Kelamin"
-            android:textStyle="normal"
             android:textColor="@color/black"
             android:textSize="15sp"
-            android:id="@id/labelJenisKelamin"
-            android:fontFamily="@font/poppins_bold"
-            app:layout_constraintTop_toBottomOf="@id/etTanggalLahir"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="15dp"
-            android:layout_marginStart="20dp"
-            />
+            app:layout_constraintTop_toBottomOf="@id/etTanggalLahir" />
+
         <LinearLayout
-            android:layout_width="0dp"
             android:id="@+id/layoutSpinerJk"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/labelJenisKelamin"
             android:layout_marginStart="20dp"
+            android:layout_marginTop="5dp"
             android:layout_marginEnd="20dp"
             android:background="@drawable/edit_text_border"
-            android:drawablePadding="20dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
             android:paddingStart="8dp"
-            android:layout_marginTop="5dp"
-            android:orientation="horizontal">
+            android:paddingEnd="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/labelJenisKelamin">
 
             <Spinner
-                android:layout_gravity="center_vertical"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:id="@+id/spinerJK"
-                android:background="@color/transparant"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textColorHint="@color/black"/>
+                android:background="@android:color/transparent"
+                android:minHeight="48dp" />
 
             <ImageView
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:src="@drawable/ic_dropdown"
-                android:layout_gravity="center_vertical"
-                android:padding="8dp"
-                android:contentDescription="Dropdown arrow"/>
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="8dp"
+                android:contentDescription="Dropdown arrow"
+                android:src="@drawable/ic_dropdown" />
         </LinearLayout>
+
+        <!-- Status Kawin -->
         <TextView
+            android:id="@+id/labelStatusKawin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="15dp"
+            android:fontFamily="@font/poppins_bold"
             android:text="Status Kawin"
-            android:textStyle="normal"
             android:textColor="@color/black"
             android:textSize="15sp"
-            android:id="@+id/labelKonfirmasiPassword"
-            android:fontFamily="@font/poppins_bold"
-            app:layout_constraintTop_toBottomOf="@id/layoutSpinerJk"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="15dp"
-            android:layout_marginStart="20dp"
-            />
+            app:layout_constraintTop_toBottomOf="@id/layoutSpinerJk" />
+
         <LinearLayout
-            android:layout_width="0dp"
             android:id="@+id/layoutSpinerSk"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/labelKonfirmasiPassword"
             android:layout_marginStart="20dp"
+            android:layout_marginTop="5dp"
             android:layout_marginEnd="20dp"
             android:background="@drawable/edit_text_border"
+            android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:layout_marginTop="5dp">
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/labelStatusKawin">
 
             <Spinner
                 android:id="@+id/spinerSK"
                 android:layout_width="0dp"
-                android:layout_gravity="center_vertical"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@android:color/transparent"
-                android:paddingStart="8dp"
-                android:paddingEnd="8dp"/>
+                android:minHeight="48dp" />
 
             <ImageView
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:src="@drawable/ic_dropdown"
-                android:padding="8dp"
-                android:layout_gravity="center_vertical"
-                android:contentDescription="Dropdown arrow"/>
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="8dp"
+                android:contentDescription="Dropdown arrow"
+                android:src="@drawable/ic_dropdown" />
         </LinearLayout>
+
+        <!-- Kewarganegaraan -->
         <TextView
+            android:id="@+id/labelKewarganegaraan"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="15dp"
+            android:fontFamily="@font/poppins_bold"
             android:text="Kewarganegaraan"
-            android:textStyle="normal"
             android:textColor="@color/black"
             android:textSize="15sp"
-            android:id="@+id/labelNoTelp"
-            android:fontFamily="@font/poppins_bold"
-            app:layout_constraintTop_toBottomOf="@id/layoutSpinerSk"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="15dp"
-            android:layout_marginStart="20dp"
-            />
+            app:layout_constraintTop_toBottomOf="@id/layoutSpinerSk" />
+
         <EditText
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
             android:id="@+id/etKewarganegaraan"
-            android:textColor="@color/black"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/labelNoTelp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
+            android:layout_marginTop="5dp"
             android:layout_marginEnd="20dp"
             android:background="@drawable/edit_text_border"
-
-
             android:paddingStart="8dp"
-            android:layout_marginTop="5dp"
+            android:paddingEnd="8dp"
+            android:paddingTop="12dp"
+            android:paddingBottom="12dp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/abu_abu_modern"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/labelKewarganegaraan" />
 
-            android:textColorHint="@color/abu_abu_modern"/>
+        <!-- Pekerjaan -->
         <TextView
+            android:id="@+id/labelPekerjaan"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="15dp"
+            android:fontFamily="@font/poppins_bold"
             android:text="Pekerjaan"
-            android:textStyle="normal"
             android:textColor="@color/black"
             android:textSize="15sp"
-            android:id="@+id/tvPekerjaan"
-            android:fontFamily="@font/poppins_bold"
-            app:layout_constraintTop_toBottomOf="@id/etKewarganegaraan"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="15dp"
-            android:layout_marginStart="20dp"
-            />
+            app:layout_constraintTop_toBottomOf="@id/etKewarganegaraan" />
+
         <EditText
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
             android:id="@+id/etPekerjaan"
-            android:textColor="@color/black"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvPekerjaan"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            android:background="@drawable/edit_text_border"
-
-
-            android:paddingStart="8dp"
-            android:layout_marginTop="5dp"
-
-            android:textColorHint="@color/abu_abu_modern"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Kecamatan"
-            android:textStyle="normal"
-            android:textColor="@color/black"
-            android:textSize="15sp"
-            android:id="@+id/tvKecamatan"
-            android:fontFamily="@font/poppins_bold"
-            app:layout_constraintTop_toBottomOf="@id/etPekerjaan"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="15dp"
-            android:layout_marginStart="20dp"
-            />
-        <EditText
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:id="@+id/etKecamatan"
-            android:textColor="@color/black"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvKecamatan"
             android:layout_marginStart="20dp"
+            android:layout_marginTop="5dp"
             android:layout_marginEnd="20dp"
             android:background="@drawable/edit_text_border"
-
-
             android:paddingStart="8dp"
-            android:layout_marginTop="5dp"
+            android:paddingEnd="8dp"
+            android:paddingTop="12dp"
+            android:paddingBottom="12dp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/abu_abu_modern"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/labelPekerjaan" />
 
-            android:textColorHint="@color/abu_abu_modern"/>
+        <!-- Alamat Saat Ini -->
         <TextView
+            android:id="@+id/labelAlamatSaatIni"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Kabupaten"
-            android:textStyle="normal"
-            android:textColor="@color/black"
-            android:textSize="15sp"
-            android:id="@+id/tvKabupaten"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="25dp"
             android:fontFamily="@font/poppins_bold"
-            app:layout_constraintTop_toBottomOf="@id/etKecamatan"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="15dp"
-            android:layout_marginStart="20dp"
-            />
-        <EditText
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/etKabupaten"
+            android:text="Alamat Saat Ini"
             android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvKabupaten"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            android:background="@drawable/edit_text_border"
+            app:layout_constraintTop_toBottomOf="@id/etPekerjaan" />
 
-
-            android:paddingStart="8dp"
-            android:layout_marginTop="5dp"
-
-            android:textColorHint="@color/abu_abu_modern"/>
         <TextView
+            android:id="@+id/labelAlamat"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="15dp"
+            android:fontFamily="@font/poppins_bold"
             android:text="Alamat"
-            android:textStyle="normal"
             android:textColor="@color/black"
             android:textSize="15sp"
-            android:id="@+id/tvAlamat"
-            android:fontFamily="@font/poppins_bold"
-            app:layout_constraintTop_toBottomOf="@id/etKabupaten"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="15dp"
-            android:layout_marginStart="20dp"
-            />
+            app:layout_constraintTop_toBottomOf="@id/labelAlamatSaatIni" />
+
         <EditText
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
             android:id="@+id/etAlamat"
-            android:textColor="@color/black"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvAlamat"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
+            android:layout_marginTop="5dp"
             android:layout_marginEnd="20dp"
             android:background="@drawable/edit_text_border"
-
-
             android:paddingStart="8dp"
-            android:layout_marginTop="5dp"
+            android:paddingEnd="8dp"
+            android:paddingTop="12dp"
+            android:paddingBottom="12dp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/abu_abu_modern"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/labelAlamat" />
 
-            android:textColorHint="@color/abu_abu_modern"/>
         <TextView
+            android:id="@+id/labelKecamatan"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="15dp"
+            android:fontFamily="@font/poppins_bold"
+            android:text="Kecamatan"
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/etAlamat" />
+
+        <EditText
+            android:id="@+id/etKecamatan"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/edit_text_border"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:paddingTop="12dp"
+            android:paddingBottom="12dp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/abu_abu_modern"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/labelKecamatan" />
+
+        <TextView
+            android:id="@+id/labelKabupaten"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="15dp"
+            android:fontFamily="@font/poppins_bold"
+            android:text="Kabupaten"
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/etKecamatan" />
+
+        <EditText
+            android:id="@+id/etKabupaten"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/edit_text_border"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:paddingTop="12dp"
+            android:paddingBottom="12dp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/abu_abu_modern"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/labelKabupaten" />
+
+        <!-- Alamat Tujuan -->
+        <TextView
+            android:id="@+id/labelAlamatTujuan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="25dp"
+            android:fontFamily="@font/poppins_bold"
+            android:text="Alamat Tujuan"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/etKabupaten" />
+
+        <TextView
+            android:id="@+id/labelDesaTujuan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="15dp"
+            android:fontFamily="@font/poppins_bold"
             android:text="Desa Tujuan"
-            android:textStyle="normal"
             android:textColor="@color/black"
             android:textSize="15sp"
-            android:id="@+id/tvDesaTujuan"
-            android:fontFamily="@font/poppins_bold"
-            app:layout_constraintTop_toBottomOf="@id/etAlamat"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="15dp"
-            android:layout_marginStart="20dp"
-            />
+            app:layout_constraintTop_toBottomOf="@id/labelAlamatTujuan" />
+
         <EditText
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
             android:id="@+id/etDesaTujuan"
-            android:textColor="@color/black"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvDesaTujuan"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            android:background="@drawable/edit_text_border"
-
-
-            android:paddingStart="8dp"
-            android:layout_marginTop="5dp"
-
-            android:textColorHint="@color/abu_abu_modern"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="RT Tujuan"
-            android:textStyle="normal"
-            android:textColor="@color/black"
-            android:textSize="15sp"
-            android:id="@+id/tvRtTujuan"
-            android:fontFamily="@font/poppins_bold"
-            app:layout_constraintTop_toBottomOf="@id/etDesaTujuan"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="15dp"
-            android:layout_marginStart="20dp"
-            />
-        <EditText
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:id="@+id/etRtTujuan"
-            android:textColor="@color/black"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvRtTujuan"
             android:layout_marginStart="20dp"
+            android:layout_marginTop="5dp"
             android:layout_marginEnd="20dp"
             android:background="@drawable/edit_text_border"
-
-
             android:paddingStart="8dp"
-            android:layout_marginTop="5dp"
+            android:paddingEnd="8dp"
+            android:paddingTop="12dp"
+            android:paddingBottom="12dp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/abu_abu_modern"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/labelDesaTujuan" />
 
-            android:textColorHint="@color/abu_abu_modern"/>
         <TextView
+            android:id="@+id/labelJalanTujuan"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="RW Tujuan"
-            android:textStyle="normal"
-            android:textColor="@color/black"
-            android:textSize="15sp"
-            android:id="@+id/tvRwTujuan"
-            android:fontFamily="@font/poppins_bold"
-            app:layout_constraintTop_toBottomOf="@id/etRtTujuan"
-            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="20dp"
             android:layout_marginTop="15dp"
-            android:layout_marginStart="20dp"
-            />
-        <EditText
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/etRwTujuan"
-            android:textColor="@color/black"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvRwTujuan"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            android:background="@drawable/edit_text_border"
-
-
-            android:paddingStart="8dp"
-            android:layout_marginTop="5dp"
-
-            android:textColorHint="@color/abu_abu_modern"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins_bold"
             android:text="Jalan Tujuan"
-            android:textStyle="normal"
             android:textColor="@color/black"
             android:textSize="15sp"
-            android:id="@+id/tvJalanTujuan"
-            android:fontFamily="@font/poppins_bold"
-            app:layout_constraintTop_toBottomOf="@id/etRwTujuan"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="15dp"
-            android:layout_marginStart="20dp"
-            />
+            app:layout_constraintTop_toBottomOf="@id/etDesaTujuan" />
+
         <EditText
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
             android:id="@+id/etJalanTujuan"
-            android:textColor="@color/black"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvJalanTujuan"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
+            android:layout_marginTop="5dp"
             android:layout_marginEnd="20dp"
             android:background="@drawable/edit_text_border"
-
-
             android:paddingStart="8dp"
-            android:layout_marginTop="5dp"
+            android:paddingEnd="8dp"
+            android:paddingTop="12dp"
+            android:paddingBottom="12dp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/abu_abu_modern"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/labelJalanTujuan" />
 
-            android:textColorHint="@color/abu_abu_modern"/>
         <TextView
+            android:id="@+id/labelRtTujuan"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="15dp"
+            android:fontFamily="@font/poppins_bold"
+            android:text="RT Tujuan"
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/etJalanTujuan" />
+
+        <EditText
+            android:id="@+id/etRtTujuan"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/edit_text_border"
+            android:inputType="number"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:paddingTop="12dp"
+            android:paddingBottom="12dp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/abu_abu_modern"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/labelRtTujuan" />
+
+        <TextView
+            android:id="@+id/labelRwTujuan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="15dp"
+            android:fontFamily="@font/poppins_bold"
+            android:text="RW Tujuan"
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/etRtTujuan" />
+
+        <EditText
+            android:id="@+id/etRwTujuan"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/edit_text_border"
+            android:inputType="number"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:paddingTop="12dp"
+            android:paddingBottom="12dp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/abu_abu_modern"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/labelRwTujuan" />
+
+        <TextView
+            android:id="@+id/labelKecamatanTujuan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="15dp"
+            android:fontFamily="@font/poppins_bold"
             android:text="Kecamatan Tujuan"
-            android:textStyle="normal"
             android:textColor="@color/black"
             android:textSize="15sp"
-            android:id="@+id/tvKecamatanTujuan"
-            android:fontFamily="@font/poppins_bold"
-            app:layout_constraintTop_toBottomOf="@id/etJalanTujuan"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="15dp"
-            android:layout_marginStart="20dp"
-            />
+            app:layout_constraintTop_toBottomOf="@id/etRwTujuan" />
+
         <EditText
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
             android:id="@+id/etKecamatanTujuan"
-            android:textColor="@color/black"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvKecamatanTujuan"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            android:background="@drawable/edit_text_border"
-
-
-            android:paddingStart="8dp"
-            android:layout_marginTop="5dp"
-
-            android:textColorHint="@color/abu_abu_modern"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Kabupaten Tujuan"
-            android:textStyle="normal"
-            android:textColor="@color/black"
-            android:textSize="15sp"
-            android:id="@+id/tvKabupatenTujuan"
-            android:fontFamily="@font/poppins_bold"
-            app:layout_constraintTop_toBottomOf="@id/etKecamatanTujuan"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="15dp"
-            android:layout_marginStart="20dp"
-            />
-        <EditText
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:id="@+id/etKabupatenTujuan"
-            android:textColor="@color/black"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvKabupatenTujuan"
             android:layout_marginStart="20dp"
+            android:layout_marginTop="5dp"
             android:layout_marginEnd="20dp"
             android:background="@drawable/edit_text_border"
-
-
             android:paddingStart="8dp"
-            android:layout_marginTop="5dp"
-
-            android:textColorHint="@color/abu_abu_modern"/>
+            android:paddingEnd="8dp"
+            android:paddingTop="12dp"
+            android:paddingBottom="12dp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/abu_abu_modern"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/labelKecamatanTujuan" />
 
         <TextView
+            android:id="@+id/labelKabupatenTujuan"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Provinsi Tujuan"
-            android:textStyle="normal"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="15dp"
+            android:fontFamily="@font/poppins_bold"
+            android:text="Kabupaten Tujuan"
             android:textColor="@color/black"
             android:textSize="15sp"
-            android:id="@+id/tvProvinsiTujuan"
-            android:fontFamily="@font/poppins_bold"
-            app:layout_constraintTop_toBottomOf="@id/etKabupatenTujuan"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="15dp"
+            app:layout_constraintTop_toBottomOf="@id/etKecamatanTujuan" />
+
+        <EditText
+            android:id="@+id/etKabupatenTujuan"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
-            />
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/edit_text_border"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:paddingTop="12dp"
+            android:paddingBottom="12dp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/abu_abu_modern"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/labelKabupatenTujuan" />
+
+        <TextView
+            android:id="@+id/labelProvinsiTujuan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="15dp"
+            android:fontFamily="@font/poppins_bold"
+            android:text="Provinsi Tujuan"
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/etKabupatenTujuan" />
         <EditText
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -607,13 +651,16 @@
             android:textColor="@color/black"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvProvinsiTujuan"
+            app:layout_constraintTop_toBottomOf="@id/labelProvinsiTujuan"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
             android:background="@drawable/edit_text_border"
 
 
             android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:paddingTop="12dp"
+            android:paddingBottom="12dp"
             android:layout_marginTop="5dp"
 
             android:textColorHint="@color/abu_abu_modern"/>

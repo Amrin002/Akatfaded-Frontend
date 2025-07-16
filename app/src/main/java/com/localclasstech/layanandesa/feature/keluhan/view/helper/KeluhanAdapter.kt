@@ -41,7 +41,7 @@ class KeluhanAdapter(private var cardListKeluhan : List<CardListKeluhan>,
                     binding.root.context.getColor(R.color.textAproved)
                 )
                 "selesai" -> binding.tvStatusKeluhan.setTextColor(
-                    binding.root.context.getColor(R.color.textCancel)
+                    binding.root.context.getColor(R.color.textSuccess)
                 )
                 else ->binding.tvStatusKeluhan.setTextColor(
                     binding.root.context.getColor(android.R.color.black)

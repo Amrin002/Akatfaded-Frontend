@@ -12,9 +12,7 @@
         <action
             android:id="@+id/action_layananFragment_to_formSuratKtmFragment"
             app:destination="@id/formSuratKtmFragment" />
-        <action
-            android:id="@+id/action_layananFragment_to_formSuratKtmFragment2"
-            app:destination="@id/formSuratKtmFragment" />
+
     </fragment>
 
     <fragment

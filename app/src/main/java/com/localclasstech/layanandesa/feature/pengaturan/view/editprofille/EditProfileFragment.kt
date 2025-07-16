@@ -1,6 +1,7 @@
 package com.localclasstech.layanandesa.feature.pengaturan.view.editprofille
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -8,9 +9,11 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
+import android.text.InputType
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
@@ -155,6 +158,7 @@ class EditProfileFragment : Fragment() {
             )
 
         }
+        setupPasswordVisibility()
 
         // Tombol batal
         binding.btnCancel.setOnClickListener {
@@ -179,6 +183,38 @@ class EditProfileFragment : Fragment() {
         // Observasi error
         viewModel.error.observe(viewLifecycleOwner) { errorMessage ->
             Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_SHORT).show()
+        }
+    }
+    @SuppressLint("ClickableViewAccessibility")
+    private fun setupPasswordVisibility() {
+        // Variabel untuk mengecek apakah password sedang ditampilkan atau tidak
+        var isPasswordVisible = false
+
+        binding.etPasswordEdit.setOnTouchListener { _, event ->
+            if (event.action == MotionEvent.ACTION_UP) {
+                val drawableEnd = binding.etPasswordEdit.compoundDrawablesRelative[2]
+                if (drawableEnd != null) {
+                    val drawableBounds = drawableEnd.bounds
+                    val clickArea = binding.etPasswordEdit.right - drawableBounds.width() - binding.etPasswordEdit.paddingEnd
+                    if (event.rawX >= clickArea) {
+                        isPasswordVisible = !isPasswordVisible
+                        val currentTypeface = binding.etPasswordEdit.typeface // Simpan font
+
+                        if (isPasswordVisible) {
+                            binding.etPasswordEdit.inputType = InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+                            binding.etPasswordEdit.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.ic_show_pass, 0)
+                        } else {
+                            binding.etPasswordEdit.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+                            binding.etPasswordEdit.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.ic_eye_block, 0)
+                        }
+
+                        binding.etPasswordEdit.typeface = currentTypeface // Restore font
+                        binding.etPasswordEdit.setSelection(binding.etPasswordEdit.text.length)
+                        return@setOnTouchListener true
+                    }
+                }
+            }
+            false
         }
     }
 
