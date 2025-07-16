@@ -178,7 +178,7 @@
             android:inputType="textPassword"
             android:background="@drawable/edit_text_border"
             android:textColorHint="@color/grey"
-            android:drawableEnd="@drawable/ic_show_pass"
+            android:drawableEnd="@drawable/ic_eye_block"
             android:drawablePadding="20dp"
             android:id="@+id/etPasswordEdit"/>
         <TextView

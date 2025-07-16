@@ -2,7 +2,7 @@ package com.localclasstech.layanandesa.feature.layanan.data.repository
 
 import android.util.Log
 import com.localclasstech.layanandesa.feature.layanan.data.network.apiservice.SuratApiService
-import com.localclasstech.layanandesa.feature.layanan.data.network.data.BaseResponse
+import com.localclasstech.layanandesa.feature.layanan.data.network.data.BaseResponseAll
 import com.localclasstech.layanandesa.feature.layanan.data.network.data.DownloadUrlResponse
 import com.localclasstech.layanandesa.feature.layanan.data.network.data.suratpindahdomisili.CreateSuratPindahRequest
 import com.localclasstech.layanandesa.feature.layanan.data.network.data.suratpindahdomisili.SuratPindahResponse
@@ -23,27 +23,27 @@ class SuratPindahRepository(
     }
 
     // Create Surat Pindah
-    suspend fun createSuratPindah(request: CreateSuratPindahRequest): Response<BaseResponse<SuratPindahResponse>> {
+    suspend fun createSuratPindah(request: CreateSuratPindahRequest): Response<BaseResponseAll<SuratPindahResponse>> {
         return apiService.createSuratPindah(getBearerToken(), request)
     }
 
     // Get Surat Pindah list by user
-    suspend fun getSuratPindahByUser(id: Int): Response<BaseResponse<List<SuratPindahResponse>>> {
+    suspend fun getSuratPindahByUser(id: Int): Response<BaseResponseAll<List<SuratPindahResponse>>> {
         return apiService.getSuratPindahByUser(getBearerToken())
     }
 
     // Get Surat Pindah detail by ID
-    suspend fun getDetailSuratPindahById(id: Int): Response<BaseResponse<SuratPindahResponse>> {
+    suspend fun getDetailSuratPindahById(id: Int): Response<BaseResponseAll<SuratPindahResponse>> {
         return apiService.getDetailSuratPindahById(getBearerToken(), id)
     }
 
     // Update Surat Pindah by ID
-    suspend fun updateSuratPindah(id: Int, request: CreateSuratPindahRequest): Response<BaseResponse<SuratPindahResponse>> {
+    suspend fun updateSuratPindah(id: Int, request: CreateSuratPindahRequest): Response<BaseResponseAll<SuratPindahResponse>> {
         return apiService.updateSuratPindah(getBearerToken(), id, request)
     }
 
     // Delete Surat Pindah by ID
-    suspend fun deleteSuratPindah(id: Int): Response<BaseResponse<String>> {
+    suspend fun deleteSuratPindah(id: Int): Response<BaseResponseAll<String>> {
         return apiService.deleteSuratPindah(getBearerToken(), id)
     }
 

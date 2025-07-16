@@ -1,8 +1,9 @@
 package com.localclasstech.layanandesa.feature.keluhan.data.network
 
 import com.localclasstech.layanandesa.feature.keluhan.data.Keluhan
-import com.localclasstech.layanandesa.feature.layanan.data.network.data.BaseResponse
+import com.localclasstech.layanandesa.feature.layanan.data.network.data.BaseResponseAll
 import okhttp3.MultipartBody
+import okhttp3.RequestBody
 
 import retrofit2.Response
 import retrofit2.http.DELETE
@@ -18,16 +19,16 @@ interface KeluhanApiService {
     @GET("api/keluhan")
     suspend fun getKeluhans(
         @Header("Authorization") token: String
-    ):Response<BaseResponse<List<Keluhan>>>
+    ):Response<BaseResponseAll<List<Keluhan>>>
 
     @Multipart
     @POST("api/keluhan")
     suspend fun createKeluhan(
         @Header("Authorization") token: String,
         @Part gambar: MultipartBody.Part?, // Gambar sebagai Multipart
-        @Part("judul") judul: String,
-        @Part("isi") isi: String
-    ): Response<BaseResponse<Keluhan>>
+        @Part("judul") judul: RequestBody,
+        @Part("isi") isi: RequestBody
+    ): Response<BaseResponseAll<Keluhan>>
 
     @Multipart
     @PUT("api/keluhan/{id}")
@@ -35,20 +36,20 @@ interface KeluhanApiService {
         @Header("Authorization") token: String,
         @Path("id") id: Int,
         @Part gambar: MultipartBody.Part?, // Gambar sebagai Multipart
-        @Part("judul") judul: String,
-        @Part("isi") isi: String
-    ): Response<BaseResponse<Keluhan>>
+        @Part("judul") judul: RequestBody,
+        @Part("isi") isi: RequestBody
+    ): Response<BaseResponseAll<Keluhan>>
 
     @GET("api/keluhan/{id}")
     suspend fun getKeluhanById(
         @Header("Authorization") token: String,
         @Path("id") id: Int
-    ): Response<BaseResponse<Keluhan>>
+    ): Response<BaseResponseAll<Keluhan>>
 
     @DELETE("api/keluhan/{id}")
     suspend fun deleteKeluhan(
         @Header("Authorization") token: String,
         @Path("id") id: Int
-    ): Response<BaseResponse<String>>
+    ): Response<BaseResponseAll<String>>
 
 }

@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/nav_graph.xml">
+    android:id="@+id/nav_graph.xml"
+    app:enterAnim="@anim/slide_in_right"
+    app:exitAnim="@anim/slide_out_left"
+  >
     <fragment
         android:id="@+id/layananFragment"
         android:name="com.localclasstech.layanandesa.feature.layanan.view.LayananFragment"
@@ -9,6 +12,7 @@
         <action
             android:id="@+id/action_layananFragment_to_formSuratKtmFragment"
             app:destination="@id/formSuratKtmFragment" />
+
     </fragment>
 
     <fragment

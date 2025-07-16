@@ -2,7 +2,7 @@ package com.localclasstech.layanandesa.feature.layanan.data.repository
 
 import android.util.Log
 import com.localclasstech.layanandesa.feature.layanan.data.network.apiservice.SuratApiService
-import com.localclasstech.layanandesa.feature.layanan.data.network.data.BaseResponse
+import com.localclasstech.layanandesa.feature.layanan.data.network.data.BaseResponseAll
 import com.localclasstech.layanandesa.feature.layanan.data.network.data.DownloadUrlResponse
 import com.localclasstech.layanandesa.feature.layanan.data.network.data.suratktm.CreateSktmRequest
 import com.localclasstech.layanandesa.feature.layanan.data.network.data.suratktm.SktmResponse
@@ -20,22 +20,22 @@ class SuratKtmRepository(
         return "Bearer $token"
     }
 
-    suspend fun createSuratKtm(request: CreateSktmRequest): Response<BaseResponse<SktmResponse>> {
+    suspend fun createSuratKtm(request: CreateSktmRequest): Response<BaseResponseAll<SktmResponse>> {
         return apiService.createSuratKtm(getBearerToken(), request)
     }
 
-    suspend fun getSuratKtmByUser(id: Int): Response<BaseResponse<List<SktmResponse>>> {
+    suspend fun getSuratKtmByUser(id: Int): Response<BaseResponseAll<List<SktmResponse>>> {
 
         return apiService.getSuratKtmByUser(getBearerToken())
     }
-    suspend fun deleteSuratKtm(id: Int): Response<BaseResponse<String>> {
+    suspend fun deleteSuratKtm(id: Int): Response<BaseResponseAll<String>> {
         return apiService.deleteSuratKtm(getBearerToken(), id)
     }
-    suspend fun getDetailSuratKtmById(id: Int): Response<BaseResponse<SktmResponse>> {
+    suspend fun getDetailSuratKtmById(id: Int): Response<BaseResponseAll<SktmResponse>> {
         return apiService.getDetailSuratKtmById(getBearerToken(), id)
     }
 
-    suspend fun updateSuratKtm(id: Int, request: CreateSktmRequest): Response<BaseResponse<SktmResponse>> {
+    suspend fun updateSuratKtm(id: Int, request: CreateSktmRequest): Response<BaseResponseAll<SktmResponse>> {
         return apiService.updateSuratKtm(getBearerToken(), id, request)
     }
     suspend fun exportPdfSuratKtm(id: Int): Response<ResponseBody> {

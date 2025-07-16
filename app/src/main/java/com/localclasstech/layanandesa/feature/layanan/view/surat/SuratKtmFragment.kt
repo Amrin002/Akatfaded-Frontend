@@ -180,7 +180,7 @@ class SuratKtmFragment : Fragment() {
                 binding.etKeterangan.isEnabled = true
 
                 // Show submit button with appropriate text
-                binding.btnAjukan.text = "Ajukan Surat KTM"
+                binding.btnAjukan.text = "Ajukan Surat"
                 binding.btnAjukan.visibility = View.VISIBLE
             }
             Constant.TYPE_UPDATE -> {
@@ -197,7 +197,7 @@ class SuratKtmFragment : Fragment() {
                 binding.etKeterangan.isEnabled = true
 
                 // Show submit button with update text
-                binding.btnAjukan.text = "Perbarui Surat KTM"
+                binding.btnAjukan.text = "Perbarui Surat"
                 binding.btnAjukan.visibility = View.VISIBLE
             }
         }

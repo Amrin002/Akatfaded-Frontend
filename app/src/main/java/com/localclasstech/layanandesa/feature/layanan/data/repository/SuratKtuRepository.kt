@@ -2,7 +2,7 @@ package com.localclasstech.layanandesa.feature.layanan.data.repository
 
 import android.util.Log
 import com.localclasstech.layanandesa.feature.layanan.data.network.apiservice.SuratApiService
-import com.localclasstech.layanandesa.feature.layanan.data.network.data.BaseResponse
+import com.localclasstech.layanandesa.feature.layanan.data.network.data.BaseResponseAll
 import com.localclasstech.layanandesa.feature.layanan.data.network.data.DownloadUrlResponse
 import com.localclasstech.layanandesa.feature.layanan.data.network.data.suratktu.CreateSuratKtuRequest
 import com.localclasstech.layanandesa.feature.layanan.data.network.data.suratktu.SuratKtuResponse
@@ -23,27 +23,27 @@ class SuratKtuRepository(
     }
 
     // Create Surat KTU
-    suspend fun createSuratKtu(request: CreateSuratKtuRequest): Response<BaseResponse<SuratKtuResponse>> {
+    suspend fun createSuratKtu(request: CreateSuratKtuRequest): Response<BaseResponseAll<SuratKtuResponse>> {
         return apiService.createSuratKtu(getBearerToken(), request)
     }
 
     // Get Surat KTU list by user
-    suspend fun getSuratKtuByUser(id: Int): Response<BaseResponse<List<SuratKtuResponse>>> {
+    suspend fun getSuratKtuByUser(id: Int): Response<BaseResponseAll<List<SuratKtuResponse>>> {
         return apiService.getSuratKtuByUser(getBearerToken())
     }
 
     // Get Surat KTU detail by ID
-    suspend fun getDetailSuratKtuById(id: Int): Response<BaseResponse<SuratKtuResponse>> {
+    suspend fun getDetailSuratKtuById(id: Int): Response<BaseResponseAll<SuratKtuResponse>> {
         return apiService.getDetailSuratKtuById(getBearerToken(), id)
     }
 
     // Update Surat KTU by ID
-    suspend fun updateSuratKtu(id: Int, request: CreateSuratKtuRequest): Response<BaseResponse<SuratKtuResponse>> {
+    suspend fun updateSuratKtu(id: Int, request: CreateSuratKtuRequest): Response<BaseResponseAll<SuratKtuResponse>> {
         return apiService.updateSuratKtu(getBearerToken(), id, request)
     }
 
     // Delete Surat KTU by ID
-    suspend fun deleteSuratKtu(id: Int): Response<BaseResponse<String>> {
+    suspend fun deleteSuratKtu(id: Int): Response<BaseResponseAll<String>> {
         return apiService.deleteSuratKtu(getBearerToken(), id)
     }
 

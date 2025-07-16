@@ -23,6 +23,7 @@ data class SuratPindahResponse(
     val alamat: String,
     val kecamatan: String,
     val kabupaten: String,
+    @SerializedName("desa_pindah")
     val desaPindah: String,
     val rt: String,
     val rw: String,

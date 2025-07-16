@@ -1,7 +1,7 @@
 package com.localclasstech.layanandesa.feature.layanan.data.repository
 
 import com.localclasstech.layanandesa.feature.layanan.data.network.apiservice.SuratApiService
-import com.localclasstech.layanandesa.feature.layanan.data.network.data.BaseResponse
+import com.localclasstech.layanandesa.feature.layanan.data.network.data.BaseResponseAll
 import com.localclasstech.layanandesa.feature.layanan.data.network.data.DownloadUrlResponse
 import com.localclasstech.layanandesa.feature.layanan.data.network.data.suratdomisili.CreateSuratDomisiliRequest
 import com.localclasstech.layanandesa.feature.layanan.data.network.data.suratdomisili.SuratDomisiliResponse
@@ -17,26 +17,26 @@ class SuratDomisiliRepository(
         return "Bearer $token"
     }
 
-    suspend fun getSuratDomisiliByUser(id: Int) :Response<BaseResponse<List<SuratDomisiliResponse>>>{
+    suspend fun getSuratDomisiliByUser(id: Int) :Response<BaseResponseAll<List<SuratDomisiliResponse>>>{
         return api.getSuratDomisiliByUser(getBearerToken())
     }
-    suspend fun getDetailSuratDomisiliById(id: Int): Response<BaseResponse<SuratDomisiliResponse>> {
+    suspend fun getDetailSuratDomisiliById(id: Int): Response<BaseResponseAll<SuratDomisiliResponse>> {
         return api.getDetailSuratDomisiliById(getBearerToken(), id)
     }
 
     suspend fun getSuratById(id: Int) = api.getSuratById(getBearerToken(), id)
 
-    suspend fun createSuratDomisili(request: CreateSuratDomisiliRequest): Response<BaseResponse<SuratDomisiliResponse>> {
+    suspend fun createSuratDomisili(request: CreateSuratDomisiliRequest): Response<BaseResponseAll<SuratDomisiliResponse>> {
         return api.createSuratDomisili(getBearerToken(), request)
     }
 
 
-    suspend fun updateSuratDomisili(id: Int, request: CreateSuratDomisiliRequest): Response<BaseResponse<SuratDomisiliResponse>>{
+    suspend fun updateSuratDomisili(id: Int, request: CreateSuratDomisiliRequest): Response<BaseResponseAll<SuratDomisiliResponse>>{
         return api.updateSuratDomisili(getBearerToken(), id, request)
 
     }
 
-    suspend fun deleteSuratDomisili(id: Int): Response<BaseResponse<String>> {
+    suspend fun deleteSuratDomisili(id: Int): Response<BaseResponseAll<String>> {
         return api.deleteSuratDomisili(getBearerToken(), id) //Type mismatch: inferred type is Response<BaseResponse<Unit>> but Response<BaseResponse<String>> was expected
     }
 

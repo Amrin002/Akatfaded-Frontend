@@ -1,6 +1,6 @@
 package com.localclasstech.layanandesa.feature.layanan.data.network.apiservice
 
-import com.localclasstech.layanandesa.feature.layanan.data.network.data.BaseResponse
+import com.localclasstech.layanandesa.feature.layanan.data.network.data.BaseResponseAll
 import com.localclasstech.layanandesa.feature.layanan.data.network.data.DownloadUrlResponse
 import com.localclasstech.layanandesa.feature.layanan.data.network.data.suratdomisili.CreateSuratDomisiliRequest
 import com.localclasstech.layanandesa.feature.layanan.data.network.data.suratdomisili.SuratDomisiliResponse
@@ -27,30 +27,30 @@ interface SuratApiService {
     suspend fun createSuratKtm(
         @Header("Authorization") token: String,
         @Body request: CreateSktmRequest
-    ): Response<BaseResponse<SktmResponse>>
+    ): Response<BaseResponseAll<SktmResponse>>
 
     @GET("api/suratktm")
     suspend fun getSuratKtmByUser(
         @Header("Authorization") token: String,
-    ): Response<BaseResponse<List<SktmResponse>>>
+    ): Response<BaseResponseAll<List<SktmResponse>>>
 
     @GET("api/suratktm/{id}")
     suspend fun getDetailSuratKtmById(
         @Header("Authorization") token: String,
         @Path("id") id: Int
-    ): Response<BaseResponse<SktmResponse>>
+    ): Response<BaseResponseAll<SktmResponse>>
     @PUT("api/suratktm/{id}")
     suspend fun updateSuratKtm(
         @Header("Authorization") token: String,
         @Path("id") id: Int,
         @Body request: CreateSktmRequest
-    ): Response<BaseResponse<SktmResponse>>
+    ): Response<BaseResponseAll<SktmResponse>>
 
     @DELETE("api/suratktm/{id}")
     suspend fun deleteSuratKtm(
         @Header("Authorization") token: String,
         @Path("id") id: Int
-    ): Response<BaseResponse<String>>
+    ): Response<BaseResponseAll<String>>
 
 
     @GET("api/suratktm/{id}/export")
@@ -70,28 +70,28 @@ interface SuratApiService {
     @GET("api/suratdomisili")
     suspend fun getSuratDomisiliByUser(
         @Header("Authorization") token: String,
-    ): Response<BaseResponse<List<SuratDomisiliResponse>>>
+    ): Response<BaseResponseAll<List<SuratDomisiliResponse>>>
     @GET("api/suratdomisili/{id}")
     suspend fun getDetailSuratDomisiliById(
         @Header("Authorization") token: String,
         @Path("id") id: Int
-    ): Response<BaseResponse<SuratDomisiliResponse>>
+    ): Response<BaseResponseAll<SuratDomisiliResponse>>
 
     @GET("api/suratdomisili/{id}")
     suspend fun getSuratById(
         @Header("Authorization") token: String,
-        @Path("id") id: Int): Response<BaseResponse<SuratDomisiliResponse>>
+        @Path("id") id: Int): Response<BaseResponseAll<SuratDomisiliResponse>>
 
     @POST("api/suratdomisili")
     suspend fun createSuratDomisili(
         @Header("Authorization") token: String,
-        @Body request: CreateSuratDomisiliRequest): Response<BaseResponse<SuratDomisiliResponse>>
+        @Body request: CreateSuratDomisiliRequest): Response<BaseResponseAll<SuratDomisiliResponse>>
 
     @PUT("api/suratdomisili/{id}")
-    suspend fun updateSuratDomisili(@Header("Authorization") token: String, @Path("id") id: Int, @Body request: CreateSuratDomisiliRequest): Response<BaseResponse<SuratDomisiliResponse>>
+    suspend fun updateSuratDomisili(@Header("Authorization") token: String, @Path("id") id: Int, @Body request: CreateSuratDomisiliRequest): Response<BaseResponseAll<SuratDomisiliResponse>>
 
     @DELETE("api/suratdomisili/{id}")
-    suspend fun deleteSuratDomisili(@Header("Authorization") token: String, @Path("id") id: Int): Response<BaseResponse<String>>
+    suspend fun deleteSuratDomisili(@Header("Authorization") token: String, @Path("id") id: Int): Response<BaseResponseAll<String>>
 
     // Untuk mendapatkan URL download Surat Domisili
     @GET("api/suratdomisili/{id}/get-download-url")
@@ -105,31 +105,31 @@ interface SuratApiService {
 suspend fun createSuratPindah(
     @Header("Authorization") token: String,
     @Body request: CreateSuratPindahRequest
-): Response<BaseResponse<SuratPindahResponse>>
+): Response<BaseResponseAll<SuratPindahResponse>>
 
     @GET("api/suratpindah")
     suspend fun getSuratPindahByUser(
         @Header("Authorization") token: String,
-    ): Response<BaseResponse<List<SuratPindahResponse>>>
+    ): Response<BaseResponseAll<List<SuratPindahResponse>>>
 
     @GET("api/suratpindah/{id}")
     suspend fun getDetailSuratPindahById(
         @Header("Authorization") token: String,
         @Path("id") id: Int
-    ): Response<BaseResponse<SuratPindahResponse>>
+    ): Response<BaseResponseAll<SuratPindahResponse>>
 
     @PUT("api/suratpindah/{id}")
     suspend fun updateSuratPindah(
         @Header("Authorization") token: String,
         @Path("id") id: Int,
         @Body request: CreateSuratPindahRequest
-    ): Response<BaseResponse<SuratPindahResponse>>
+    ): Response<BaseResponseAll<SuratPindahResponse>>
 
     @DELETE("api/suratpindah/{id}")
     suspend fun deleteSuratPindah(
         @Header("Authorization") token: String,
         @Path("id") id: Int
-    ): Response<BaseResponse<String>>
+    ): Response<BaseResponseAll<String>>
 
     @GET("api/suratpindah/{id}/export")
     @Streaming
@@ -149,31 +149,31 @@ suspend fun createSuratPindah(
     suspend fun createSuratKtu(
         @Header("Authorization") token: String,
         @Body request: CreateSuratKtuRequest
-    ): Response<BaseResponse<SuratKtuResponse>>
+    ): Response<BaseResponseAll<SuratKtuResponse>>
 
     @GET("api/suratktu")
     suspend fun getSuratKtuByUser(
         @Header("Authorization") token: String
-    ): Response<BaseResponse<List<SuratKtuResponse>>>
+    ): Response<BaseResponseAll<List<SuratKtuResponse>>>
 
     @GET("api/suratktu/{id}")
     suspend fun getDetailSuratKtuById(
         @Header("Authorization") token: String,
         @Path("id") id: Int
-    ): Response<BaseResponse<SuratKtuResponse>>
+    ): Response<BaseResponseAll<SuratKtuResponse>>
 
     @PUT("api/suratktu/{id}")
     suspend fun updateSuratKtu(
         @Header("Authorization") token: String,
         @Path("id") id: Int,
         @Body request: CreateSuratKtuRequest
-    ): Response<BaseResponse<SuratKtuResponse>>
+    ): Response<BaseResponseAll<SuratKtuResponse>>
 
     @DELETE("api/suratktu/{id}")
     suspend fun deleteSuratKtu(
         @Header("Authorization") token: String,
         @Path("id") id: Int
-    ): Response<BaseResponse<String>>
+    ): Response<BaseResponseAll<String>>
 
     @GET("api/suratktu/{id}/export")
     @Streaming
