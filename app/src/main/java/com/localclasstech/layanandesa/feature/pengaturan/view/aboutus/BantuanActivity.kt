@@ -20,5 +20,9 @@ class BantuanActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+        // Tombol back kembali ke PengaturanFragment (via finish)
+        binding.backButton.setOnClickListener {
+            finish()
+        }
     }
 }

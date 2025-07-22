@@ -164,7 +164,7 @@ class BerandaFragment : Fragment() {
         binding.btnTransparansiApbdes.setOnClickListener {
             //
             loadFragment(ApbdesFragment())
-            Toast.makeText(requireContext(), "Transparansi APBDES (Masih Di Kembangkan)", Toast.LENGTH_SHORT).show()
+            //                                          Toast.makeText(requireContext(), "Transparansi APBDES (Masih Di Kembangkan)", Toast.LENGTH_SHORT).show()
         }
 
     }
