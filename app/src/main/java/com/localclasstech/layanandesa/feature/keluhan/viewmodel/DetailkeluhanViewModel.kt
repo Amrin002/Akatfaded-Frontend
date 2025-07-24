@@ -95,7 +95,9 @@ class DetailkeluhanViewModel(private val repository: KeluhanRepository) : ViewMo
                 if (response.isSuccessful) {
                     _operationResult.postValue(true)
                     // Refresh detail keluhan setelah update berhasil
-                    getKeluhanDetail(id)
+                    response.body()?.data?.let {
+                        _keluhanDetail.postValue(it)
+                    }
                 } else {
                     val errorMessage = when (response.code()) {
                         400 -> "Data keluhan tidak valid"
@@ -169,17 +171,17 @@ class DetailkeluhanViewModel(private val repository: KeluhanRepository) : ViewMo
         }
     }
 
-    /**
-     * Reset operation result untuk mencegah trigger berulang
-     */
-    fun resetOperationResult() {
-        _operationResult.value = null
-    }
-
-    /**
-     * Clear error message
-     */
-    fun clearError() {
-        _error.value = null
-    }
+//    /**
+//     * Reset operation result untuk mencegah trigger berulang
+//     */
+//    fun resetOperationResult() {
+//        _operationResult.value = null
+//    }
+//
+//    /**
+//     * Clear error message
+//     */
+//    fun clearError() {
+//        _error.value = null
+//    }
 }

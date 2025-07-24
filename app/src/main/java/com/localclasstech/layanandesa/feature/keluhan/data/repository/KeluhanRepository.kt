@@ -1,5 +1,6 @@
 package com.localclasstech.layanandesa.feature.keluhan.data.repository
 
+import android.util.Log
 import com.localclasstech.layanandesa.feature.keluhan.data.Keluhan
 import com.localclasstech.layanandesa.feature.keluhan.data.KeluhanRequest
 import com.localclasstech.layanandesa.feature.keluhan.data.network.KeluhanApiService
@@ -43,9 +44,16 @@ class KeluhanRepository(
         val judulRequestBody = request.judul.toRequestBody("text/plain".toMediaTypeOrNull())
         val isiRequestBody = request.isi.toRequestBody("text/plain".toMediaTypeOrNull())
 
+        // Tambahkan _method untuk override ke PUT
+        val methodRequestBody = "PUT".toRequestBody("text/plain".toMediaTypeOrNull())
+
+        // Debug log
+        Log.d("KeluhanRepository", "Updating keluhan $id with judul: ${request.judul}, isi: ${request.isi}")
+
         return apiService.updateKeluhan(
             getBearerToken(),
             id,
+            methodRequestBody,  // _method
             request.gambar,
             judulRequestBody,
             isiRequestBody

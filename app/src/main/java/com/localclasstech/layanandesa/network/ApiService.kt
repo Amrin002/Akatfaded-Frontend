@@ -33,7 +33,7 @@ interface ApiService {
 @GET("api/user")
 suspend fun getUserProfile(
     @Header("Authorization") token: String
-): Response<UserData>  // Langsung kembalikan UserData
+): Response<UserData>
 
     @PUT("api/update/{id}")
     suspend fun updateUserProfile(

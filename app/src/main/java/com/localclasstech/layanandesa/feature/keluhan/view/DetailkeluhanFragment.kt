@@ -152,6 +152,8 @@ class DetailkeluhanFragment : Fragment() {
         // Langsung ambil String, tidak perlu dikonversi ke RequestBody
         val judul = binding.etJudul.text.toString()
         val isiKeluhan = binding.etIsiKeluhan.text.toString()
+        // Debug log
+        Log.d("DetailkeluhanFragment", "Collecting form data - judul: $judul, isi: $isiKeluhan")
 
         val imagePart = selectedImageFile?.let { file ->
             val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull())

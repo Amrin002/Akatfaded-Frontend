@@ -32,7 +32,7 @@ interface KeluhanApiService {
     ): Response<BaseResponseAll<Keluhan>>
 
     @Multipart
-    @PATCH("api/keluhan/{id}")
+    @PUT("api/keluhan/{id}")
     suspend fun updateKeluhan(
         @Header("Authorization") token: String,
         @Path("id") id: Int,
@@ -40,6 +40,18 @@ interface KeluhanApiService {
         @Part("judul") judul: RequestBody,
         @Part("isi") isi: RequestBody
     ): Response<BaseResponseAll<Keluhan>>
+
+    @Multipart
+    @POST("api/keluhan/{id}")  // Ganti ke POST
+    suspend fun updateKeluhan(
+        @Header("Authorization") token: String,
+        @Path("id") id: Int,
+        @Part("_method") method: RequestBody,  // Tambahkan _method
+        @Part gambar: MultipartBody.Part?,
+        @Part("judul") judul: RequestBody,
+        @Part("isi") isi: RequestBody
+    ): Response<BaseResponseAll<Keluhan>>
+
 
     @GET("api/keluhan/{id}")
     suspend fun getKeluhanById(
