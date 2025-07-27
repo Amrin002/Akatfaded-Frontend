@@ -9,239 +9,278 @@
     android:theme="@style/Base.Theme.LayananDesa"
     android:background="@color/white">
 
+    <!-- Background gradient decoration -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@drawable/gradient_background_top"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintHeight_percent="0.4" />
+
     <!-- Using guideline for consistent percentage-based spacing -->
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_start"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.0" />
+        app:layout_constraintGuide_percent="0.1" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_end"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.9" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_top"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.05" />
+        app:layout_constraintGuide_percent="0.08" />
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:layout_width="140dp"
-        android:layout_height="140dp"
-        android:id="@+id/imgLogo"
-        android:src="@drawable/logo_apps"
+    <!-- Logo with shadow/elevation effect -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/logoCard"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        app:cardCornerRadius="60dp"
+        app:cardElevation="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/guideline_top"
-        />
+        app:layout_constraintTop_toTopOf="@id/guideline_top">
 
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/imgLogo"
+            android:src="@drawable/logo_apps"
+            android:padding="20dp"
+            android:background="@color/white" />
+    </androidx.cardview.widget.CardView>
 
+    <!-- Welcome Text -->
+    <TextView
+        android:id="@+id/welcomeText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/poppins_bold"
+        android:text="Selamat Datang!"
+        android:textColor="@color/white"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        android:layout_marginTop="24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/logoCard" />
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:fontFamily="@font/poppins"
-        android:maxLines="2"
-        android:text="Layanan Desa"
-        android:textColor="#1ABAFF"
-        android:textSize="30sp"
-        android:textStyle="bold"
+        android:text="Silakan masuk untuk melanjutkan"
         android:textAlignment="center"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/imgLogo" />
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:alpha="0.9"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="@id/guideline_end"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        app:layout_constraintTop_toBottomOf="@id/welcomeText" />
 
-        <TextView
-            android:id="@+id/labelNik"
-            android:layout_width="wrap_content"
+    <!-- Main Card Container -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/formCard"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        app:cardCornerRadius="24dp"
+        app:cardElevation="12dp"
+        app:cardBackgroundColor="@color/white"
+        app:layout_constraintEnd_toEndOf="@id/guideline_end"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        app:layout_constraintTop_toBottomOf="@id/textView">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginTop="10dp"
-            android:fontFamily="@font/poppins"
+            android:padding="24dp">
 
-            android:text="NIK"
-            android:textColor="@color/black"
-            android:textSize="16sp"
-
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="@id/guideline_start"
-            app:layout_constraintTop_toBottomOf="@id/textView" />
-
-        <EditText
-            android:id="@+id/loginNik"
-            android:layout_width="0dp"
-            android:layout_height="40dp"
-            android:layout_marginHorizontal="20dp"
-            android:fontFamily="@font/poppins"
-            android:hint="Masukan NIK"
-            android:maxLength="16"
-            android:paddingHorizontal="8dp"
-            android:textColor="@color/black"
-            android:textColorHint="@color/textColor"
-            android:background="@drawable/backgroundetlogin"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@id/guideline_start"
-            app:layout_constraintTop_toBottomOf="@id/labelNik" />
-
-        <TextView
-            android:id="@+id/labelPassword"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginTop="10dp"
-            android:fontFamily="@font/poppins"
-            android:text="Kata Sandi"
-            android:textColor="@color/black"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="@id/guideline_start"
-            app:layout_constraintTop_toBottomOf="@id/loginNik" />
-        <EditText
-            android:id="@+id/loginPassword"
-            android:layout_width="0dp"
-            android:layout_height="40dp"
-            android:layout_marginHorizontal="20dp"
-            android:drawableEnd="@drawable/ic_eye_block"
-            android:drawablePadding="20dp"
-            android:fontFamily="@font/poppins"
-            android:hint="Masukan kata sandi"
-            android:inputType="textPassword"
-            android:paddingHorizontal="8dp"
-            android:textColor="@color/black"
-            android:textColorHint="@color/textColor"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@id/guideline_start"
-            android:background="@drawable/backgroundetlogin"
-            app:layout_constraintTop_toBottomOf="@id/labelPassword" />
-
-        <TextView
-            android:id="@+id/forgotPassword"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginTop="10dp"
-            android:fontFamily="@font/poppins"
-            android:text="Lupa Kata Sandi?"
-            android:textColor="#4586FF"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="@id/guideline_start"
-            app:layout_constraintTop_toBottomOf="@id/loginPassword" />
-
-        <FrameLayout
-            android:id="@+id/btnLoginContainer"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginTop="15dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/forgotPassword"
-            app:layout_constraintWidth_percent="0.85">
-
-            <!-- Tombol Login -->
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btnLogin"
-                android:layout_width="match_parent"
+            <!-- Label NIK with icon -->
+            <TextView
+                android:id="@+id/labelNik"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/backgroundbuttonlogin"
-                android:elegantTextHeight="true"
-                android:fontFamily="@font/poppins"
-                android:text="Login"
-                android:textAllCaps="false"
-                android:textColor="@color/white"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+                android:fontFamily="@font/poppins_semibold"
+                android:text="NIK"
+                android:textColor="@color/text_primary"
+                android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-            <!-- ProgressBar Loading -->
-            <ProgressBar
-                android:id="@+id/progressBarLogin"
-                style="?android:attr/progressBarStyleSmall"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_gravity="center"
-                android:indeterminate="true"
-                android:visibility="gone" />
-        </FrameLayout>
+            <!-- Modern Input NIK -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/nikInputLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                app:boxCornerRadiusBottomEnd="12dp"
+                app:boxCornerRadiusBottomStart="12dp"
+                app:boxCornerRadiusTopEnd="12dp"
+                app:boxCornerRadiusTopStart="12dp"
+                app:boxStrokeColor="@color/primary_blue"
+                app:hintEnabled="false"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/labelNik">
+
+                <EditText
+                    android:id="@+id/loginNik"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:background="@drawable/modern_edit_text_bg"
+                    android:drawableStart="@drawable/ic_person"
+                    android:drawablePadding="16dp"
+                    android:hint="Masukkan NIK Anda"
+                    android:inputType="number"
+                    android:maxLength="16"
+                    android:maxLines="1"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:textColor="@color/text_primary"
+                    android:textColorHint="@color/text_hint"
+                    android:textSize="16sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Label Password with icon -->
+            <TextView
+                android:id="@+id/labelPassword"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/poppins_semibold"
+                android:text="Kata Sandi"
+                android:textColor="@color/text_primary"
+                android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/nikInputLayout" />
+
+            <!-- Modern Input Password -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/passwordInputLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                app:boxCornerRadiusBottomEnd="12dp"
+                app:boxCornerRadiusBottomStart="12dp"
+                app:boxCornerRadiusTopEnd="12dp"
+                app:boxCornerRadiusTopStart="12dp"
+                app:boxStrokeColor="@color/primary_blue"
+                app:hintEnabled="false"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/labelPassword">
+
+                <EditText
+                    android:id="@+id/loginPassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:background="@drawable/modern_edit_text_bg"
+                    android:drawableStart="@drawable/ic_lock"
+                    android:drawableEnd="@drawable/ic_eye_block"
+                    android:drawablePadding="16dp"
+                    android:hint="Masukkan kata sandi"
+                    android:inputType="textPassword"
+                    android:maxLines="1"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:textColor="@color/text_primary"
+                    android:textColorHint="@color/text_hint"
+                    android:textSize="16sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Forgot Password -->
+            <TextView
+                android:id="@+id/forgotPassword"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:fontFamily="@font/poppins"
+                android:text="Lupa kata sandi?"
+                android:textColor="@color/primary_blue"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/passwordInputLayout" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
+    <!-- Login Button Container -->
+    <FrameLayout
+        android:id="@+id/btnLoginContainer"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        app:layout_constraintEnd_toEndOf="@id/guideline_end"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        app:layout_constraintTop_toBottomOf="@id/formCard">
+
+        <!-- Modern Login Button -->
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnLogin"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:background="@drawable/modern_button_bg"
+            android:fontFamily="@font/poppins_semibold"
+            android:text="Masuk"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:elevation="4dp" />
+
+        <!-- ProgressBar Loading -->
+        <ProgressBar
+            android:id="@+id/progressBarLogin"
+            style="?android:attr/progressBarStyleSmall"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="center"
+            android:indeterminate="true"
+            android:indeterminateTint="@color/white"
+            android:visibility="gone" />
+    </FrameLayout>
+
+    <!-- Register Section -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnLoginContainer">
 
         <TextView
             android:id="@+id/textViewRegister"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:fontFamily="@font/poppins"
-            android:text="Belum punya akun?"
-            android:textColor="@color/colorTextSecondary"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/btnLoginContainer" />
+            android:text="Belum punya akun? "
+            android:textColor="@color/text_secondary"
+            android:textSize="14sp" />
 
-        <androidx.appcompat.widget.AppCompatButton
+        <TextView
             android:id="@+id/btnDaftar"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginTop="15dp"
-            android:layout_marginBottom="30dp"
-            android:background="@drawable/backgroundbuttonloginguest"
-            android:elegantTextHeight="true"
-            android:fontFamily="@font/poppins"
+            android:fontFamily="@font/poppins_semibold"
             android:text="Daftar"
-            android:textAllCaps="false"
-            android:textColor="@color/colorPrimary"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textViewRegister"
-            app:layout_constraintVertical_bias="0.0"
-            app:layout_constraintWidth_percent="0.85" />
-<!--    <ImageView-->
-<!--        android:layout_width="0dp"-->
-<!--        android:layout_height="0dp"-->
-<!--        android:id="@+id/imageView"-->
-<!--        android:background="@drawable/imglogin"-->
-<!--        app:layout_constraintTop_toBottomOf="@id/textView"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintWidth_percent="0.9"-->
-<!--        app:layout_constraintHeight_percent="0.3"-->
-<!--        android:scaleType="centerCrop"-->
-<!--        app:layout_constraintVertical_bias="0"-->
-<!--        android:layout_marginTop="16dp"/>-->
-
-<!--    &lt;!&ndash; Container untuk form dengan background &ndash;&gt;-->
-<!--    <androidx.constraintlayout.widget.ConstraintLayout-->
-<!--        android:id="@+id/formContainer"-->
-<!--        android:layout_width="0dp"-->
-<!--        android:layout_height="0dp"-->
-<!--        android:layout_marginTop="10dp"-->
-<!--        android:layout_marginBottom="40dp"-->
-<!--        android:background="@drawable/backgroundformlogin"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintWidth_percent="0.9"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@id/imageView">-->
-
-<!--        &lt;!&ndash; Label NIK &ndash;&gt;-->
-
-        <!-- Input NIK -->
-
-<!--        &lt;!&ndash; Label Kata Sandi &ndash;&gt;-->
-
-<!--        &lt;!&ndash; Input Kata Sandi &ndash;&gt;-->
-
-<!--        &lt;!&ndash; Lupa Kata Sandi &ndash;&gt;-->
-
-<!--        &lt;!&ndash; Container untuk Tombol Login &ndash;&gt;-->
-
-<!--        &lt;!&ndash; Text "Belum punya akun?" &ndash;&gt;-->
-
-<!--        &lt;!&ndash; Tombol Daftar &ndash;&gt;-->
-
-<!--    </androidx.constraintlayout.widget.ConstraintLayout>-->
-
+            android:textColor="@color/primary_blue"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

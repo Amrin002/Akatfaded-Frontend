@@ -1,84 +1,158 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:cardCornerRadius="8dp"
+    android:layout_marginVertical="6dp"
+    android:layout_marginHorizontal="4dp"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="2dp"
     app:cardBackgroundColor="@color/white"
-    app:cardElevation="5dp"
-    android:layout_marginVertical="4dp"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    app:strokeWidth="0dp">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="10dp"
-        android:paddingVertical="6dp"
-        >
-        <ImageView
-            android:layout_width="125dp"
-            android:layout_height="90dp"
-            android:id="@+id/imgBerita"
+        android:padding="12dp">
+
+        <!-- News Image with modern shape -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/imageCard"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="0dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginTop="5dp"
-            android:src="@drawable/ic_block"
-            android:scaleType="centerCrop"
-            android:background="@color/abu_abu"
-            android:layout_marginBottom="5dp" />
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/tvJudulBerita"
-            android:text="Judul Berita"
-            android:maxLines="1"
-            android:fontFamily="@font/poppins"
-            android:textStyle="bold"
-            android:textSize="16sp"
-            android:textColor="@color/black"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toEndOf="@id/imgBerita"
-            android:layout_marginTop="3dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginStart="10dp"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/tvPenulisBerita"
-            android:text="Judul Berita"
-            android:fontFamily="@font/poppins"
-            android:textSize="12sp"
-            android:textColor="@color/black"
-            app:layout_constraintStart_toStartOf="@id/tvJudulBerita"
-            app:layout_constraintTop_toBottomOf="@id/tvJudulBerita"
-            />
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent">
 
-            app:layout_constraintStart_toEndOf="@id/tvPenulisBerita"
-            app:layout_constraintTop_toBottomOf="@id/tvJudulBerita"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:id="@+id/tvTanggalBerita"
-            android:text="Selasa, 12 maret 2024"
-            android:fontFamily="@font/poppins"
-            android:textSize="12sp"
-            android:textColor="@color/black"
-            android:textAlignment="textEnd"
-            android:layout_marginEnd="10dp"/>
-        <TextView
+            <ImageView
+                android:id="@+id/imgBerita"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_block" />
+
+            <!-- Gradient overlay for better text visibility if needed -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_gravity="bottom"
+                android:background="@drawable/gradient_overlay_bottom"
+                android:visibility="gone" />
+        </androidx.cardview.widget.CardView>
+
+        <!-- Content Section -->
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:id="@+id/tvKontenBerita"
-            android:text="Judul saddasasd fadsfasd fasdfaw efr ewwrq rfdgsdfgsdfgs dfg resterw twre"
-            android:maxLines="2"
-            android:ellipsize="end"
-            android:fontFamily="@font/poppins"
-            android:textSize="14sp"
-            android:textColor="@color/black"
-            app:layout_constraintTop_toBottomOf="@id/tvPenulisBerita"
-            app:layout_constraintStart_toEndOf="@id/imgBerita"
-            android:layout_marginStart="10dp"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            android:layout_marginStart="12dp"
+            app:layout_constraintStart_toEndOf="@id/imageCard"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <!-- Category/Date Badge -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/dateBadge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="6dp"
+                app:cardElevation="0dp"
+                app:cardBackgroundColor="@color/secondary_blue"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
+
+                <TextView
+                    android:id="@+id/tvTanggalBerita"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="27 Juli 2025"
+                    android:fontFamily="@font/poppins"
+                    android:textSize="10sp"
+                    android:textColor="@color/primary_blue"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="4dp" />
+            </androidx.cardview.widget.CardView>
+
+            <!-- Title -->
+            <TextView
+                android:id="@+id/tvJudulBerita"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Judul Berita Yang Menarik"
+                android:fontFamily="@font/poppins_semibold"
+                android:textColor="@color/text_primary"
+                android:textSize="15sp"
+                android:maxLines="2"
+                android:ellipsize="end"
+                android:layout_marginTop="8dp"
+                app:layout_constraintTop_toBottomOf="@id/dateBadge"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <!-- Content Preview -->
+            <TextView
+                android:id="@+id/tvKontenBerita"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Deskripsi singkat berita..."
+                android:fontFamily="@font/poppins"
+                android:textColor="@color/text_secondary"
+                android:textSize="12sp"
+                android:maxLines="2"
+                android:ellipsize="end"
+                android:layout_marginTop="4dp"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@id/tvJudulBerita"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <!-- Author and Read More -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="8dp"
+                android:gravity="center_vertical"
+                app:layout_constraintTop_toBottomOf="@id/tvJudulBerita"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent">
+
+                <ImageView
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
+                    android:src="@drawable/ic_author"
+                    app:tint="@color/text_secondary" />
+
+                <TextView
+                    android:id="@+id/tvPenulisBerita"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Admin Desa"
+                    android:fontFamily="@font/poppins"
+                    android:textColor="@color/text_secondary"
+                    android:textSize="11sp"
+                    android:layout_marginStart="4dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Baca →"
+                    android:fontFamily="@font/poppins_medium"
+                    android:textColor="@color/primary_blue"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- Ripple Effect -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="?attr/selectableItemBackground" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
-</com.google.android.material.card.MaterialCardView >
+</com.google.android.material.card.MaterialCardView>

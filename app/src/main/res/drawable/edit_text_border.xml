@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shape android:shape="rectangle" xmlns:android="http://schemas.android.com/apk/res/android">
-    <solid android:color="@android:color/transparent"/> <!-- Background transparan -->
-    <stroke android:width="2dp" android:color="@color/black"/> <!-- Garis pinggir -->
-    <corners android:radius="6dp"/> <!-- Membuat border sedikit melengkung -->
+    <solid android:color="@android:color/transparent" />
+    <corners android:radius="12dp" />
+    <padding
+        android:left="16dp"
+        android:right="16dp"
+        android:top="14dp"
+        android:bottom="14dp" />
+    <stroke
+        android:width="1.5dp"
+        android:color="@color/divider" />
 </shape>

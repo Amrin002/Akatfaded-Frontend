@@ -5,62 +5,72 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.MainActivity"
-    android:background="@color/white"
+    android:background="@color/background_light"
     android:fitsSystemWindows="true"
-    android:theme="@style/Base.Theme.LayananDesa"
-    >
+    tools:context=".view.MainActivity">
 
-    <androidx.fragment.app.FragmentContainerView
+    <!-- Fragment Container with subtle shadow -->
+    <androidx.cardview.widget.CardView
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:id="@+id/fragmentView"
+        app:cardCornerRadius="0dp"
+        app:cardElevation="2dp"
+        app:cardBackgroundColor="@color/white"
         app:layout_constraintTop_toTopOf="parent"
-        app:navGraph="@navigation/nav_graph"
         app:layout_constraintBottom_toTopOf="@id/bottomNavigationFrame"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent">
 
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/fragmentView"
+            android:name="androidx.navigation.fragment.NavHostFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:defaultNavHost="true"
+            app:navGraph="@navigation/nav_graph" />
+    </androidx.cardview.widget.CardView>
 
+    <!-- Modern Bottom Navigation Container -->
     <FrameLayout
         android:id="@+id/bottomNavigationFrame"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_gravity="center"
-        android:fitsSystemWindows="true"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bottom_nav_background"
+        android:elevation="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-    >
-        <!-- Top stroke line -->
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <!-- Top Shadow/Divider -->
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/abu_abu"
+            android:background="@drawable/shadow_gradient_top"
             android:layout_gravity="top" />
+
+        <!-- Active Indicator that moves -->
+        <View
+            android:id="@+id/activeIndicator"
+            android:layout_width="60dp"
+            android:layout_height="3dp"
+            android:background="@drawable/active_indicator_gradient"
+            android:layout_gravity="top|center_horizontal"
+            android:visibility="invisible" />
 
         <!-- Bottom Navigation -->
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottomNavigation"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="64dp"
+            android:background="@android:color/transparent"
             app:menu="@menu/bottom_navigation"
-            android:background="@color/transparant"
-            android:paddingHorizontal="20dp"
-            style="@style/BottomNavView" />
-
-        <!-- Indicator -->
-        <View
-            android:id="@+id/activeIndicator"
-            android:layout_width="32dp"
-            android:layout_height="4dp"
-            android:layout_gravity="top"
-
-            android:visibility="invisible"
-            android:background="@drawable/indicator_nav"
-           />
+            app:itemIconSize="24dp"
+            app:itemIconTint="@color/bottom_nav_modern_colors"
+            app:itemTextColor="@color/bottom_nav_modern_colors"
+            app:itemRippleColor="@color/primary_blue_light"
+            app:labelVisibilityMode="labeled"
+            android:paddingHorizontal="16dp"
+            style="@style/SimpleBottomNavView" />
     </FrameLayout>
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

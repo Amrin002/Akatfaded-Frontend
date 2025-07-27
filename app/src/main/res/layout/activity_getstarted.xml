@@ -30,7 +30,7 @@
         android:textSize="30sp"
         android:elevation="10dp"
         android:fontFamily="@font/poppins_bold"
-        android:textColor="@color/colorPrimary"
+        android:textColor="@color/primary_blue"
         android:textStyle="bold"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
