@@ -60,12 +60,14 @@ class SuratKtuFragment : Fragment() {
         }
         setupSpinner()
         setupDatePicker()
-        binding.etTanggalLahir.setOnClickListener {
-            // Only show date picker if not in detail mode or if enabled
+
+        // Date picker click listener - now using the CardView
+        binding.datePickerLayout.setOnClickListener {
             if (binding.etTanggalLahir.isEnabled) {
                 showDatePicker()
             }
         }
+
         binding.btnEditSurat.setOnClickListener{
             val bundle = Bundle().apply {
                 putInt("id_surat", idSurat)
@@ -76,9 +78,12 @@ class SuratKtuFragment : Fragment() {
                 .addToBackStack(null)
                 .commit()
         }
+
+        // Fixed: changed from backButton to back_button to match the XML ID
         binding.backButton.setOnClickListener{
             parentFragmentManager.popBackStack()
         }
+
         binding.btnDeleteSurat.setOnClickListener {
             showDeleteConfirmationDialog(idSurat)
         }
@@ -190,10 +195,10 @@ class SuratKtuFragment : Fragment() {
 
         viewModel.detailSuratKtu.observe(viewLifecycleOwner) { dataSktu ->
             if (dataSktu != null && (type == Constant.TYPE_DETAIL || type == Constant.TYPE_UPDATE)) {
-                // Isi form dengan data dari detail surat
+                // Isi form dengan data dari detail surat - Fixed: use setText for TextInputEditText
                 binding.etNama.setText(dataSktu.nama)
                 binding.etTempatLahir.setText(dataSktu.tempatLahir)
-                binding.etTanggalLahir.setText(dataSktu.tanggalLahir)
+                binding.etTanggalLahir.text = dataSktu.tanggalLahir // For TextView in date picker
                 binding.spinerJK.setSelection(
                     listOf(
                         "Laki-laki",
@@ -243,12 +248,12 @@ class SuratKtuFragment : Fragment() {
                     }
                     Constant.TYPE_UPDATE -> {
                         viewModel.updateSuratKtu(idSurat, suratKtuData)
+                    }
                 }
-            }
-        }else{
-            Toast.makeText(requireContext(), "Silahkan Lengkapi semua Field", Toast.LENGTH_SHORT).show() }
+            }else{
+                Toast.makeText(requireContext(), "Silahkan Lengkapi semua Field", Toast.LENGTH_SHORT).show() }
 
-            }
+        }
         viewModel.operationResult.observe(viewLifecycleOwner){ isSuccess ->
             if (isSuccess){
                 Toast.makeText(
@@ -291,14 +296,14 @@ class SuratKtuFragment : Fragment() {
 
     private fun downloadPdf(idSurat: Int) {
         // Show loading indicator
-       // binding.progressBar.visibility = View.VISIBLE
+        // binding.progressBar.visibility = View.VISIBLE
 
         // Get the download URL from your API
         viewModel.getDownloadUrl(idSurat)
 
         // Observe the result
         viewModel.downloadUrlResult.observe(viewLifecycleOwner) { result ->
-          //  binding.progressBar.visibility = View.GONE
+            //  binding.progressBar.visibility = View.GONE
 
             if (result.success && result.downloadUrl != null) {
                 // Open the URL directly in a browser or PDF viewer
@@ -310,19 +315,20 @@ class SuratKtuFragment : Fragment() {
             }
         }
     }
+
     private fun validateForm(): Boolean {
-        // Basic validation
-        return binding.etNama.text.isNotBlank() &&
-                binding.etTempatLahir.text.isNotBlank() &&
+        // Basic validation - Fixed: use text property for TextInputEditText
+        return binding.etNama.text?.isNotBlank() == true &&
+                binding.etTempatLahir.text?.isNotBlank() == true &&
                 binding.etTanggalLahir.text.toString() != "Pilih Tanggal Lahir" &&
-                binding.etKewarganegaraan.text.isNotBlank() &&
-                binding.etAlamat.text.isNotBlank() &&
-                binding.etAgama.text.isNotBlank() &&
-                binding.etPekerjaan.text.isNotBlank() &&
-                binding.etJenisUsaha.text.isNotBlank() &&
-                binding.etAlamatUsaha.text.isNotBlank() &&
-                binding.etPemilikUsaha.text.isNotBlank() 
-                
+                binding.etKewarganegaraan.text?.isNotBlank() == true &&
+                binding.etAlamat.text?.isNotBlank() == true &&
+                binding.etAgama.text?.isNotBlank() == true &&
+                binding.etPekerjaan.text?.isNotBlank() == true &&
+                binding.etJenisUsaha.text?.isNotBlank() == true &&
+                binding.etAlamatUsaha.text?.isNotBlank() == true &&
+                binding.etPemilikUsaha.text?.isNotBlank() == true
+
     }
     private fun showDeleteConfirmationDialog(idSurat: Int) {
         DialogHelper.showConfirmationDialog(
@@ -334,7 +340,8 @@ class SuratKtuFragment : Fragment() {
         )
     }
     private fun setupDatePicker() {
-        binding.etTanggalLahir.setOnClickListener {
+        // Date picker setup - now using the CardView click
+        binding.datePickerLayout.setOnClickListener {
             if (binding.etTanggalLahir.isEnabled) {
                 showDatePicker()
             }

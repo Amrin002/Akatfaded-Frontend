@@ -1,278 +1,519 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@drawable/background1"
-    android:id="@+id/swipeRefreshLayanan"
+    android:background="@color/background_light"
     tools:context=".feature.layanan.view.LayananFragment">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshLayanan"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
-        <com.facebook.shimmer.ShimmerFrameLayout
-            android:id="@+id/shimmerLayoutSurat"
+        android:layout_height="match_parent">
+
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
-            app:layout_constraintTop_toTopOf="parent">
+            android:layout_height="match_parent"
+            android:fillViewport="true">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <include layout="@layout/skleton_surat_item" />
-                <include layout="@layout/skleton_surat_item" />
-                <include layout="@layout/skleton_surat_item" />
-                <include layout="@layout/skleton_surat_item" />
+                <!-- Header Section -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:background="@drawable/header_gradient_layanan"
+                    android:paddingTop="24dp"
+                    android:paddingBottom="32dp">
 
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Layanan Surat"
+                        android:textColor="@color/white"
+                        android:fontFamily="@font/poppins_bold"
+                        android:textSize="28sp"
+                        android:layout_marginStart="20dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Pilih jenis surat yang ingin Anda ajukan"
+                        android:textColor="@color/white"
+                        android:alpha="0.9"
+                        android:fontFamily="@font/poppins"
+                        android:textSize="14sp"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="4dp" />
+
+                    <!-- Quick Stats -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginHorizontal="20dp">
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginEnd="8dp"
+                            app:cardCornerRadius="12dp"
+                            app:cardElevation="0dp"
+                            app:cardBackgroundColor="#40FFFFFF">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:padding="12dp"
+                                android:gravity="center">
+
+                                <TextView
+                                    android:id="@+id/tvTotalSurat"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="0"
+                                    android:textColor="@color/white"
+                                    android:fontFamily="@font/poppins_bold"
+                                    android:textSize="24sp" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Total Surat"
+                                    android:textColor="@color/white"
+                                    android:fontFamily="@font/poppins"
+                                    android:textSize="12sp" />
+                            </LinearLayout>
+                        </androidx.cardview.widget.CardView>
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginStart="8dp"
+                            app:cardCornerRadius="12dp"
+                            app:cardElevation="0dp"
+                            app:cardBackgroundColor="#40FFFFFF">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:padding="12dp"
+                                android:gravity="center">
+
+                                <TextView
+                                    android:id="@+id/tvSuratSelesai"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="0"
+                                    android:textColor="@color/white"
+                                    android:fontFamily="@font/poppins_bold"
+                                    android:textSize="24sp" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Selesai"
+                                    android:textColor="@color/white"
+                                    android:fontFamily="@font/poppins"
+                                    android:textSize="12sp" />
+                            </LinearLayout>
+                        </androidx.cardview.widget.CardView>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!-- Shimmer Loading -->
+                <com.facebook.shimmer.ShimmerFrameLayout
+                    android:id="@+id/shimmerLayoutSurat"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    android:visibility="gone">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <include layout="@layout/skeleton_surat_card" />
+                        <include layout="@layout/skeleton_surat_card" />
+                        <include layout="@layout/skeleton_surat_card" />
+                        <include layout="@layout/skeleton_surat_card" />
+                    </LinearLayout>
+                </com.facebook.shimmer.ShimmerFrameLayout>
+
+                <!-- Surat List Container -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginTop="-16dp"
+                    android:paddingHorizontal="16dp">
+
+                    <!-- SKTM Card -->
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="12dp"
+                        app:cardCornerRadius="16dp"
+                        app:cardElevation="2dp"
+                        app:cardBackgroundColor="@color/white">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <!-- Header SKTM -->
+                            <LinearLayout
+                                android:id="@+id/layoutFilterSktm"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:padding="16dp"
+                                android:background="?attr/selectableItemBackground"
+                                android:gravity="center_vertical">
+
+                                <androidx.cardview.widget.CardView
+                                    android:layout_width="48dp"
+                                    android:layout_height="48dp"
+                                    app:cardCornerRadius="12dp"
+                                    app:cardElevation="0dp"
+                                    app:cardBackgroundColor="@color/secondary_blue">
+
+                                    <ImageView
+                                        android:layout_width="24dp"
+                                        android:layout_height="24dp"
+                                        android:layout_gravity="center"
+                                        android:src="@drawable/ic_document"
+                                        app:tint="@color/primary_blue" />
+                                </androidx.cardview.widget.CardView>
+
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:orientation="vertical"
+                                    android:layout_marginStart="12dp">
+
+                                    <TextView
+                                        android:id="@+id/tvTypeSuratKtm"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Surat Keterangan Tidak Mampu"
+                                        android:fontFamily="@font/poppins_semibold"
+                                        android:textColor="@color/text_primary"
+                                        android:textSize="16sp" />
+
+                                    <TextView
+                                        android:id="@+id/tvJumlahSurat"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="0 Surat"
+                                        android:fontFamily="@font/poppins"
+                                        android:textColor="@color/text_secondary"
+                                        android:textSize="13sp" />
+                                </LinearLayout>
+
+                                <androidx.appcompat.widget.AppCompatImageButton
+                                    android:id="@+id/dropdown_surat"
+                                    android:layout_width="32dp"
+                                    android:layout_height="32dp"
+                                    android:src="@drawable/ic_dropdown_close"
+                                    android:background="?attr/selectableItemBackgroundBorderless"
+                                    android:tint="@color/text_secondary" />
+                            </LinearLayout>
+
+                            <!-- RecyclerView SKTM -->
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/recyclerViewSuratItemKtm"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:visibility="gone"
+                                android:paddingHorizontal="16dp"
+                                android:paddingBottom="16dp"
+                                tools:listitem="@layout/list_surat" />
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+
+                    <!-- Surat Domisili Card -->
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="12dp"
+                        app:cardCornerRadius="16dp"
+                        app:cardElevation="2dp"
+                        app:cardBackgroundColor="@color/white">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <!-- Header Domisili -->
+                            <LinearLayout
+                                android:id="@+id/layoutFilterSdomisili"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:padding="16dp"
+                                android:background="?attr/selectableItemBackground"
+                                android:gravity="center_vertical">
+
+                                <androidx.cardview.widget.CardView
+                                    android:layout_width="48dp"
+                                    android:layout_height="48dp"
+                                    app:cardCornerRadius="12dp"
+                                    app:cardElevation="0dp"
+                                    app:cardBackgroundColor="@color/secondary_blue">
+
+                                    <ImageView
+                                        android:layout_width="24dp"
+                                        android:layout_height="24dp"
+                                        android:layout_gravity="center"
+                                        android:src="@drawable/ic_home_document"
+                                        app:tint="@color/primary_blue" />
+                                </androidx.cardview.widget.CardView>
+
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:orientation="vertical"
+                                    android:layout_marginStart="12dp">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Surat Domisili"
+                                        android:fontFamily="@font/poppins_semibold"
+                                        android:textColor="@color/text_primary"
+                                        android:textSize="16sp" />
+
+                                    <TextView
+                                        android:id="@+id/tvJumlahSuratDomisili"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="0 Surat"
+                                        android:fontFamily="@font/poppins"
+                                        android:textColor="@color/text_secondary"
+                                        android:textSize="13sp" />
+                                </LinearLayout>
+
+                                <androidx.appcompat.widget.AppCompatImageButton
+                                    android:id="@+id/dropdownSuratDomisili"
+                                    android:layout_width="32dp"
+                                    android:layout_height="32dp"
+                                    android:src="@drawable/ic_dropdown_close"
+                                    android:background="?attr/selectableItemBackgroundBorderless"
+                                    android:tint="@color/text_secondary" />
+                            </LinearLayout>
+
+                            <!-- RecyclerView Domisili -->
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/recyclerViewSuratItemDomisili"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:visibility="gone"
+                                android:paddingHorizontal="16dp"
+                                android:paddingBottom="16dp" />
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+
+                    <!-- Surat KTU Card -->
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="12dp"
+                        app:cardCornerRadius="16dp"
+                        app:cardElevation="2dp"
+                        app:cardBackgroundColor="@color/white">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <!-- Header KTU -->
+                            <LinearLayout
+                                android:id="@+id/layoutFilterSktu"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:padding="16dp"
+                                android:background="?attr/selectableItemBackground"
+                                android:gravity="center_vertical">
+
+                                <androidx.cardview.widget.CardView
+                                    android:layout_width="48dp"
+                                    android:layout_height="48dp"
+                                    app:cardCornerRadius="12dp"
+                                    app:cardElevation="0dp"
+                                    app:cardBackgroundColor="@color/secondary_blue">
+
+                                    <ImageView
+                                        android:layout_width="24dp"
+                                        android:layout_height="24dp"
+                                        android:layout_gravity="center"
+                                        android:src="@drawable/ic_business"
+                                        app:tint="@color/primary_blue" />
+                                </androidx.cardview.widget.CardView>
+
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:orientation="vertical"
+                                    android:layout_marginStart="12dp">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Surat Keterangan Tempat Usaha"
+                                        android:fontFamily="@font/poppins_semibold"
+                                        android:textColor="@color/text_primary"
+                                        android:textSize="16sp" />
+
+                                    <TextView
+                                        android:id="@+id/tvJumlahSuratKtu"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="0 Surat"
+                                        android:fontFamily="@font/poppins"
+                                        android:textColor="@color/text_secondary"
+                                        android:textSize="13sp" />
+                                </LinearLayout>
+
+                                <androidx.appcompat.widget.AppCompatImageButton
+                                    android:id="@+id/dropdownSuratKtu"
+                                    android:layout_width="32dp"
+                                    android:layout_height="32dp"
+                                    android:src="@drawable/ic_dropdown_close"
+                                    android:background="?attr/selectableItemBackgroundBorderless"
+                                    android:tint="@color/text_secondary" />
+                            </LinearLayout>
+
+                            <!-- RecyclerView KTU -->
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/recyclerViewSuratItemKtu"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:visibility="gone"
+                                android:paddingHorizontal="16dp"
+                                android:paddingBottom="16dp" />
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+
+                    <!-- Surat Domisili Pindah Card -->
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="20dp"
+                        app:cardCornerRadius="16dp"
+                        app:cardElevation="2dp"
+                        app:cardBackgroundColor="@color/white">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <!-- Header Domisili Pindah -->
+                            <LinearLayout
+                                android:id="@+id/layoutFilterSdomisiliPindah"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:padding="16dp"
+                                android:background="?attr/selectableItemBackground"
+                                android:gravity="center_vertical">
+
+                                <androidx.cardview.widget.CardView
+                                    android:layout_width="48dp"
+                                    android:layout_height="48dp"
+                                    app:cardCornerRadius="12dp"
+                                    app:cardElevation="0dp"
+                                    app:cardBackgroundColor="@color/secondary_blue">
+
+                                    <ImageView
+                                        android:layout_width="24dp"
+                                        android:layout_height="24dp"
+                                        android:layout_gravity="center"
+                                        android:src="@drawable/ic_moving"
+                                        app:tint="@color/primary_blue" />
+                                </androidx.cardview.widget.CardView>
+
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:orientation="vertical"
+                                    android:layout_marginStart="12dp">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Surat Keterangan Domisili Pindah"
+                                        android:fontFamily="@font/poppins_semibold"
+                                        android:textColor="@color/text_primary"
+                                        android:textSize="16sp" />
+
+                                    <TextView
+                                        android:id="@+id/tvJumlahSuratPindah"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="0 Surat"
+                                        android:fontFamily="@font/poppins"
+                                        android:textColor="@color/text_secondary"
+                                        android:textSize="13sp" />
+                                </LinearLayout>
+
+                                <androidx.appcompat.widget.AppCompatImageButton
+                                    android:id="@+id/dropdownSuratDomisiliPindah"
+                                    android:layout_width="32dp"
+                                    android:layout_height="32dp"
+                                    android:src="@drawable/ic_dropdown_close"
+                                    android:background="?attr/selectableItemBackgroundBorderless"
+                                    android:tint="@color/text_secondary" />
+                            </LinearLayout>
+
+                            <!-- RecyclerView Domisili Pindah -->
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/recyclerViewSuratItemPindah"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:visibility="gone"
+                                android:paddingHorizontal="16dp"
+                                android:paddingBottom="16dp" />
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+
+                </LinearLayout>
             </LinearLayout>
-        </com.facebook.shimmer.ShimmerFrameLayout>
-    <androidx.core.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        >
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    <LinearLayout
-        android:layout_width="match_parent"
+        </androidx.core.widget.NestedScrollView>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    <!-- FAB untuk tambah surat -->
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/fabAddSurat"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:id="@+id/layoutFilterSktm"
-        android:layout_marginTop="15dp"
-        android:background="@color/white"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        >
+        android:layout_gravity="bottom|end"
+        android:layout_margin="16dp"
+        android:text="Ajukan Surat"
+        android:textColor="@color/white"
+        android:backgroundTint="@color/primary_blue"
+        app:icon="@drawable/ic_add"
+        app:iconTint="@color/white"
+        android:fontFamily="@font/poppins_medium" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Surat Keterangan Tidak Mampu"
-            android:id="@+id/tvTypeSuratKtm"
-            android:fontFamily="@font/poppins_bold"
-            android:textStyle="bold"
-            android:textColor="@color/black"
-            android:paddingVertical="10dp"
-            android:layout_weight="1"
-            android:textSize="18sp"
-            android:layout_marginStart="10dp"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/tvJumlahSurat"
-            android:text="(0)"
-            android:fontFamily="@font/poppins_bold"
-            android:textStyle="bold"
-            android:textColor="@color/textColor"
-            android:paddingVertical="10dp"
-            android:textSize="18sp"
-            android:layout_marginEnd="8dp"
-            />
-        <androidx.appcompat.widget.AppCompatImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_dropdown_close"
-            android:background="@color/transparant"
-            android:paddingVertical="10dp"
-            android:layout_marginEnd="10dp"
-            android:id="@+id/dropdown_surat"/>
-    </LinearLayout>
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewSuratItemKtm"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        tools:listitem="@layout/list_surat"
-        android:layout_marginHorizontal="10dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/layoutFilterSktm"/>
-
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:id="@+id/layoutFilterSdomisili"
-        android:background="@color/white"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="8dp"
-        app:layout_constraintTop_toBottomOf="@id/recyclerViewSuratItemKtm"
-        >
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Surat Domisili"
-            android:fontFamily="@font/poppins_bold"
-            android:textStyle="bold"
-            android:textColor="@color/black"
-            android:paddingVertical="10dp"
-            android:layout_weight="1"
-            android:textSize="18sp"
-            android:layout_marginStart="10dp"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/tvJumlahSuratDomisili"
-            android:text="(0)"
-            android:fontFamily="@font/poppins_bold"
-            android:textStyle="bold"
-            android:textColor="@color/textColor"
-            android:paddingVertical="10dp"
-            android:textSize="18sp"
-            android:layout_marginEnd="8dp"
-            />
-        <androidx.appcompat.widget.AppCompatImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_dropdown_close"
-            android:background="@color/transparant"
-            android:paddingVertical="10dp"
-            android:layout_marginEnd="10dp"
-            android:id="@+id/dropdownSuratDomisili"/>
-    </LinearLayout>
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewSuratItemDomisili"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="invisible"
-        android:layout_marginHorizontal="10dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/layoutFilterSdomisili"/>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:id="@+id/layoutFilterSktu"
-        android:background="@color/white"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="8dp"
-        app:layout_constraintTop_toBottomOf="@id/recyclerViewSuratItemDomisili"
-        >
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Surat Keterangan Tempat Usaha"
-            android:fontFamily="@font/poppins_bold"
-            android:textStyle="bold"
-            android:textColor="@color/black"
-            android:paddingVertical="10dp"
-            android:layout_weight="1"
-            android:textSize="18sp"
-            android:layout_marginStart="10dp"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/tvJumlahSuratKtu"
-            android:text="(0)"
-            android:fontFamily="@font/poppins_bold"
-            android:textStyle="bold"
-            android:textColor="@color/textColor"
-            android:paddingVertical="10dp"
-            android:textSize="18sp"
-            android:layout_marginEnd="8dp"
-            />
-        <androidx.appcompat.widget.AppCompatImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_dropdown_close"
-            android:background="@color/transparant"
-            android:paddingVertical="10dp"
-            android:layout_marginEnd="10dp"
-            android:id="@+id/dropdownSuratKtu"/>
-    </LinearLayout>
-    <!-- Surat KTU RecyclerView -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewSuratItemKtu"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="invisible"
-        android:layout_marginHorizontal="10dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/layoutFilterSktu"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:id="@+id/layoutFilterSdomisiliPindah"
-        android:background="@color/white"
-        android:layout_marginTop="8dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/recyclerViewSuratItemKtu"
-        >
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Surat Keterangan Domisili Pindah"
-            android:fontFamily="@font/poppins_bold"
-            android:textStyle="bold"
-            android:textColor="@color/black"
-            android:paddingVertical="10dp"
-            android:layout_weight="1"
-            android:textSize="18sp"
-            android:layout_marginStart="10dp"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/tvJumlahSuratDomisiliPindah"
-            android:text="(0)"
-            android:fontFamily="@font/poppins_bold"
-            android:textStyle="bold"
-            android:textColor="@color/textColor"
-            android:paddingVertical="10dp"
-            android:textSize="18sp"
-            android:layout_marginEnd="8dp"
-            />
-        <androidx.appcompat.widget.AppCompatImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_dropdown_close"
-            android:background="@color/transparant"
-            android:paddingVertical="10dp"
-            android:layout_marginEnd="10dp"
-            android:id="@+id/dropdownSuratDomisiliPindah"/>
-    </LinearLayout>
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewSuratItemPindah"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="invisible"
-        android:layout_marginHorizontal="10dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/layoutFilterSdomisiliPindah"/>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.core.widget.NestedScrollView>
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/addSurat"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:fabCustomSize="80dp"
-            android:src="@drawable/ic_add"
-            android:scaleType="centerCrop"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginBottom="20dp"
-            android:layout_marginEnd="20dp" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

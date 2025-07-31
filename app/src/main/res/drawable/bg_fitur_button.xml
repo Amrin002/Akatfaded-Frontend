@@ -3,7 +3,7 @@
     android:shape="rectangle">
 
     <!-- Background color -->
-    <solid android:color="@color/bg_fitur_button" />
+    <solid android:color="@color/abu_abu" />
 
     <!-- Corner radius -->
     <corners android:radius="10dp" />

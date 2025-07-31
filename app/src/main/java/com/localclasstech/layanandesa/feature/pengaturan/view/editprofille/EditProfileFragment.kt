@@ -219,14 +219,13 @@ class EditProfileFragment : Fragment() {
     }
 
     private fun showImagePickerDialog() {
-        val options = arrayOf("Ambil Foto", "Pilih dari Galeri", "Batal")
+        val options = arrayOf("Pilih dari Galeri", "Batal")
         AlertDialog.Builder(requireContext())
             .setTitle("Pilih Foto Profil")
             .setItems(options) { dialog, which ->
                 when (which) {
-                    0 -> openCamera()
-                    1 -> checkStoragePermission()
-                    2 -> dialog.dismiss()
+                    0 -> checkStoragePermission()
+                    1 -> dialog.dismiss()
                 }
             }
             .show()

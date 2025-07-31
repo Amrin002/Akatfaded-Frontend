@@ -1,111 +1,147 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:cardCornerRadius="8dp"
-    app:cardBackgroundColor="@color/white"
-    app:cardElevation="5dp"
     android:layout_marginVertical="4dp"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_marginHorizontal="4dp"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="1dp"
+    app:cardBackgroundColor="@color/background_light"
+    app:strokeWidth="0dp">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="10dp"
-        android:paddingVertical="6dp"
-        >
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:id="@+id/judulSurat"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            >
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Surat : "
-                android:textColor="@color/textColor"
-                android:fontFamily="@font/poppins_bold"
-                android:textStyle="bold"
-                />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/tvJenisSurat"
-                android:text="Surat Keterangan Tempat Usaha"
-                android:maxLines="1"
-                android:fontFamily="@font/poppins"
-                android:textStyle="bold"
-                android:textColor="@color/black"
-                />
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:id="@+id/namaSurat"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/judulSurat"
-            >
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Nama Pengirim : "
-                android:textColor="@color/textColor"
-                android:fontFamily="@font/poppins_bold"
-                android:textStyle="bold"
-                />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/tvNamaPengirim"
-                android:text="Amrin Alamsyah Bugis"
-                android:maxLines="1"
-                android:fontFamily="@font/poppins"
-                android:textStyle="bold"
-                android:textColor="@color/black"
-                />
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:id="@+id/tanggalPembuatan"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/namaSurat"
-            >
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Tgl Pembuatan : "
-                android:textColor="@color/textColor"
-                android:fontFamily="@font/poppins_bold"
-                android:textStyle="bold"
-                />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/tvTanggalPembuatan"
-                android:text="19/04/2025"
-                android:maxLines="1"
-                android:fontFamily="@font/poppins"
-                android:textStyle="bold"
-                android:textColor="@color/black"
-                />
-        </LinearLayout>
-        <TextView
+        android:padding="12dp">
+
+        <!-- Status Badge -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/statusBadge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/tvStatusSurat"
-            android:text="Di Proses"
-            android:fontFamily="@font/poppins"
-            android:textColor="@color/textOnProgress"
-            android:textSize="16sp"
-            android:maxLines="1"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:cardCornerRadius="6dp"
+            app:cardElevation="0dp"
+            app:cardBackgroundColor="@color/success"
+            android:alpha="0.90"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <TextView
+                android:id="@+id/tvStatusSurat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Selesai"
+                android:textColor="@color/text_primary"
+                android:fontFamily="@font/poppins_medium"
+                android:textSize="11sp"
+                android:paddingHorizontal="10dp"
+                android:paddingVertical="4dp" />
+        </androidx.cardview.widget.CardView>
+
+        <!-- Document Icon -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/iconCard"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="0dp"
+            app:cardBackgroundColor="@color/white"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/ivTypeSurat"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_document"
+                app:tint="@color/primary_blue" />
+        </androidx.cardview.widget.CardView>
+
+        <!-- Content Section -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintStart_toEndOf="@id/iconCard"
+            app:layout_constraintEnd_toStartOf="@id/statusBadge"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <!-- Nomor Surat -->
+            <TextView
+                android:id="@+id/tvJenisSurat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Surat Domisili"
+                android:fontFamily="@font/poppins_semibold"
+                android:textColor="@color/text_primary"
+                android:textSize="14sp"
+                android:maxLines="1"
+                android:ellipsize="end" />
+
+            <!-- Nama Pemohon -->
+            <TextView
+                android:id="@+id/tvNamaPemohon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="John Doe"
+                android:fontFamily="@font/poppins"
+                android:textColor="@color/text_secondary"
+                android:textSize="13sp"
+                android:layout_marginTop="2dp" />
+        </LinearLayout>
+
+        <!-- Date and Action -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="12dp"
+            android:gravity="center_vertical"
+            app:layout_constraintTop_toBottomOf="@id/iconCard"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <ImageView
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:src="@drawable/ic_calander"
+                app:tint="@color/primary_blue" />
+
+            <TextView
+                android:id="@+id/tvTanggalSurat"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="27 Juli 2025"
+                android:fontFamily="@font/poppins"
+                android:textColor="@color/text_secondary"
+                android:textSize="12sp"
+                android:layout_marginStart="4dp" />
+
+            <!-- Action Button -->
+            <TextView
+                android:id="@+id/tvAction"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Lihat Detail"
+                android:fontFamily="@font/poppins_medium"
+                android:textColor="@color/primary_blue"
+                android:textSize="12sp"
+                android:drawableEnd="@drawable/ic_arrow_right_small"
+                android:drawableTint="@color/text_primary"
+                android:drawablePadding="4dp"
+                android:gravity="center_vertical" />
+        </LinearLayout>
+
+        <!-- Ripple Effect -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="?attr/selectableItemBackground" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
-</com.google.android.material.card.MaterialCardView >
+</com.google.android.material.card.MaterialCardView>

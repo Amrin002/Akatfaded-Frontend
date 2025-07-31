@@ -15,43 +15,76 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:paddingBottom="20dp">
 
+            <!-- Card Berita Terkini dengan desain modern -->
             <androidx.cardview.widget.CardView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginTop="10dp"
-                app:cardCornerRadius="10dp"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="20dp"
+                app:cardCornerRadius="16dp"
                 android:id="@+id/cardBeritaTerkini"
-                android:background="@color/cardBerita">
+                app:cardElevation="0dp"
+                app:cardBackgroundColor="@android:color/transparent"
+                android:outlineProvider="none">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_card_berita">
 
-                    <TextView
-                        android:id="@+id/tvBeritaTerkini"
+                    <!-- Header dengan icon dan title -->
+                    <LinearLayout
+                        android:id="@+id/headerBeritaTerkini"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="Berita Terkini"
-                        android:fontFamily="@font/poppins_bold"
-                        android:textStyle="bold"
-                        android:textSize="18sp"
-                        android:textColor="@color/black"
-                        android:layout_marginStart="30dp"
-                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:paddingHorizontal="20dp"
+                        android:paddingTop="16dp"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"/>
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
 
+                        <View
+                            android:layout_width="4dp"
+                            android:layout_height="24dp"
+                            android:background="@color/colorPrimary"
+                            android:layout_marginEnd="12dp"/>
+
+                        <TextView
+                            android:id="@+id/tvBeritaTerkini"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Berita Terkini"
+                            android:fontFamily="@font/poppins_bold"
+                            android:textStyle="bold"
+                            android:textSize="20sp"
+                            android:textColor="@color/black"/>
+
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/ic_berita"
+                            app:tint="@color/colorPrimary"
+                            android:alpha="0.7"/>
+                    </LinearLayout>
+
+                    <!-- Shimmer loading -->
                     <FrameLayout
                         android:id="@+id/shimmerContainerBeritaTerkini"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:layout_constraintTop_toBottomOf="@id/tvBeritaTerkini"
-                        android:visibility="gone">
+                        app:layout_constraintTop_toBottomOf="@id/headerBeritaTerkini"
+                        android:visibility="gone"
+                        android:paddingHorizontal="20dp"
+                        android:paddingTop="12dp">
 
                         <include
                             android:id="@+id/shimmerBeritaTerkini"
@@ -60,58 +93,90 @@
                             android:layout_height="wrap_content"/>
                     </FrameLayout>
 
+                    <!-- RecyclerView untuk list berita -->
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rvBeritaTerkini"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="10dp"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginBottom="10dp"
+                        android:paddingHorizontal="16dp"
+                        android:paddingTop="16dp"
+                        android:paddingBottom="16dp"
+                        android:clipToPadding="false"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/tvBeritaTerkini"
+                        app:layout_constraintTop_toBottomOf="@id/headerBeritaTerkini"
                         tools:itemCount="3"
                         tools:listitem="@layout/list_surat"/>
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- Lakukan hal yang sama untuk Berita Lainnya -->
+            <!-- Card Berita Lainnya dengan desain modern -->
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardBeritaLainnya"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
-                android:background="@color/cardBerita"
-                app:cardCornerRadius="10dp"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="24dp"
+                app:cardElevation="0dp"
+                android:background="@drawable/bg_card_berita"
+                app:cardCornerRadius="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/cardBeritaTerkini">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_card_berita">
 
-                    <TextView
-                        android:id="@+id/tvBeritaLainnya"
+                    <!-- Header dengan icon dan title -->
+                    <LinearLayout
+                        android:id="@+id/headerBeritaLainnya"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="Berita Lainnya"
-                        android:fontFamily="@font/poppins_bold"
-                        android:textStyle="bold"
-                        android:textSize="18sp"
-                        android:textColor="@color/black"
-                        android:layout_marginStart="30dp"
-                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:paddingHorizontal="20dp"
+                        android:paddingTop="16dp"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"/>
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
 
+                        <View
+                            android:layout_width="4dp"
+                            android:layout_height="24dp"
+                            android:background="@color/colorPrimary"
+                            android:layout_marginEnd="12dp"/>
+
+                        <TextView
+                            android:id="@+id/tvBeritaLainnya"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Berita Lainnya"
+                            android:fontFamily="@font/poppins_bold"
+                            android:textStyle="bold"
+                            android:textSize="20sp"
+                            android:textColor="@color/black"/>
+
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/ic_article"
+                            app:tint="@color/colorPrimary"
+                            android:alpha="0.7"/>
+                    </LinearLayout>
+
+                    <!-- Shimmer loading -->
                     <FrameLayout
                         android:id="@+id/shimmerContainerBeritaLainnya"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:layout_constraintTop_toBottomOf="@id/tvBeritaLainnya"
-                        android:visibility="gone">
+                        app:layout_constraintTop_toBottomOf="@id/headerBeritaLainnya"
+                        android:visibility="gone"
+                        android:paddingHorizontal="20dp"
+                        android:paddingTop="12dp">
 
                         <include
                             android:id="@+id/shimmerBeritaLainnya"
@@ -120,14 +185,19 @@
                             android:layout_height="wrap_content"/>
                     </FrameLayout>
 
+                    <!-- RecyclerView untuk list berita -->
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rvBeritaLainnya"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        app:layout_constraintTop_toBottomOf="@id/tvBeritaLainnya"
+                        android:paddingHorizontal="16dp"
+                        android:paddingTop="16dp"
+                        android:paddingBottom="16dp"
+                        android:clipToPadding="false"
+                        app:layout_constraintTop_toBottomOf="@id/headerBeritaLainnya"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
                         tools:itemCount="3"
                         tools:listitem="@layout/list_surat"/>
                 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -61,9 +61,9 @@ class BerandaFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val factory = BerandaViewModelFactory(loginViewModel) //No value passed for parameter 'context'
+        val factory = BerandaViewModelFactory(loginViewModel)
         viewModel = ViewModelProvider(this, factory)[BerandaViewModel::class.java]
-        val tvTanggal = view.findViewById<TextView>(R.id.tvCalender)
+        val tvTanggal = view.findViewById<TextView>(R.id.tvDayDate)
 
         viewModel.tanggalSekarang.observe(viewLifecycleOwner) { tanggal ->
             tvTanggal.text = tanggal

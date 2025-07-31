@@ -30,6 +30,7 @@ import com.localclasstech.layanandesa.auth.view.LoginActivity
 import com.localclasstech.layanandesa.auth.viewmodel.LoginViewModel
 import com.localclasstech.layanandesa.auth.viewmodel.LoginViewModelFactory
 import com.localclasstech.layanandesa.databinding.FragmentPengaturanBinding
+import com.localclasstech.layanandesa.feature.pengaturan.view.aboutus.AboutUsActivity
 import com.localclasstech.layanandesa.feature.pengaturan.view.aboutus.BantuanActivity
 import com.localclasstech.layanandesa.feature.pengaturan.view.editprofille.EditProfileFragment
 import com.localclasstech.layanandesa.feature.pengaturan.viewmodel.PengaturanViewModel
@@ -134,6 +135,10 @@ class PengaturanFragment : Fragment() {
         }
         binding.layoutBantuan.setOnClickListener {
             val intent = Intent(requireContext(), BantuanActivity::class.java)
+            startActivity(intent)
+        }
+        binding.layoutAbout.setOnClickListener{
+            val intent = Intent(requireContext(), AboutUsActivity::class.java)
             startActivity(intent)
         }
 

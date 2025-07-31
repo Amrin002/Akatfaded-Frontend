@@ -2,109 +2,158 @@
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:cardCornerRadius="8dp"
-    app:cardBackgroundColor="@color/white"
-    app:cardElevation="5dp"
+    app:cardCornerRadius="12dp"
+    app:cardBackgroundColor="@color/background_light"
+    app:cardElevation="1dp"
     android:layout_marginVertical="4dp"
+    android:layout_marginHorizontal="4dp"
+    app:strokeWidth="0dp"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="10dp"
-        android:paddingVertical="6dp"
-        >
+        android:padding="12dp">
+
+        <!-- Icon Card -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/iconCard"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="0dp"
+            app:cardBackgroundColor="@color/white"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_keluhan"
+                app:tint="@color/primary_blue" />
+        </androidx.cardview.widget.CardView>
+
+        <!-- Content Section -->
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            android:orientation="vertical"
             android:id="@+id/judulSurat"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            >
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Judul : "
-                android:textColor="@color/textColor"
-                android:fontFamily="@font/poppins_bold"
-                android:textStyle="bold"
-                />
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintStart_toEndOf="@id/iconCard"
+            app:layout_constraintEnd_toStartOf="@id/statusBadge"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <!-- Judul Keluhan -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/tvJudulKeluhan"
                 android:text="Surat Keterangan Tempat Usaha"
                 android:maxLines="1"
-                android:fontFamily="@font/poppins"
+                android:ellipsize="end"
+                android:fontFamily="@font/poppins_semibold"
                 android:textStyle="bold"
-                android:textColor="@color/textColor"
-                />
+                android:textColor="@color/text_primary"
+                android:textSize="14sp"/>
+
+            <!-- Nama Pengirim -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:id="@+id/namaSurat"
+                android:layout_marginTop="2dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tvNamaPengirim"
+                    android:text="Amrin Alamsyah Bugis"
+                    android:maxLines="1"
+                    android:fontFamily="@font/poppins"
+                    android:textColor="@color/text_secondary"
+                    android:textSize="13sp"/>
+            </LinearLayout>
         </LinearLayout>
-        <LinearLayout
-            android:layout_width="0dp"
+
+        <!-- Status Badge -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/statusBadge"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:id="@+id/namaSurat"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/judulSurat"
-            >
+            app:cardCornerRadius="6dp"
+            app:cardElevation="0dp"
+            app:cardBackgroundColor="@color/warning"
+
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
             <TextView
+                android:id="@+id/tvStatusKeluhan"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Nama Pengirim : "
-                android:textColor="@color/textColor"
-                android:fontFamily="@font/poppins_bold"
-                android:textStyle="bold"
-                />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/tvNamaPengirim"
-                android:text="Amrin Alamsyah Bugis"
+                android:text="Di Proses"
+                android:fontFamily="@font/poppins_medium"
+                android:textColor="@color/text_primary"
+                android:textSize="11sp"
                 android:maxLines="1"
-                android:fontFamily="@font/poppins"
                 android:textStyle="bold"
-                android:textColor="@color/black"
-                />
-        </LinearLayout>
+                android:paddingHorizontal="10dp"
+                android:paddingVertical="4dp"/>
+        </androidx.cardview.widget.CardView>
+
+        <!-- Date and Action Row -->
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:id="@+id/tanggalPembuatan"
+            android:layout_marginTop="12dp"
+            android:gravity="center_vertical"
+            app:layout_constraintTop_toBottomOf="@id/iconCard"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/namaSurat"
-            >
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <ImageView
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:src="@drawable/ic_calander"
+                app:tint="@color/primary_blue" />
+
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Tgl Pembuatan : "
-                android:textColor="@color/textColor"
-                android:fontFamily="@font/poppins_bold"
-                android:textStyle="bold"
-                />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:id="@+id/tvTanggalPembuatanKeluhan"
                 android:text="19/04/2025"
                 android:maxLines="1"
                 android:fontFamily="@font/poppins"
-                android:textStyle="bold"
-                android:textColor="@color/black"
-                />
+                android:textColor="@color/text_secondary"
+                android:textSize="12sp"
+                android:layout_marginStart="4dp"/>
+
+            <!-- Action Button -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Lihat Detail"
+                android:fontFamily="@font/poppins_medium"
+                android:textColor="@color/primary_blue"
+                android:textSize="12sp"
+                android:drawableEnd="@drawable/ic_arrow_right_small"
+                android:drawablePadding="4dp"
+                android:drawableTint="@color/text_primary"
+                android:gravity="center_vertical" />
         </LinearLayout>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/tvStatusKeluhan"
-            android:text="Di Proses"
-            android:fontFamily="@font/poppins"
-            android:textColor="@color/textOnProgress"
-            android:textSize="16sp"
-            android:maxLines="1"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <!-- Ripple Effect -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="?attr/selectableItemBackground" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>

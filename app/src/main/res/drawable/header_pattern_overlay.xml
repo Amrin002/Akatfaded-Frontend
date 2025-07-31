@@ -1,4 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<bitmap xmlns:android="http://schemas.android.com/apk/res/android"
-    android:src="@drawable/pattern_overlay"
-    android:tileMode="repeat" />
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+
+    <!-- Simple gradient pattern -->
+    <gradient
+        android:startColor="#10FFFFFF"
+        android:centerColor="#20FFFFFF"
+        android:endColor="#10FFFFFF"
+        android:angle="45"
+        android:type="linear" />
+
+</shape>

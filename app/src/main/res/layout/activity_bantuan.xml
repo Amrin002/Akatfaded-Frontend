@@ -42,12 +42,12 @@
         android:layout_marginTop="30dp"
         >
 
-        <ImageView
-            android:layout_marginStart="25dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_masukkan"
-            />
+<!--        <ImageView-->
+<!--            android:layout_marginStart="25dp"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:src="@drawable/ic_masukkan"-->
+<!--            />-->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

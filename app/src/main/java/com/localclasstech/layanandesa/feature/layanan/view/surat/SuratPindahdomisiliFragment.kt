@@ -68,13 +68,15 @@ class SuratPindahdomisiliFragment : Fragment() {
 
         setupSpinner()
         setupDatePicker()
-        // Set up date picker functionality
-        binding.etTanggalLahir.setOnClickListener {
-            // Only show date picker if not in detail mode or if enabled
+
+        // Set up date picker functionality - Updated to use the CardView container
+        binding.datePickerLayout.setOnClickListener {
             if (binding.etTanggalLahir.isEnabled) {
                 showDatePicker()
             }
         }
+
+        // Fixed: changed from backButton to back_button to match the XML ID
         binding.backButton.setOnClickListener{
             parentFragmentManager.popBackStack()
         }
@@ -231,24 +233,26 @@ class SuratPindahdomisiliFragment : Fragment() {
             }
         }
     }
+
     private fun validateForm(): Boolean {
-        // Basic validation
-        return binding.etNama.text.isNotBlank() &&
-                binding.etTempatLahir.text.isNotBlank() &&
+        // Basic validation - Fixed: use text property with null safety for TextInputEditText
+        return binding.etNama.text?.isNotBlank() == true &&
+                binding.etTempatLahir.text?.isNotBlank() == true &&
                 binding.etTanggalLahir.text.toString() != "Pilih Tanggal Lahir" &&
-                binding.etKewarganegaraan.text.isNotBlank() &&
-                binding.etPekerjaan.text.isNotBlank() &&
-                binding.etKecamatan.text.isNotBlank() &&
-                binding.etKabupaten.text.isNotBlank() &&
-                binding.etAlamat.text.isNotBlank() &&
-                binding.etRtTujuan.text.isNotBlank() &&
-                binding.etRwTujuan.text.isNotBlank() &&
-                binding.etJalanTujuan.text.isNotBlank() &&
-                binding.etKecamatanTujuan.text.isNotBlank() &&
-                binding.etKabupatenTujuan.text.isNotBlank() &&
-                binding.etProvinsiTujuan.text.isNotBlank() 
-                
+                binding.etKewarganegaraan.text?.isNotBlank() == true &&
+                binding.etPekerjaan.text?.isNotBlank() == true &&
+                binding.etKecamatan.text?.isNotBlank() == true &&
+                binding.etKabupaten.text?.isNotBlank() == true &&
+                binding.etAlamat.text?.isNotBlank() == true &&
+                binding.etRtTujuan.text?.isNotBlank() == true &&
+                binding.etRwTujuan.text?.isNotBlank() == true &&
+                binding.etJalanTujuan.text?.isNotBlank() == true &&
+                binding.etKecamatanTujuan.text?.isNotBlank() == true &&
+                binding.etKabupatenTujuan.text?.isNotBlank() == true &&
+                binding.etProvinsiTujuan.text?.isNotBlank() == true
+
     }
+
     private fun collectFormData(): CreateSuratPindahRequest {
         return CreateSuratPindahRequest(
             nama = binding.etNama.text.toString(),
@@ -271,16 +275,15 @@ class SuratPindahdomisiliFragment : Fragment() {
             keterangan = binding.etKeterangan.text.toString()
         )
     }
+
     private fun downloadPdf(idSurat: Int) {
         // Show loading indicator
-
 
         // Get the download URL from your API
         viewModel.getDownloadUrl(idSurat)
 
         // Observe the result
         viewModel.downloadUrlResult.observe(viewLifecycleOwner) { result ->
-
 
             if (result.success && result.downloadUrl != null) {
                 // Open the URL directly in a browser or PDF viewer
@@ -292,7 +295,7 @@ class SuratPindahdomisiliFragment : Fragment() {
             }
         }
     }
-    
+
     private fun observeDetailData(type: Int) {
         viewModel.deleteResult.observe(viewLifecycleOwner) { isSuccess ->
             if (isSuccess) {
@@ -310,10 +313,10 @@ class SuratPindahdomisiliFragment : Fragment() {
         }
         viewModel.detailSuratPindah.observe(viewLifecycleOwner) { dataSuratPindah ->
             if (dataSuratPindah != null && (type == Constant.TYPE_DETAIL || type == Constant.TYPE_UPDATE)){
-                //isi data
+                //isi data - Fixed: use setText for TextInputEditText
                 binding.etNama.setText(dataSuratPindah.nama)
                 binding.etTempatLahir.setText(dataSuratPindah.tempatLahir)
-                binding.etTanggalLahir.setText(dataSuratPindah.tanggalLahir)
+                binding.etTanggalLahir.text = dataSuratPindah.tanggalLahir // For TextView in date picker
                 // Set spinner selections
                 val jenisKelaminItems = listOf("Laki-laki", "Perempuan")
                 val jenisKelaminIndex = jenisKelaminItems.indexOf(dataSuratPindah.jenisKelamin)
@@ -358,7 +361,6 @@ class SuratPindahdomisiliFragment : Fragment() {
 
         }
 
-
         viewModel.isLoading.observe(viewLifecycleOwner){ isLoading->
             binding.btnAjukan.isEnabled = !isLoading
             binding.progressBarButton.visibility = if (isLoading) View.VISIBLE else View.GONE
@@ -381,13 +383,16 @@ class SuratPindahdomisiliFragment : Fragment() {
         binding.spinerSK.adapter = statusKawinAdapter
 
     }
+
     private fun setupDatePicker() {
-        binding.etTanggalLahir.setOnClickListener {
+        // Date picker setup - now using the CardView click
+        binding.datePickerLayout.setOnClickListener {
             if (binding.etTanggalLahir.isEnabled) {
                 showDatePicker()
             }
         }
     }
+
     private fun setLoadingButton(isLoading: Boolean) {
         binding.btnAjukan.isEnabled = !isLoading
         if (isLoading) {

@@ -92,12 +92,12 @@ class SuratDomisiliFragment : Fragment() {
     }
 
     private fun validateForm(): Boolean {
-        return binding.etNama.text.isNotBlank() &&
-                binding.etTempatLahir.text.isNotBlank() &&
-                binding.etTanggalLahir.text.isNotBlank() &&
-                binding.etKewarganegaraan.text.isNotBlank() &&
-                binding.etPekerjaan.text.isNotBlank() &&
-                binding.etAlamat.text.isNotBlank()
+        return binding.etNama.text?.isNotBlank() == true &&
+                binding.etTempatLahir.text?.isNotBlank()== true &&
+                binding.etTanggalLahir.text?.isNotBlank()== true &&
+                binding.etKewarganegaraan.text?.isNotBlank()== true &&
+                binding.etPekerjaan.text?.isNotBlank()== true &&
+                binding.etAlamat.text?.isNotBlank()== true
 
     }
     private fun showDeleteConfirmationDialog(idSurat: Int) {
@@ -312,7 +312,7 @@ class SuratDomisiliFragment : Fragment() {
         viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
             binding.btnAjukan.isEnabled = !isLoading
             binding.progressBarButton.visibility = if (isLoading) View.VISIBLE else View.GONE
-            binding.btnAjukan.text = if (isLoading) "" else when(type){
+            binding.btnAjukan.text = if (isLoading) "Proses..." else when(type){
                 Constant.TYPE_CREATE -> "Ajukan Surat"
                 Constant.TYPE_UPDATE -> "Perbarui Surat"
                 Constant.TYPE_DETAIL -> "Unduh Surat"

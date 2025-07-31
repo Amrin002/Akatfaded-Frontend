@@ -4,119 +4,126 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
-    android:theme="@style/Base.Theme.LayananDesa"
     android:layout_height="match_parent"
-
+    android:theme="@style/Base.Theme.LayananDesa"
     tools:context=".feature.pengaturan.view.aboutus.AboutUsActivity">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:padding="20dp">
+
+        <!-- Header Section -->
         <androidx.appcompat.widget.AppCompatImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_back_button"
-            android:background="@color/transparant"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="20dp"
             android:id="@+id/back_button"
-            android:layout_marginTop="20dp"/>
-        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@color/transparant"
+            android:src="@drawable/ic_back_button"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
             android:id="@+id/tvDaftar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="23dp"
+            android:fontFamily="@font/poppins_bold"
             android:text="Tentang Kami"
             android:textColor="@color/black"
-            android:fontFamily="@font/poppins_bold"
-            android:textStyle="bold"
             android:textSize="18sp"
+            android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@id/back_button"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="23dp"
-            android:layout_marginStart="10dp"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
+        <!-- App Logo Section -->
         <ImageView
             android:id="@+id/logoApps"
             android:layout_width="100dp"
             android:layout_height="100dp"
+            android:layout_marginTop="32dp"
+            android:background="@drawable/bg_logo_apps"
             android:clipToOutline="true"
             android:src="@drawable/logo_apps"
-
-            android:layout_marginTop="25dp"
-            android:background="@drawable/bg_logo_apps"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvDaftar"
-            />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvDaftar" />
 
+        <!-- App Name -->
         <TextView
             android:id="@+id/tvNameApps"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="28dp"
+            android:layout_marginTop="24dp"
             android:fontFamily="@font/poppins_bold"
             android:text="Layanan Desa"
             android:textAlignment="center"
-            android:textSize="20sp"
             android:textColor="@color/black"
+            android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/logoApps" />
 
+        <!-- App Version -->
         <TextView
+            android:id="@+id/tvVersionApps"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:id="@+id/tvVersionApps"
-            android:text="Version 1.0"
+            android:layout_marginTop="8dp"
             android:fontFamily="@font/poppins_bold"
+            android:text="Version 1.0"
             android:textAlignment="center"
+            android:textColor="@color/black"
             android:textSize="16sp"
             android:textStyle="bold"
-            app:layout_constraintTop_toBottomOf="@id/tvNameApps"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:textColor="@color/black"/>
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:cardCornerRadius="10dp"
-            app:layout_constraintTop_toBottomOf="@id/tvVersionApps"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvNameApps" />
 
-            android:id="@+id/cardDevoloper">
+        <!-- Content Card -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardDeveloper"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="4dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvVersionApps">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="14dp">
+                android:padding="20dp">
 
-                <!-- Paragraf 1 -->
+                <!-- Intro Paragraph -->
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/poppins"
                     android:justificationMode="inter_word"
-                    android:lineSpacingExtra="4dp"
+                    android:lineSpacingExtra="6dp"
                     android:text="Aplikasi ini dikembangkan sebagai solusi digital untuk mempermudah proses layanan administrasi desa bagi masyarakat Desa Akad Fadedo. Melalui platform ini, warga desa kini dapat mengakses berbagai layanan administrasi dengan lebih cepat, efisien, dan transparan tanpa harus datang langsung ke kantor desa."
                     android:textColor="@color/black"
-                    android:textSize="13sp" />
+                    android:textSize="14sp" />
 
-                <!-- Judul Tujuan -->
+                <!-- Section Title -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
+                    android:layout_marginTop="20dp"
                     android:fontFamily="@font/poppins_bold"
                     android:text="Tujuan Kami"
                     android:textColor="@color/black"
                     android:textSize="17sp"
                     android:textStyle="bold" />
 
-                <!-- Tujuan List -->
+                <!-- Goals List -->
                 <TextView
                     android:id="@+id/textViewTujuan"
                     android:layout_width="match_parent"
@@ -124,41 +131,38 @@
                     android:layout_marginTop="12dp"
                     android:fontFamily="@font/poppins"
                     android:justificationMode="inter_word"
-                    android:lineSpacingExtra="6dp"
+                    android:lineSpacingExtra="8dp"
                     android:textColor="@color/black"
                     android:textSize="14sp" />
 
-
-                <!-- Paragraf 2 -->
+                <!-- Closing Paragraph -->
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
+                    android:layout_marginTop="20dp"
                     android:fontFamily="@font/poppins"
                     android:justificationMode="inter_word"
-                    android:lineSpacingExtra="4dp"
+                    android:lineSpacingExtra="6dp"
                     android:text="Aplikasi ini merupakan hasil kolaborasi antara pemerintah desa dan tim pengembang lokal yang peduli terhadap kemajuan pelayanan publik di pedesaan. Kami percaya bahwa kemajuan teknologi harus dirasakan oleh seluruh lapisan masyarakat, termasuk di desa."
                     android:textColor="@color/black"
-                    android:textSize="13sp" />
+                    android:textSize="14sp" />
 
-                <!-- Slogan Bold -->
+                <!-- Slogan -->
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
+                    android:layout_marginTop="16dp"
                     android:fontFamily="@font/poppins_bold"
                     android:justificationMode="inter_word"
                     android:text="Desa Akad Fadedo – Melayani dengan Teknologi, Membangun dengan Hati."
                     android:textColor="@color/black"
-                    android:textSize="13sp"
+                    android:textSize="14sp"
                     android:textStyle="bold" />
 
             </LinearLayout>
 
-
         </androidx.cardview.widget.CardView>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-
 
 </androidx.core.widget.NestedScrollView>

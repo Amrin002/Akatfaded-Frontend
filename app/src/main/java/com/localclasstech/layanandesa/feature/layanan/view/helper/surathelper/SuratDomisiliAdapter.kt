@@ -12,8 +12,8 @@ class SuratDomisiliAdapter(private var cardSuratList: List<DataClassCardSurat>, 
     class ViewHolder(private val binding: ListSuratBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(cardSurat: DataClassCardSurat) {
             binding.tvJenisSurat.text = cardSurat.jenisSurat
-            binding.tvNamaPengirim.text = cardSurat.namaPengirim
-            binding.tvTanggalPembuatan.text = DateUtils.formatDate(cardSurat.tanggalPembuatan)
+            binding.tvNamaPemohon.text = cardSurat.namaPengirim
+            binding.tvTanggalSurat.text = DateUtils.formatDate(cardSurat.tanggalPembuatan)
             // Translate status to Indonesian
             val statusIndonesia = when (cardSurat.statusSurat) {
                 "On Progress" -> "Diproses"
@@ -23,20 +23,40 @@ class SuratDomisiliAdapter(private var cardSuratList: List<DataClassCardSurat>, 
             }
             binding.tvStatusSurat.text = statusIndonesia
 
-            // Set status color based on original status value
+            // Set status badge color and text color based on status
             when (cardSurat.statusSurat) {
-                "On Progress" -> binding.tvStatusSurat.setTextColor(
-                    binding.root.context.getColor(R.color.textOnProgress)
-                )
-                "Approve" -> binding.tvStatusSurat.setTextColor(
-                    binding.root.context.getColor(R.color.textAproved)
-                )
-                "Cancel" -> binding.tvStatusSurat.setTextColor(
-                    binding.root.context.getColor(R.color.textCancel)
-                )
-                else -> binding.tvStatusSurat.setTextColor(
-                    binding.root.context.getColor(R.color.black)
-                )
+                "On Progress" -> {
+                    binding.statusBadge.setCardBackgroundColor(
+                        binding.root.context.getColor(R.color.warning)
+                    )
+                    binding.tvStatusSurat.setTextColor(
+                        binding.root.context.getColor(R.color.text_primary)
+                    )
+                }
+                "Approve" -> {
+                    binding.statusBadge.setCardBackgroundColor(
+                        binding.root.context.getColor(R.color.success)
+                    )
+                    binding.tvStatusSurat.setTextColor(
+                        binding.root.context.getColor(R.color.text_primary)
+                    )
+                }
+                "Cancel" -> {
+                    binding.statusBadge.setCardBackgroundColor(
+                        binding.root.context.getColor(R.color.error)
+                    )
+                    binding.tvStatusSurat.setTextColor(
+                        binding.root.context.getColor(R.color.text_primary)
+                    )
+                }
+                else -> {
+                    binding.statusBadge.setCardBackgroundColor(
+                        binding.root.context.getColor(R.color.background_light)
+                    )
+                    binding.tvStatusSurat.setTextColor(
+                        binding.root.context.getColor(R.color.text_primary)
+                    )
+                }
             }
         }
 

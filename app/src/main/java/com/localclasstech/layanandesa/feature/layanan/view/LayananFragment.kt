@@ -13,6 +13,7 @@ import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.appcompat.widget.AppCompatButton
 import androidx.appcompat.widget.AppCompatImageButton
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -102,7 +103,7 @@ class LayananFragment : Fragment() {
 //        Loading SHimer
         observeLoadingState()
         // Menangani tombol tambah surat
-        binding.addSurat.setOnClickListener {
+        binding.fabAddSurat.setOnClickListener {
             showBottomSheetDialog()
         }
 
@@ -423,7 +424,7 @@ class LayananFragment : Fragment() {
         viewModel.suratListPindah.observe(viewLifecycleOwner) { list ->
             Log.d("RecyclerDebugPindah", "Jumlah surat pindah masuk: ${list.size}")
             (binding.recyclerViewSuratItemPindah.adapter as SuratDomisilipindahAdapter).updateDataDomisiliPindah(list)
-            binding.tvJumlahSuratDomisiliPindah.text = "(${list.size})"
+            binding.tvJumlahSuratPindah.text = "(${list.size})"
             val isRecyclerVisible = binding.recyclerViewSuratItemPindah.visibility == View.VISIBLE
             if (isRecyclerVisible && list.isEmpty()) {
                 binding.recyclerViewSuratItemPindah.visibility = View.GONE
@@ -480,12 +481,12 @@ class LayananFragment : Fragment() {
      */
     private fun setupDialogButtons(dialogView: View, dialog: Dialog) {
         // Inisialisasi tombol dari dialogView
-        val btnDomisili = dialogView.findViewById<AppCompatButton>(R.id.addSuratDomisili)
-        val btnKtm = dialogView.findViewById<AppCompatButton>(R.id.addSuratKtm)
-        val btnKtu = dialogView.findViewById<AppCompatButton>(R.id.addSuratKtu)
-        val btnLainnya = dialogView.findViewById<AppCompatButton>(R.id.addSuratLainnya)
+        val btnDomisili = dialogView.findViewById<ConstraintLayout>(R.id.addSuratDomisili)
+        val btnKtm = dialogView.findViewById<ConstraintLayout>(R.id.addSuratKtm)
+        val btnKtu = dialogView.findViewById<ConstraintLayout>(R.id.addSuratKtu)
+        val btnLainnya = dialogView.findViewById<ConstraintLayout>(R.id.addSuratLainnya)
         val btnClose = dialogView.findViewById<AppCompatImageButton>(R.id.closeBtn)
-        val btnPindah = dialogView.findViewById<AppCompatButton>(R.id.addSuratPindah)
+        val btnPindah = dialogView.findViewById<ConstraintLayout>(R.id.addSuratPindah)
 
         // Tombol surat domisili
         btnDomisili.setOnClickListener {

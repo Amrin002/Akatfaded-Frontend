@@ -88,9 +88,9 @@ class SuratKtmFragment : Fragment() {
         setupDatePicker()
 
         // Set up date picker functionality
-        binding.etTanggalLahir.setOnClickListener {
+        binding.tvDatePicker.setOnClickListener {
             // Only show date picker if not in detail mode or if enabled
-            if (binding.etTanggalLahir.isEnabled) {
+            if (binding.tvDatePicker.isEnabled) {
                 showDatePicker()
             }
         }
@@ -120,8 +120,8 @@ class SuratKtmFragment : Fragment() {
     }
 
     private fun setupDatePicker() {
-        binding.etTanggalLahir.setOnClickListener {
-            if (binding.etTanggalLahir.isEnabled) {
+        binding.tvDatePicker.setOnClickListener {
+            if (binding.tvDatePicker.isEnabled) {
                 showDatePicker()
             }
         }
@@ -151,7 +151,7 @@ class SuratKtmFragment : Fragment() {
                 // UI elements are read-only
                 binding.etNama.isEnabled = false
                 binding.etTempatLahir.isEnabled = false
-                binding.etTanggalLahir.isEnabled = false
+                binding.tvDatePicker.isEnabled = false
                 binding.spinerJK.isEnabled = false
                 binding.spinerSK.isEnabled = false
                 binding.etKewarganegaraan.isEnabled = false
@@ -159,20 +159,20 @@ class SuratKtmFragment : Fragment() {
                 binding.etKeterangan.isEnabled = false
 
                 // Hide submit button in detail mode
-                binding.btnAjukan.visibility = View.GONE
+                binding.btnSubmit.visibility = View.GONE
 
                 // Edit button visibility will be set in observeDetailData() based on status
             }
             Constant.TYPE_CREATE -> {
                 // Set default text for date field
-                binding.etTanggalLahir.text = "Pilih Tanggal Lahir"
+                binding.tvDatePicker.text = "Pilih Tanggal Lahir"
                 binding.btnEditSurat.visibility = View.GONE
                 binding.btnDeleteSurat.visibility = View.GONE // Hide delete button in create mode
 
                 // Enable all fields for input
                 binding.etNama.isEnabled = true
                 binding.etTempatLahir.isEnabled = true
-                binding.etTanggalLahir.isEnabled = true
+                binding.tvDatePicker.isEnabled = true
                 binding.spinerJK.isEnabled = true
                 binding.spinerSK.isEnabled = true
                 binding.etKewarganegaraan.isEnabled = true
@@ -180,8 +180,8 @@ class SuratKtmFragment : Fragment() {
                 binding.etKeterangan.isEnabled = true
 
                 // Show submit button with appropriate text
-                binding.btnAjukan.text = "Ajukan Surat"
-                binding.btnAjukan.visibility = View.VISIBLE
+                binding.btnSubmit.text = "Ajukan Surat"
+                binding.btnSubmit.visibility = View.VISIBLE
             }
             Constant.TYPE_UPDATE -> {
                 // Enable all fields for editing
@@ -189,7 +189,7 @@ class SuratKtmFragment : Fragment() {
                 binding.btnDeleteSurat.visibility = View.GONE // Hide delete button in update mode
                 binding.etNama.isEnabled = true
                 binding.etTempatLahir.isEnabled = true
-                binding.etTanggalLahir.isEnabled = true
+                binding.tvDatePicker.isEnabled = true
                 binding.spinerJK.isEnabled = true
                 binding.spinerSK.isEnabled = true
                 binding.etKewarganegaraan.isEnabled = true
@@ -197,8 +197,8 @@ class SuratKtmFragment : Fragment() {
                 binding.etKeterangan.isEnabled = true
 
                 // Show submit button with update text
-                binding.btnAjukan.text = "Perbarui Surat"
-                binding.btnAjukan.visibility = View.VISIBLE
+                binding.btnSubmit.text = "Perbarui Surat"
+                binding.btnSubmit.visibility = View.VISIBLE
             }
         }
     }
@@ -223,7 +223,7 @@ class SuratKtmFragment : Fragment() {
                 // Fill form with existing data
                 binding.etNama.setText(dataSktm.nama)
                 binding.etTempatLahir.setText(dataSktm.tempatLahir)
-                binding.etTanggalLahir.setText(dataSktm.tanggalLahir)
+                binding.tvDatePicker.setText(dataSktm.tanggalLahir)
 
                 // Set spinner selections
                 val jenisKelaminItems = listOf("Laki-laki", "Perempuan")
@@ -251,18 +251,18 @@ class SuratKtmFragment : Fragment() {
 
                     // Show download button if status is "Approve"
                     if (dataSktm.status == "Approve") {
-                        binding.btnAjukan.text = "Unduh Surat"
-                        binding.btnAjukan.visibility = View.VISIBLE
+                        binding.btnSubmit.text = "Unduh Surat"
+                        binding.btnSubmit.visibility = View.VISIBLE
                     } else {
-                        binding.btnAjukan.visibility = View.GONE
+                        binding.btnSubmit.visibility = View.GONE
                     }
                 }
             }
         }
         viewModel.isLoading.observe(viewLifecycleOwner){ isLoading->
-            binding.btnAjukan.isEnabled = !isLoading
+            binding.btnSubmit.isEnabled = !isLoading
             binding.progressBarButton.visibility = if (isLoading) View.VISIBLE else View.GONE
-            binding.btnAjukan.text = if (isLoading) "" else when(type){
+            binding.btnSubmit.text = if (isLoading) "" else when(type){
                 Constant.TYPE_CREATE -> "Ajukan Surat"
                 Constant.TYPE_DETAIL -> "Unduh Surat"
                 Constant.TYPE_UPDATE -> "Perbarui Surat"
@@ -271,7 +271,7 @@ class SuratKtmFragment : Fragment() {
         }
     }
     private fun setupSubmitButton(type: Int, idSurat: Int) {
-        binding.btnAjukan.setOnClickListener {
+        binding.btnSubmit.setOnClickListener {
             // Get the current surat status from viewModel data
             val currentSuratStatus = viewModel.detailSuratKtm.value?.status
 
@@ -437,18 +437,18 @@ class SuratKtmFragment : Fragment() {
 
     private fun validateForm(): Boolean {
         // Basic validation
-        return binding.etNama.text.isNotBlank() &&
-                binding.etTempatLahir.text.isNotBlank() &&
-                binding.etTanggalLahir.text.toString() != "Pilih Tanggal Lahir" &&
-                binding.etKewarganegaraan.text.isNotBlank() &&
-                binding.etAlamat.text.isNotBlank()
+        return binding.etNama.text?.isNotBlank() == true &&
+                binding.etTempatLahir.text?.isNotBlank() == true &&
+                binding.tvDatePicker.text?.toString() != "Pilih Tanggal Lahir" &&
+                binding.etKewarganegaraan.text?.isNotBlank() == true &&
+                binding.etAlamat.text?.isNotBlank() == true
     }
 
     private fun collectFormData(): CreateSktmRequest {
         return CreateSktmRequest(
             nama = binding.etNama.text.toString(),
             tempat_lahir = binding.etTempatLahir.text.toString(),
-            tanggal_lahir = binding.etTanggalLahir.text.toString(),
+            tanggal_lahir = binding.tvDatePicker.text.toString(),
             jenis_kelamin = binding.spinerJK.selectedItem.toString(),
             status_kawin = binding.spinerSK.selectedItem.toString(),
             kewarganegaraan = binding.etKewarganegaraan.text.toString(),
@@ -462,7 +462,7 @@ class SuratKtmFragment : Fragment() {
         // Set to 18 years ago as default if creating new data
         calendar.add(Calendar.YEAR, -18)
 
-        val currentText = binding.etTanggalLahir.text.toString()
+        val currentText = binding.tvDatePicker.text.toString()
         if (currentText != "Pilih Tanggal Lahir") {
             try {
                 val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
@@ -489,7 +489,7 @@ class SuratKtmFragment : Fragment() {
                 val formattedDate = dateFormat.format(selectedCalendar.time)
 
                 // Set the formatted date to TextView
-                binding.etTanggalLahir.text = formattedDate
+                binding.tvDatePicker.text = formattedDate
             },
             year, month, day
         )

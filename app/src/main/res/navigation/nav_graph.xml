@@ -2,17 +2,17 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/nav_graph.xml"
+    app:startDestination="@id/layananFragment"
     app:enterAnim="@anim/slide_in_right"
-    app:exitAnim="@anim/slide_out_left"
-  >
+    app:exitAnim="@anim/slide_out_left">
+
     <fragment
         android:id="@+id/layananFragment"
         android:name="com.localclasstech.layanandesa.feature.layanan.view.LayananFragment"
-        android:label="Layanan" >
+        android:label="Layanan">
         <action
             android:id="@+id/action_layananFragment_to_formSuratKtmFragment"
             app:destination="@id/formSuratKtmFragment" />
-
     </fragment>
 
     <fragment

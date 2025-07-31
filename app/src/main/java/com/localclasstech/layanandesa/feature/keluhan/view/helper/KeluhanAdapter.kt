@@ -9,8 +9,8 @@ import com.localclasstech.layanandesa.settings.utils.DateUtils
 import com.localclasstech.layanandesa.R
 
 class KeluhanAdapter(private var cardListKeluhan : List<CardListKeluhan>,
-    private val listener: OnAdapterListener
-    ):RecyclerView.Adapter<KeluhanAdapter.ViewHolder>()
+                     private val listener: OnAdapterListener
+):RecyclerView.Adapter<KeluhanAdapter.ViewHolder>()
 {
 
 
@@ -34,18 +34,38 @@ class KeluhanAdapter(private var cardListKeluhan : List<CardListKeluhan>,
             binding.tvStatusKeluhan.text = statusIndonesia
 
             when(cardKeluhan.statusKeluhan){
-                "pending" -> binding.tvStatusKeluhan.setTextColor(
-                    binding.root.context.getColor(R.color.textOnProgress)
-                )
-                "diproses" -> binding.tvStatusKeluhan.setTextColor(
-                    binding.root.context.getColor(R.color.textAproved)
-                )
-                "selesai" -> binding.tvStatusKeluhan.setTextColor(
-                    binding.root.context.getColor(R.color.textSuccess)
-                )
-                else ->binding.tvStatusKeluhan.setTextColor(
-                    binding.root.context.getColor(android.R.color.black)
-                )
+                "pending" -> {
+                    binding.statusBadge.setCardBackgroundColor(
+                        binding.root.context.getColor(R.color.warning)
+                    )
+                    binding.tvStatusKeluhan.setTextColor(
+                        binding.root.context.getColor(R.color.text_primary)
+                    )
+                }
+                "diproses" -> {
+                    binding.statusBadge.setCardBackgroundColor(
+                        binding.root.context.getColor(R.color.primary_blue)
+                    )
+                    binding.tvStatusKeluhan.setTextColor(
+                        binding.root.context.getColor(R.color.text_primary)
+                    )
+                }
+                "selesai" -> {
+                    binding.statusBadge.setCardBackgroundColor(
+                        binding.root.context.getColor(R.color.success)
+                    )
+                    binding.tvStatusKeluhan.setTextColor(
+                        binding.root.context.getColor(R.color.text_primary)
+                    )
+                }
+                else -> {
+                    binding.statusBadge.setCardBackgroundColor(
+                        binding.root.context.getColor(R.color.background_light)
+                    )
+                    binding.tvStatusKeluhan.setTextColor(
+                        binding.root.context.getColor(R.color.text_primary)
+                    )
+                }
             }
 
         }
@@ -73,5 +93,3 @@ class KeluhanAdapter(private var cardListKeluhan : List<CardListKeluhan>,
 
 
 }
-
-

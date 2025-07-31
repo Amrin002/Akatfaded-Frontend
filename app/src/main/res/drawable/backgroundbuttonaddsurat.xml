@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<shape android:shape="rectangle" xmlns:android="http://schemas.android.com/apk/res/android">
-    <corners android:radius="10dp"/>
-    <solid android:color="@color/white"/>
-    <stroke android:color="@color/colorBtnPrimary" android:width="1dp"/>
-
-</shape>
+<ripple xmlns:android="http://schemas.android.com/apk/res/android"
+    android:color="@color/primary_blue_light">
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="@color/background_light" />
+            <corners android:radius="16dp" />
+            <stroke
+                android:width="1dp"
+                android:color="@color/divider" />
+        </shape>
+    </item>
+</ripple>
