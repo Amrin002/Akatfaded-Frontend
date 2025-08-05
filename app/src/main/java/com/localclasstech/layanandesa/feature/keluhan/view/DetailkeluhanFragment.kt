@@ -249,6 +249,7 @@ class DetailkeluhanFragment : Fragment() {
                 Constant.TYPE_UPDATE -> "Perbarui Keluhan"
                 else -> "Ajukan"
             }
+            binding.btnAjukan.isEnabled = if (isLoading) false else true
         }
     }
 

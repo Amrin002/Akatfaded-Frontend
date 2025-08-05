@@ -1,21 +1,55 @@
-# Add project specific ProGuard rules here.
-# You can control the set of applied configuration files using the
-# proguardFiles setting in build.gradle.
-#
-# For more details, see
-#   http://developer.android.com/guide/developing/tools/proguard.html
+#########################################
+# ✅ ViewModel dan LiveData
+#########################################
+-keep class androidx.lifecycle.** { *; }
+-keepclassmembers class * {
+    @androidx.lifecycle.* <methods>;
+}
 
-# If your project uses WebView with JS, uncomment the following
-# and specify the fully qualified class name to the JavaScript interface
-# class:
-#-keepclassmembers class fqcn.of.javascript.interface.for.webview {
-#   public *;
-#}
+#########################################
+# ✅ Retrofit + Gson
+#########################################
+-keepattributes Signature
+-keepattributes *Annotation*
+-keep class com.google.gson.** { *; }
+-keep class retrofit2.** { *; }
+-keep class okhttp3.** { *; }
+-dontwarn retrofit2.**
 
-# Uncomment this to preserve the line number information for
-# debugging stack traces.
-#-keepattributes SourceFile,LineNumberTable
+#########################################
+# ✅ Kotlin Coroutines
+#########################################
+-dontwarn kotlinx.coroutines.**
+-keep class kotlinx.coroutines.** { *; }
 
-# If you keep the line number information, uncomment this to
-# hide the original source file name.
-#-renamesourcefileattribute SourceFile
+#########################################
+# ✅ Glide
+#########################################
+-keep public class * implements com.bumptech.glide.module.GlideModule
+-keep public class * extends com.bumptech.glide.module.AppGlideModule
+-keep public enum com.bumptech.glide.load.resource.bitmap.ImageHeaderParser$** {
+    **[] $VALUES;
+    public *;
+}
+-dontwarn com.bumptech.glide.**
+
+#########################################
+# ✅ PhotoView
+#########################################
+-keep class uk.co.senab.photoview.** { *; }
+
+#########################################
+# ✅ Facebook Shimmer
+#########################################
+-keep class com.facebook.shimmer.** { *; }
+-dontwarn com.facebook.shimmer.**
+
+#############################################################
+# ProGuard keep rules for optional SSL libraries (OkHttp)
+# Supaya tidak error karena kelas opsional yang tidak dipakai
+#############################################################
+-dontwarn org.conscrypt.**
+-dontwarn org.openjsse.**
+
+
+-ignorewarnings
