@@ -2,15 +2,15 @@ package com.localclasstech.layanandesa.settings.utils
 
 import android.util.Log
 import java.net.URL
-
+import com.localclasstech.layanandesa.BuildConfig
 
 object UrlConstant {
     private const val TAG = "UrlConstant"
     // Base URL untuk API
-    const val BASE_URL = "https://akatfadedo.com/"
+    val BASE_URL: String = BuildConfig.BASE_URL
 
     // Base URL untuk gambar (mengarah ke direktori storage Laravel)
-    const val IMAGE_BASE_URL = "${BASE_URL}storage/"
+    val IMAGE_BASE_URL = "${BASE_URL}storage/"
 
     // Daftar format gambar yang didukung
     private val SUPPORTED_FORMATS = listOf("jpg", "jpeg", "png", "webp")

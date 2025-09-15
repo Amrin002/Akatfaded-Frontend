@@ -1,5 +1,7 @@
 package com.localclasstech.layanandesa.feature.berita.view.helper
 
+import android.os.Build
+import android.text.Html
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.lifecycle.LifecycleCoroutineScope
@@ -33,7 +35,18 @@ class ListBeritaTerkiniAdapter(private var beritaList: List<DataClassBerita>,
             binding.tvJudulBerita.text = berita.judulBerita
             binding.tvPenulisBerita.text = berita.penulisBerita
             binding.tvTanggalBerita.text = berita.tanggalBerita
-            binding.tvKontenBerita.text = berita.kontenBerita
+            binding.tvKontenBerita.apply {
+                text = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    Html.fromHtml(berita.kontenBerita, Html.FROM_HTML_MODE_COMPACT)
+                } else {
+                    @Suppress("DEPRECATION")
+                    Html.fromHtml(berita.kontenBerita)
+                }
+            }
+
+            binding.root.setOnClickListener {
+                listener.onClick(berita.idBerita)
+            }
 
             binding.root.setOnClickListener {
                 listener.onClick(berita.idBerita)

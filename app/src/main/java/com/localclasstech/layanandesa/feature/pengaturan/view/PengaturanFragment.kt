@@ -30,17 +30,21 @@ import com.localclasstech.layanandesa.auth.view.LoginActivity
 import com.localclasstech.layanandesa.auth.viewmodel.LoginViewModel
 import com.localclasstech.layanandesa.auth.viewmodel.LoginViewModelFactory
 import com.localclasstech.layanandesa.databinding.FragmentPengaturanBinding
+import com.localclasstech.layanandesa.databinding.FragmentUmkmBinding
+import com.localclasstech.layanandesa.feature.pengaturan.view.aboutus.AboutUsActivity
 import com.localclasstech.layanandesa.feature.pengaturan.view.aboutus.BantuanActivity
 import com.localclasstech.layanandesa.feature.pengaturan.view.editprofille.EditProfileFragment
 import com.localclasstech.layanandesa.feature.pengaturan.viewmodel.PengaturanViewModel
 import com.localclasstech.layanandesa.feature.pengaturan.viewmodel.PengaturanViewModelFactory
 import com.localclasstech.layanandesa.feature.pengaturan.viewmodel.SharedThemeViewModel
 import com.localclasstech.layanandesa.feature.pengaturan.viewmodel.SharedThemeViewModelFactory
+import com.localclasstech.layanandesa.feature.umkm.view.UmkmFragment
 import com.localclasstech.layanandesa.network.ApiService
 import com.localclasstech.layanandesa.network.RetrofitClient
 import com.localclasstech.layanandesa.settings.PreferencesHelper
 import com.localclasstech.layanandesa.settings.utils.DialogHelper
 import com.localclasstech.layanandesa.settings.utils.UrlConstant
+import com.localclasstech.layanandesa.view.MainActivity
 import com.localclasstech.layanandesa.view.getstarted.GetstartedActivity
 
 class PengaturanFragment : Fragment() {
@@ -120,6 +124,17 @@ class PengaturanFragment : Fragment() {
             transaction.addToBackStack(null)
             transaction.commit()
         }
+        binding.layoutUmkm.setOnClickListener{
+            val fragmentUmkm = UmkmFragment()
+            val transaction = parentFragmentManager.beginTransaction()
+            transaction.replace(R.id.fragmentView, fragmentUmkm)
+            transaction.addToBackStack(null)
+            transaction.commit()
+        }
+        binding.layoutAbout.setOnClickListener{
+            val intent = Intent(requireContext(), AboutUsActivity::class.java)
+            startActivity(intent)
+        }
 
         binding.layoutLogout.setOnClickListener {
             DialogHelper.showConfirmationDialog(
@@ -137,7 +152,18 @@ class PengaturanFragment : Fragment() {
             startActivity(intent)
         }
 
+        // NEW: Cek Update click listener
+        binding.layoutCekUpdate.setOnClickListener {
+            checkForUpdates()
+        }
 
+
+    }
+    private fun checkForUpdates() {
+        // Panggil manual version check dari MainActivity
+        if (activity is MainActivity) {
+            (activity as MainActivity).manualVersionCheck()
+        }
     }
 
     // New centralized method for navigating to login

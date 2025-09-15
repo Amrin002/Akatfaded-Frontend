@@ -1,6 +1,8 @@
 package com.localclasstech.layanandesa.feature.berita.view
 
 import android.os.Bundle
+import android.text.Html
+import android.text.method.LinkMovementMethod
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -77,7 +79,6 @@ class DetailBeritaFragment : Fragment() {
         // Observe berita detail
         viewModel.beritaDetail.observe(viewLifecycleOwner) { berita ->
             berita?.let {
-                // Load image
                 lifecycleScope.launch {
                     ImageLoader.loadImage(
                         requireContext(),
@@ -85,10 +86,20 @@ class DetailBeritaFragment : Fragment() {
                         binding.imageBerita
                     )
 
-                    // Set text fields
                     binding.tanggalBerita.text = it.tanggalBerita
                     binding.judulBerita.text = it.judulBerita
-                    binding.isiBerita.text = it.kontenBerita
+
+                    // Parse HTML content untuk TextView
+                    binding.isiBerita.apply {
+                        text = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+                            Html.fromHtml(it.kontenBerita, Html.FROM_HTML_MODE_COMPACT)
+                        } else {
+                            @Suppress("DEPRECATION")
+                            Html.fromHtml(it.kontenBerita)
+                        }
+                        // Enable link clicking jika ada
+                        movementMethod = LinkMovementMethod.getInstance()
+                    }
                 }
             }
         }

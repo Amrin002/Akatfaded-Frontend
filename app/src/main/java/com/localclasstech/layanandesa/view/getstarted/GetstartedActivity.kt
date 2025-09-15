@@ -47,10 +47,10 @@ class GetstartedActivity : AppCompatActivity() {
         viewModel.isOnline.observe(this) { online ->
             if (online) {
                 startActivity(Intent(this, LoginActivity::class.java))
-                Toast.makeText(this, "Online Mode", Toast.LENGTH_SHORT).show()
+//                Toast.makeText(this, "Online Mode", Toast.LENGTH_SHORT).show()
                 finish()
             } else {
-                Toast.makeText(this, "Offline Mode", Toast.LENGTH_SHORT).show()
+//                Toast.makeText(this, "Offline Mode", Toast.LENGTH_SHORT).show()
                 viewModel.setupOfflineMode() // Setup SQLite atau logika offline lainnya
                 startActivity(Intent(this, InternetlostActivity::class.java))
                 finish()

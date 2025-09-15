@@ -8,6 +8,10 @@
         android:title="Layanan"
         android:icon="@drawable/ic_layanan"
         />
+    <item android:id="@+id/umkm"
+        android:title="UMKM"
+        android:icon="@drawable/ic_umkm"
+        />
     <item android:id="@+id/berita"
         android:title="Berita"
         android:icon="@drawable/ic_berita"

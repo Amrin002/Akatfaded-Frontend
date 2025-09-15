@@ -1,5 +1,7 @@
 package com.localclasstech.layanandesa.feature.beranda.view.helper
 
+import android.os.Build
+import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -35,8 +37,14 @@ class BeritaBerandaAdapterHelper(
         holder.tvJudul.text = berita.judulBerita
         holder.tvPenulis.text = berita.penulisBerita
         holder.tvTanggal.text = berita.tanggalBerita
-        holder.tvKonten.text = berita.kontenBerita
-
+        holder.tvKonten.apply {
+            text = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                Html.fromHtml(berita.kontenBerita, Html.FROM_HTML_MODE_COMPACT)
+            } else {
+                @Suppress("DEPRECATION")
+                Html.fromHtml(berita.kontenBerita)
+            }
+        }
         // Load image pakai Glide
         Glide.with(holder.itemView.context)
             .load(berita.imgBerita)

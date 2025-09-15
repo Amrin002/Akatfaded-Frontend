@@ -13,17 +13,51 @@ android {
         minSdk = 26
         targetSdk = 34
         versionCode = 3
-        versionName = "1.1"
+        versionName = "1.3"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField("String", "BASE_URL", "\"https://akatfadedo.com/\"")
     }
 
     buildTypes {
-        release {
+        debug {
             isMinifyEnabled = true
+            buildConfigField("String", "BASE_URL", "\"http://192.168.56.1:8000/\"")
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+        }
+        release {
+            isMinifyEnabled = true
+            isShrinkResources = true
+
+            // Untuk debugging ProGuard issues
+            isDebuggable = false
+
+
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
+            buildConfigField("String", "BASE_URL", "\"https://akatfadedo.com/\"")
+
+            // Untuk menjaga stack trace yang berguna saat crash
+            packagingOptions {
+                resources {
+                    excludes += "/META-INF/{AL2.0,LGPL2.1}"
+                }
+            }
+        }
+        // Tambahkan build type baru untuk testing
+        create("releaseTest") {
+            initWith(getByName("release"))
+            isMinifyEnabled = false     // Tanpa obfuscation
+            isShrinkResources = false   // Tanpa resource shrinking
+            isDebuggable = true         // Bisa di-debug
+            applicationIdSuffix = ".test"  // Package name berbeda
+            versionNameSuffix = "-test"
+            signingConfig = signingConfigs.getByName("debug")// Version name berbeda
         }
     }
     compileOptions {
@@ -35,6 +69,7 @@ android {
     }
     buildFeatures {
         viewBinding = true
+        buildConfig = true
     }
 }
 
@@ -86,6 +121,6 @@ dependencies {
     testImplementation("com.squareup.okhttp3:mockwebserver:4.9.2")
     testImplementation ("org.junit.jupiter:junit-jupiter-api:5.7.0")
     testImplementation ("org.junit.jupiter:junit-jupiter-engine:5.7.0")
-
+//    implementation(libs.html.textview)
 
 }

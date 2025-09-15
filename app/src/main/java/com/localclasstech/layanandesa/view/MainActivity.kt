@@ -3,6 +3,8 @@ package com.localclasstech.layanandesa.view
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
@@ -19,16 +21,21 @@ import com.localclasstech.layanandesa.feature.beranda.view.BerandaFragment
 import com.localclasstech.layanandesa.feature.berita.view.BeritaFragment
 import com.localclasstech.layanandesa.feature.layanan.view.LayananFragment
 import com.localclasstech.layanandesa.feature.pengaturan.view.PengaturanFragment
+import com.localclasstech.layanandesa.feature.umkm.view.UmkmFragment
+import com.localclasstech.layanandesa.feature.version.utils.VersionChecker
 import com.localclasstech.layanandesa.view.getstarted.GetstartedActivity
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
+    private lateinit var versionChecker: VersionChecker
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        versionChecker = VersionChecker(this)
+
         // Menggunakan WindowInsetsListener untuk menangani padding
         ViewCompat.setOnApplyWindowInsetsListener(binding.bottomNavigation) { v, insets ->
             // Mendapatkan insets untuk systemBars dan navigationBars
@@ -57,7 +64,9 @@ class MainActivity : AppCompatActivity() {
             override fun onGlobalLayout() {
                 bottomNavigation.viewTreeObserver.removeOnGlobalLayoutListener(this)
                 //animateIndicator(activeIndicator, 0) // Atur indikator di posisi tab pertama (index 0)
+                checkVersionAfterDelay()
             }
+
         })
 
         loadFragment(BerandaFragment())
@@ -72,13 +81,17 @@ class MainActivity : AppCompatActivity() {
                     loadFragment(LayananFragment())
                     1
                 }
+                R.id.umkm -> {
+                    loadFragment(UmkmFragment())
+                    2
+                }
                 R.id.berita -> {
                     loadFragment(BeritaFragment())
-                    2
+                    3
                 }
                 R.id.pengaturan -> {
                     loadFragment(PengaturanFragment())
-                    3
+                    4
                 }
                 else -> {
                     loadFragment(BerandaFragment())
@@ -106,6 +119,16 @@ class MainActivity : AppCompatActivity() {
 
     private fun showToast(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun checkVersionAfterDelay() {
+        Handler(Looper.getMainLooper()).postDelayed({
+            versionChecker.checkForUpdates()
+        }, 3000)
+    }
+
+    fun manualVersionCheck() {
+        versionChecker.checkForUpdatesManually()
     }
 
     private fun loadFragment(fragment: Fragment){

@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="4dp"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?android:attr/selectableItemBackground">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="12dp">
+
+        <!-- Foto Produk -->
+        <ImageView
+            android:id="@+id/ivFotoProduk"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:scaleType="centerCrop"
+            android:background="@color/cardBerita"
+            android:contentDescription="Foto Produk"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:src="@drawable/default_umkm" />
+
+        <!-- Badge Kategori -->
+        <TextView
+            android:id="@+id/tvKategori"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_badge_kategori"
+            android:text="Makanan"
+            android:textColor="@color/white"
+            android:textSize="8sp"
+            android:paddingHorizontal="6dp"
+            android:paddingVertical="2dp"
+            android:layout_margin="4dp"
+            app:layout_constraintTop_toTopOf="@id/ivFotoProduk"
+            app:layout_constraintStart_toStartOf="@id/ivFotoProduk"
+            tools:text="Makanan" />
+
+        <!-- Nama Usaha -->
+        <TextView
+            android:id="@+id/tvNamaUsaha"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Warung Makan Sederhana"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:layout_marginStart="20dp"
+            app:layout_constraintTop_toTopOf="@id/ivFotoProduk"
+            app:layout_constraintStart_toEndOf="@id/ivFotoProduk"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="Warung Makan Sederhana" />
+
+        <!-- Nama Produk -->
+        <TextView
+            android:id="@+id/tvNamaProduk"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Nasi Gudeg Spesial"
+            android:textSize="12sp"
+            android:textColor="@color/colorTextSecondary"
+            android:maxLines="1"
+            android:ellipsize="end"
+
+            android:layout_marginTop="4dp"
+            app:layout_constraintTop_toBottomOf="@id/tvNamaUsaha"
+            app:layout_constraintStart_toEndOf="@id/ivFotoProduk"
+            app:layout_constraintStart_toStartOf="@id/tvNamaUsaha"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="Nasi Gudeg Spesial" />
+
+        <!-- Harga Produk -->
+        <TextView
+            android:id="@+id/tvHargaProduk"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Rp 15.000"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            android:textColor="@color/colorPrimary"
+
+            android:layout_marginTop="4dp"
+            app:layout_constraintTop_toBottomOf="@id/tvNamaProduk"
+            app:layout_constraintStart_toStartOf="@id/tvNamaUsaha"
+            app:layout_constraintStart_toEndOf="@id/ivFotoProduk"
+            tools:text="Rp 15.000" />
+
+        <!-- Deskripsi Singkat -->
+        <TextView
+            android:id="@+id/tvDeskripsi"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Gudeg autentik dengan cita rasa tradisional yang lezat..."
+            android:textSize="11sp"
+            android:textColor="@color/textColor"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:layout_marginTop="4dp"
+            app:layout_constraintTop_toBottomOf="@id/tvHargaProduk"
+            app:layout_constraintStart_toEndOf="@id/ivFotoProduk"
+            app:layout_constraintStart_toStartOf="@id/tvNamaUsaha"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/ivFotoProduk"
+            tools:text="Gudeg autentik dengan cita rasa tradisional..." />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>

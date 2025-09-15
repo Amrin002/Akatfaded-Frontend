@@ -1,5 +1,6 @@
 package com.localclasstech.layanandesa.feature.berita.data
 
+import android.text.Html
 import android.util.Log
 import com.google.gson.annotations.SerializedName
 import com.localclasstech.layanandesa.settings.utils.UrlConstant
@@ -45,7 +46,13 @@ data class DataClassBerita(
 // Perbaikan mapping function
 fun Berita.toUiModel(): DataClassBerita {
     val imageUrl = UrlConstant.getValidImageUrl(this.gambar)
-
+    // Parse HTML content
+    val parsedKonten = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+        Html.fromHtml(this.konten, Html.FROM_HTML_MODE_COMPACT).toString()
+    } else {
+        @Suppress("DEPRECATION")
+        Html.fromHtml(this.konten).toString()
+    }
     // Daftar nama bulan dalam bahasa Indonesia
     val bulanIndonesia = arrayOf(
         "Januari", "Februari", "Maret", "April", "Mei", "Juni",

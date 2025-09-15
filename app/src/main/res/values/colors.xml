@@ -47,4 +47,12 @@
     <color name="colorTextSecondary_simple">#555555</color> <!-- Lebih jelas -->
     <color name="abu_abu_simple">#999999</color> <!-- Kontras lebih tinggi -->
     <color name="grey_simple">#666666</color> <!-- Tidak terlalu redup -->
+
+<!--    Warna badge-->
+    <color name="kategori_makanan">#FF5722</color>
+    <color name="kategori_jasa">#2196F3</color>
+    <color name="kategori_kerajinan">#9C27B0</color>
+    <color name="kategori_pertanian">#4CAF50</color>
+    <color name="kategori_perdagangan">#FF9800</color>
+    <color name="kategori_lainnya">#607D8B</color>
 </resources>

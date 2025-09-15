@@ -4,6 +4,8 @@ import com.localclasstech.layanandesa.feature.apbdes.data.network.ApbdesApiServi
 import com.localclasstech.layanandesa.feature.berita.data.network.BeritaApiService
 import com.localclasstech.layanandesa.feature.keluhan.data.network.KeluhanApiService
 import com.localclasstech.layanandesa.feature.layanan.data.network.apiservice.SuratApiService
+import com.localclasstech.layanandesa.feature.umkm.data.network.UmkmApiService
+import com.localclasstech.layanandesa.feature.version.data.VersionApiService
 import com.localclasstech.layanandesa.settings.utils.UrlConstant
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -18,7 +20,7 @@ object RetrofitClient {
         level = HttpLoggingInterceptor.Level.BODY
     }
 
-    private const val BASE_URL = UrlConstant.BASE_URL
+    private val BASE_URL = UrlConstant.BASE_URL
 //    private lateinit var BASE_URL: String
 
      // Ganti sesuai IP atau hosting kamu
@@ -71,5 +73,22 @@ object RetrofitClient {
             .client(client)
             .build()
             .create(ApbdesApiService::class.java)
+    }
+    // Tambahkan VersionApiService
+    val versionApiService: VersionApiService by lazy {
+        Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .client(client)
+            .build()
+            .create(VersionApiService::class.java)
+    }
+    val umkmApiService: UmkmApiService by lazy {
+        Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .client(client)
+            .build()
+            .create(UmkmApiService::class.java)
     }
 }
