@@ -55,7 +55,9 @@ class UmkmViewModel(private val repository: UmkmRepository) : ViewModel() {
                 if (response.isSuccessful) {
                     response.body()?.let { optionsResponse ->
                         if (optionsResponse.success) {
-                            _umkmOptions.postValue(optionsResponse.data)
+                            optionsResponse.data?.let { data ->
+                                _umkmOptions.postValue(data)
+                            }
                         }
                     }
                 }
