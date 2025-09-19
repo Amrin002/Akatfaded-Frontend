@@ -1,0 +1,421 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="100dp">
+
+        <!-- Header dengan Back Button -->
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_back_button"
+            android:background="@color/transparant"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="20dp"
+            android:id="@+id/btnBack"
+            android:layout_marginTop="20dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tvDaftarUmkm"
+            android:text="Daftar UMKM"
+            android:textColor="@color/black"
+            android:fontFamily="@font/poppins_bold"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            app:layout_constraintStart_toEndOf="@id/btnBack"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="23dp"
+            android:layout_marginStart="10dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Pilih Usaha *"
+            android:textStyle="normal"
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            android:id="@+id/labelPilihUsaha"
+            android:fontFamily="@font/poppins_bold"
+            app:layout_constraintTop_toBottomOf="@id/tvDaftarUmkm"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="30dp"
+            android:layout_marginStart="20dp"
+            android:visibility="gone"/>
+
+        <Spinner
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/spinnerPilihUsaha"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/labelPilihUsaha"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/edit_text_border"
+            android:paddingVertical="12dp"
+            android:layout_marginTop="8dp"
+            android:visibility="gone"/>
+        <!-- Form Fields -->
+        <!-- Nama Usaha -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nama Usaha *"
+            android:textStyle="normal"
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            android:id="@+id/labelNamaUsaha"
+            android:fontFamily="@font/poppins_bold"
+            app:layout_constraintTop_toBottomOf="@id/spinnerPilihUsaha"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="30dp"
+            android:layout_marginStart="20dp"/>
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/etNamaUsaha"
+            android:textColor="@color/black"
+            android:hint="Contoh: Warung Bu Siti"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/labelNamaUsaha"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/edit_text_border"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:paddingVertical="12dp"
+            android:layout_marginTop="8dp"
+            android:textColorHint="@color/abu_abu_modern"/>
+
+        <!-- Kategori Usaha -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Kategori Usaha *"
+            android:textStyle="normal"
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            android:id="@+id/labelKategori"
+            android:fontFamily="@font/poppins_bold"
+            app:layout_constraintTop_toBottomOf="@id/etNamaUsaha"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="20dp"/>
+
+        <Spinner
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/spinnerKategori"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/labelKategori"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/edit_text_border"
+            android:paddingVertical="12dp"
+            android:layout_marginTop="8dp"/>
+
+        <!-- Nama Produk -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nama Produk *"
+            android:textStyle="normal"
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            android:id="@+id/labelNamaProduk"
+            android:fontFamily="@font/poppins_bold"
+            app:layout_constraintTop_toBottomOf="@id/spinnerKategori"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="20dp"/>
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/etNamaProduk"
+            android:textColor="@color/black"
+            android:hint="Contoh: Nasi Gudeg Istimewa"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/labelNamaProduk"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/edit_text_border"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:paddingVertical="12dp"
+            android:layout_marginTop="8dp"
+            android:textColorHint="@color/abu_abu_modern"/>
+
+        <!-- Deskripsi Produk -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Deskripsi Produk *"
+            android:textStyle="normal"
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            android:id="@+id/labelDeskripsiProduk"
+            android:fontFamily="@font/poppins_bold"
+            app:layout_constraintTop_toBottomOf="@id/etNamaProduk"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="20dp"/>
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="120dp"
+            android:id="@+id/etDeskripsiProduk"
+            android:textColor="@color/black"
+            android:hint="Jelaskan produk Anda secara detail..."
+            android:gravity="top|start"
+            android:inputType="textMultiLine"
+            android:maxLines="5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/labelDeskripsiProduk"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/edit_text_border"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:paddingTop="12dp"
+            android:paddingBottom="12dp"
+            android:layout_marginTop="8dp"
+            android:textColorHint="@color/abu_abu_modern"/>
+
+        <!-- Harga Produk -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Harga Produk (Opsional)"
+            android:textStyle="normal"
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            android:id="@+id/labelHargaProduk"
+            android:fontFamily="@font/poppins_bold"
+            app:layout_constraintTop_toBottomOf="@id/etDeskripsiProduk"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="20dp"/>
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/etHargaProduk"
+            android:textColor="@color/black"
+            android:hint="Contoh: 15000"
+            android:inputType="number"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/labelHargaProduk"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/edit_text_border"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:paddingVertical="12dp"
+            android:layout_marginTop="8dp"
+            android:textColorHint="@color/abu_abu_modern"/>
+
+        <!-- Foto Produk -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Foto Produk (Opsional)"
+            android:textStyle="normal"
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            android:id="@+id/labelFotoProduk"
+            android:fontFamily="@font/poppins_bold"
+            app:layout_constraintTop_toBottomOf="@id/etHargaProduk"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="20dp"/>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/layoutFotoProduk"
+            android:orientation="vertical"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/labelFotoProduk"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginTop="8dp">
+
+            <ImageView
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:id="@+id/imgPreviewProduk"
+                android:src="@drawable/ic_image_placeholder"
+                android:scaleType="centerCrop"
+                android:background="@drawable/image_placeholder_border"
+                android:layout_gravity="center"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/btnPilihFoto"
+                android:text="Pilih Foto"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                style="@style/Widget.Material3.Button.TextButton"/>
+
+        </LinearLayout>
+
+        <!-- Nomor Telepon -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nomor Telepon *"
+            android:textStyle="normal"
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            android:id="@+id/labelNomorTelepon"
+            android:fontFamily="@font/poppins_bold"
+            app:layout_constraintTop_toBottomOf="@id/layoutFotoProduk"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="25dp"
+            android:layout_marginStart="20dp"/>
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/etNomorTelepon"
+            android:textColor="@color/black"
+            android:hint="Contoh: 08123456789"
+            android:inputType="phone"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/labelNomorTelepon"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/edit_text_border"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:paddingVertical="12dp"
+            android:layout_marginTop="8dp"
+            android:textColorHint="@color/abu_abu_modern"/>
+
+        <!-- Link Media Sosial -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Link Media Sosial (Opsional)"
+            android:textStyle="normal"
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            android:id="@+id/labelMediaSosial"
+            android:fontFamily="@font/poppins_bold"
+            app:layout_constraintTop_toBottomOf="@id/etNomorTelepon"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="25dp"
+            android:layout_marginStart="20dp"/>
+
+        <!-- Facebook -->
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/etLinkFacebook"
+            android:textColor="@color/black"
+            android:hint="Link Facebook"
+            android:inputType="textUri"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/labelMediaSosial"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/edit_text_border"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:paddingVertical="12dp"
+            android:layout_marginTop="8dp"
+            android:textColorHint="@color/abu_abu_modern"/>
+
+        <!-- Instagram -->
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/etLinkInstagram"
+            android:textColor="@color/black"
+            android:hint="Link Instagram"
+            android:inputType="textUri"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/etLinkFacebook"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/edit_text_border"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:paddingVertical="12dp"
+            android:layout_marginTop="12dp"
+            android:textColorHint="@color/abu_abu_modern"/>
+
+        <!-- TikTok -->
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/etLinkTiktok"
+            android:textColor="@color/black"
+            android:hint="Link TikTok"
+            android:inputType="textUri"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/etLinkInstagram"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/edit_text_border"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:paddingVertical="12dp"
+            android:layout_marginTop="12dp"
+            android:textColorHint="@color/abu_abu_modern"/>
+
+        <!-- Button Daftar -->
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnDaftarUmkm"
+            android:text="Daftar UMKM"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:fontFamily="@font/poppins_bold"
+            android:background="@drawable/button_primary"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/etLinkTiktok"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginTop="40dp"/>
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/groupUsahaSection"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:constraint_referenced_ids="labelNamaUsaha,etNamaUsaha,labelKategori,spinnerKategori,labelNomorTelepon,etNomorTelepon,labelMediaSosial,etLinkFacebook,etLinkInstagram,etLinkTiktok"
+            android:visibility="visible" />
+
+        <!-- Group untuk EXISTING USAHA SECTION (bisa disembunyikan) -->
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/groupExistingUsahaSection"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:constraint_referenced_ids="labelPilihUsaha,spinnerPilihUsaha"
+            android:visibility="gone" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

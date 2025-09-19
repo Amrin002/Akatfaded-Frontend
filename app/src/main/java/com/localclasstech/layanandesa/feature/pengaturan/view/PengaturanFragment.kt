@@ -38,6 +38,7 @@ import com.localclasstech.layanandesa.feature.pengaturan.viewmodel.PengaturanVie
 import com.localclasstech.layanandesa.feature.pengaturan.viewmodel.PengaturanViewModelFactory
 import com.localclasstech.layanandesa.feature.pengaturan.viewmodel.SharedThemeViewModel
 import com.localclasstech.layanandesa.feature.pengaturan.viewmodel.SharedThemeViewModelFactory
+import com.localclasstech.layanandesa.feature.umkm.view.KelolaUmkmFragment
 import com.localclasstech.layanandesa.feature.umkm.view.UmkmFragment
 import com.localclasstech.layanandesa.network.ApiService
 import com.localclasstech.layanandesa.network.RetrofitClient
@@ -125,11 +126,10 @@ class PengaturanFragment : Fragment() {
             transaction.commit()
         }
         binding.layoutUmkm.setOnClickListener{
-            val fragmentUmkm = UmkmFragment()
-            val transaction = parentFragmentManager.beginTransaction()
-            transaction.replace(R.id.fragmentView, fragmentUmkm)
-            transaction.addToBackStack(null)
-            transaction.commit()
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.fragmentView, KelolaUmkmFragment::class.java, null)
+                .addToBackStack(null)
+                .commit()
         }
         binding.layoutAbout.setOnClickListener{
             val intent = Intent(requireContext(), AboutUsActivity::class.java)

@@ -1,5 +1,6 @@
 package com.localclasstech.layanandesa.feature.umkm.data.repository
 
+import android.util.Log
 import com.localclasstech.layanandesa.feature.umkm.data.CreateUmkmRequest
 import com.localclasstech.layanandesa.feature.umkm.data.SingleUmkmResponse
 import com.localclasstech.layanandesa.feature.umkm.data.UmkmOptionsResponse
@@ -24,17 +25,18 @@ class UmkmRepository(
         return "Bearer $token"
     }
 
-    // AUTHENTICATED ENDPOINTS
     suspend fun getMyUmkm(): Response<UmkmResponse> {
-        return api.getMyUmkm()
+        val token = getBearerToken()
+        Log.d("UmkmRepository", "Token: $token")
+        return api.getMyUmkm(token)
     }
 
     suspend fun getUmkmById(id: Int): Response<SingleUmkmResponse> {
-        return api.getUmkmById(id)
+        return api.getUmkmById(id) // Tidak perlu token karena tidak ada di ApiService
     }
 
     suspend fun createUmkm(request: CreateUmkmRequest): Response<SingleUmkmResponse> {
-        return api.createUmkm(request)
+        return api.createUmkm(getBearerToken(), request)
     }
 
     suspend fun createUmkmWithImage(
@@ -42,11 +44,12 @@ class UmkmRepository(
         imageFile: File?
     ): Response<SingleUmkmResponse> {
         return api.createUmkmWithImage(
+            token = getBearerToken(),
             namaUsaha = request.nama_usaha.toRequestBody("text/plain".toMediaTypeOrNull()),
             kategori = request.kategori.toRequestBody("text/plain".toMediaTypeOrNull()),
             namaProduk = request.nama_produk.toRequestBody("text/plain".toMediaTypeOrNull()),
             deskripsiProduk = request.deskripsi_produk.toRequestBody("text/plain".toMediaTypeOrNull()),
-            hargaProduk = request.harga_produk?.toString()?.toRequestBody("text/plain".toMediaTypeOrNull()), // TAMBAHAN
+            hargaProduk = request.harga_produk?.toString()?.toRequestBody("text/plain".toMediaTypeOrNull()),
             nomorTelepon = request.nomor_telepon.toRequestBody("text/plain".toMediaTypeOrNull()),
             linkFacebook = request.link_facebook?.toRequestBody("text/plain".toMediaTypeOrNull()),
             linkInstagram = request.link_instagram?.toRequestBody("text/plain".toMediaTypeOrNull()),
@@ -59,7 +62,7 @@ class UmkmRepository(
     }
 
     suspend fun updateUmkm(id: Int, request: CreateUmkmRequest): Response<SingleUmkmResponse> {
-        return api.updateUmkm(id, request)
+        return api.updateUmkm(getBearerToken(), id, request)
     }
 
     suspend fun updateUmkmWithImage(
@@ -68,13 +71,14 @@ class UmkmRepository(
         imageFile: File?
     ): Response<SingleUmkmResponse> {
         return api.updateUmkmWithImage(
+            token = getBearerToken(),
             id = id,
             method = "PUT".toRequestBody("text/plain".toMediaTypeOrNull()),
             namaUsaha = request.nama_usaha.toRequestBody("text/plain".toMediaTypeOrNull()),
             kategori = request.kategori.toRequestBody("text/plain".toMediaTypeOrNull()),
             namaProduk = request.nama_produk.toRequestBody("text/plain".toMediaTypeOrNull()),
             deskripsiProduk = request.deskripsi_produk.toRequestBody("text/plain".toMediaTypeOrNull()),
-            hargaProduk = request.harga_produk?.toString()?.toRequestBody("text/plain".toMediaTypeOrNull()), // TAMBAHAN
+            hargaProduk = request.harga_produk?.toString()?.toRequestBody("text/plain".toMediaTypeOrNull()),
             nomorTelepon = request.nomor_telepon.toRequestBody("text/plain".toMediaTypeOrNull()),
             linkFacebook = request.link_facebook?.toRequestBody("text/plain".toMediaTypeOrNull()),
             linkInstagram = request.link_instagram?.toRequestBody("text/plain".toMediaTypeOrNull()),
@@ -87,7 +91,7 @@ class UmkmRepository(
     }
 
     suspend fun deleteUmkm(id: Int): Response<SingleUmkmResponse> {
-        return api.deleteUmkm(id)
+        return api.deleteUmkm(getBearerToken(), id)
     }
 
     // PUBLIC ENDPOINTS (tidak perlu authentication)

@@ -14,14 +14,18 @@ interface UmkmApiService {
 
     // AUTHENTICATED ENDPOINTS
     @GET("api/umkm")
-    suspend fun getMyUmkm(): Response<UmkmResponse>
-
+    suspend fun getMyUmkm(
+        @Header("Authorization") token: String
+    ): Response<UmkmResponse>
     @POST("api/umkm")
-    suspend fun createUmkm(@Body request: CreateUmkmRequest): Response<SingleUmkmResponse>
+    suspend fun createUmkm(
+        @Header("Authorization") token: String,
+        @Body request: CreateUmkmRequest): Response<SingleUmkmResponse>
 
     @Multipart
     @POST("api/umkm")
     suspend fun createUmkmWithImage(
+        @Header("Authorization") token: String,
         @Part("nama_usaha") namaUsaha: RequestBody,
         @Part("kategori") kategori: RequestBody,
         @Part("nama_produk") namaProduk: RequestBody,
@@ -35,10 +39,12 @@ interface UmkmApiService {
     ): Response<SingleUmkmResponse>
 
     @GET("api/umkm/{id}")
-    suspend fun getUmkmById(@Path("id") id: Int): Response<SingleUmkmResponse>
+    suspend fun getUmkmById(
+        @Path("id") id: Int): Response<SingleUmkmResponse>
 
     @PUT("api/umkm/{id}")
     suspend fun updateUmkm(
+        @Header("Authorization") token: String,
         @Path("id") id: Int,
         @Body request: CreateUmkmRequest
     ): Response<SingleUmkmResponse>
@@ -46,6 +52,7 @@ interface UmkmApiService {
     @Multipart
     @POST("api/umkm/{id}/update")
     suspend fun updateUmkmWithImage(
+        @Header("Authorization") token: String,
         @Path("id") id: Int,
         @Part("_method") method: RequestBody, // PUT
         @Part("nama_usaha") namaUsaha: RequestBody,
@@ -61,7 +68,9 @@ interface UmkmApiService {
     ): Response<SingleUmkmResponse>
 
     @DELETE("api/umkm/{id}")
-    suspend fun deleteUmkm(@Path("id") id: Int): Response<SingleUmkmResponse>
+    suspend fun deleteUmkm(
+        @Header("Authorization") token: String,
+        @Path("id") id: Int): Response<SingleUmkmResponse>
 
     // PUBLIC ENDPOINTS (tidak perlu authentication)
     @GET("api/umkm-public")

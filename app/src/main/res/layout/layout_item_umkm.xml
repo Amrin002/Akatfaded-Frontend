@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="15dp"
+    android:layout_marginVertical="5dp"
+    app:cardCornerRadius="10dp"
+    app:cardElevation="2dp"
+    android:background="@color/white">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="15dp">
+
+        <!-- Icon UMKM -->
+        <ImageView
+            android:id="@+id/imgUmkm"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/ic_umkm"
+            android:scaleType="centerCrop"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:background="@drawable/circle_background"/>
+
+        <!-- Nama Usaha -->
+        <TextView
+            android:id="@+id/tvNamaUsaha"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Warung Bu Siti"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:fontFamily="@font/poppins_bold"
+            android:maxLines="1"
+            android:ellipsize="end"
+            app:layout_constraintStart_toEndOf="@id/imgUmkm"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginStart="15dp"/>
+
+        <!-- Nama Produk -->
+        <TextView
+            android:id="@+id/tvNamaProduk"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Nasi Gudeg Istimewa"
+            android:textColor="@color/textColor"
+            android:textSize="14sp"
+            android:fontFamily="@font/poppins"
+            android:maxLines="1"
+            android:ellipsize="end"
+            app:layout_constraintStart_toEndOf="@id/imgUmkm"
+            app:layout_constraintTop_toBottomOf="@id/tvNamaUsaha"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="5dp"/>
+
+        <!-- Harga -->
+        <TextView
+            android:id="@+id/tvHarga"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Rp 15.000"
+            android:textColor="@color/colorPrimary"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:fontFamily="@font/poppins_bold"
+            app:layout_constraintStart_toEndOf="@id/imgUmkm"
+            app:layout_constraintTop_toBottomOf="@id/tvNamaProduk"
+            app:layout_constraintEnd_toStartOf="@id/tvStatus"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="5dp"/>
+
+        <!-- Status -->
+        <TextView
+            android:id="@+id/tvStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Pending"
+            android:textColor="@color/textOnProgress"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:fontFamily="@font/poppins_bold"
+            android:background="@drawable/status_background"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="4dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvNamaProduk"
+            android:layout_marginTop="5dp"/>
+
+        <!-- Tanggal Daftar -->
+        <TextView
+            android:id="@+id/tvTanggalDaftar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="14/09/2025 10:26"
+            android:textColor="@color/abu_abu_modern"
+            android:textSize="11sp"
+            android:fontFamily="@font/poppins"
+            app:layout_constraintStart_toEndOf="@id/imgUmkm"
+            app:layout_constraintTop_toBottomOf="@id/tvHarga"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="5dp"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

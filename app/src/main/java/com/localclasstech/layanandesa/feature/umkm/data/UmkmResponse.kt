@@ -1,5 +1,8 @@
 package com.localclasstech.layanandesa.feature.umkm.data
 
+import com.google.gson.Gson
+import com.google.gson.JsonElement
+import com.google.gson.annotations.SerializedName
 import com.localclasstech.layanandesa.network.Penduduk
 import com.localclasstech.layanandesa.network.User
 
@@ -32,7 +35,9 @@ data class Umkm(
     val status: String,
     val catatan_admin: String? = null,
     val approved_at: String? = null,
-    val approved_by: Int? = null, // UBAH: Int bukan User object
+    // SOLUTION: Buat 2 field berbeda
+    @SerializedName("approved_by")
+    private val _approved_by_raw: JsonElement? = null,
     val created_at: String,
     val updated_at: String,
     val penduduk: Penduduk? = null
@@ -57,6 +62,19 @@ data class Umkm(
             "approved" -> "Disetujui"
             "rejected" -> "Ditolak"
             else -> "Tidak Diketahui"
+        }
+    // Computed property untuk approved_by
+    val approved_by: User?
+        get() = try {
+            when {
+                _approved_by_raw == null || _approved_by_raw.isJsonNull -> null
+                _approved_by_raw.isJsonObject -> {
+                    Gson().fromJson(_approved_by_raw, User::class.java)
+                }
+                else -> null // Jika integer atau tipe lain
+            }
+        } catch (e: Exception) {
+            null
         }
 }
 

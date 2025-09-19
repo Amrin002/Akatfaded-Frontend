@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.localclasstech.layanandesa.R
 import com.localclasstech.layanandesa.databinding.FragmentUmkmBinding
 import com.localclasstech.layanandesa.feature.umkm.view.adapter.UmkmGridAdapter
 import com.localclasstech.layanandesa.feature.umkm.view.adapter.UmkmHorizontalAdapter
@@ -66,14 +67,14 @@ class UmkmFragment : Fragment() {
     private fun setupAdapters() {
         // Grid Adapter untuk Produk Terbaru
         gridAdapter = UmkmGridAdapter { umkm ->
-            // TODO: Navigate to DetailUmkmFragment
-            Toast.makeText(requireContext(), "Clicked UMKM ID: ${umkm.id}", Toast.LENGTH_SHORT).show()
+            // Navigate to DetailProdukUmkmFragment
+            navigateToDetailUmkm(umkm.id)
         }
 
         // Horizontal Adapter untuk Semua Produk
         horizontalAdapter = UmkmHorizontalAdapter { umkm ->
-            // TODO: Navigate to DetailUmkmFragment
-            Toast.makeText(requireContext(), "Clicked UMKM ID: ${umkm.id}", Toast.LENGTH_SHORT).show()
+            // Navigate to DetailProdukUmkmFragment
+            navigateToDetailUmkm(umkm.id)
         }
     }
 
@@ -146,6 +147,18 @@ class UmkmFragment : Fragment() {
                 }
             }
         }
+    }
+
+    /**
+     * Navigate to DetailProdukUmkmFragment
+     * @param umkmId ID dari UMKM yang akan ditampilkan detailnya
+     */
+    private fun navigateToDetailUmkm(umkmId: Int) {
+        val fragment = DetailProdukUmkmFragment.newInstance(umkmId)
+        parentFragmentManager.beginTransaction()
+            .replace(R.id.fragmentView, fragment)
+            .addToBackStack(null)
+            .commit()
     }
 
     override fun onDestroyView() {

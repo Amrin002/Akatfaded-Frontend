@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="kategori_umkm">
+        <item>Pilih Kategori</item>
+        <item>Makanan &amp; Minuman</item>
+        <item>Jasa</item>
+        <item>Kerajinan</item>
+        <item>Pertanian</item>
+        <item>Perdagangan</item>
+        <item>Lainnya</item>
+    </string-array>
+</resources>
