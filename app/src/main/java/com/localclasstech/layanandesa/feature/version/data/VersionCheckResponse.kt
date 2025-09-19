@@ -14,7 +14,6 @@ data class VersionCheckResponse(
 )
 
 data class VersionData(
-    // Sesuaikan dengan field yang BENAR-BENAR dikirim backend di Postman
     @SerializedName("version")
     val latestVersion: String = "",
 
@@ -33,8 +32,9 @@ data class VersionData(
     @SerializedName("is_force_update")
     val isForceUpdate: Boolean = false,
 
+    // SOLUTION: Handle object as changelog
     @SerializedName("changelog")
-    val changelog: List<String> = emptyList(),
+    private val _changelog_raw: com.google.gson.JsonElement? = null,
 
     @SerializedName("file_size")
     val fileSize: String = "",
@@ -45,9 +45,44 @@ data class VersionData(
     @SerializedName("platform")
     val platform: String = "android"
 ) {
-    // Computed properties untuk kompatibilitas
+    // Parse changelog object ke List<String>
+    val changelog: List<String>
+        get() = try {
+            when {
+                _changelog_raw == null || _changelog_raw.isJsonNull -> {
+                    listOf("Perbaikan dan peningkatan performa")
+                }
+                _changelog_raw.isJsonArray -> {
+                    // Jika array (format lama)
+                    com.google.gson.Gson().fromJson(_changelog_raw, Array<String>::class.java).toList()
+                }
+                _changelog_raw.isJsonObject -> {
+                    // Jika object (format baru dari backend)
+                    val changelogObject = _changelog_raw.asJsonObject
+                    val sortedKeys = changelogObject.keySet()
+                        .mapNotNull { it.toIntOrNull() }
+                        .sorted() // Sort berdasarkan key numerik
+
+                    sortedKeys.map { key ->
+                        changelogObject.get(key.toString()).asString
+                    }.filter { it.isNotBlank() }
+                }
+                _changelog_raw.isJsonPrimitive -> {
+                    // Jika string tunggal
+                    listOf(_changelog_raw.asString)
+                }
+                else -> {
+                    listOf("Update tersedia dengan fitur baru")
+                }
+            }
+        } catch (e: Exception) {
+            android.util.Log.e("VersionData", "Error parsing changelog: ${e.message}")
+            listOf("Perbaikan dan peningkatan performa")
+        }
+
+    // Rest of computed properties
     val needsUpdate: Boolean
-        get() = true // Atau logika sesuai requirement
+        get() = true
 
     val currentVersion: String
         get() = com.localclasstech.layanandesa.BuildConfig.VERSION_NAME
