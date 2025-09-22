@@ -8,6 +8,7 @@ import com.localclasstech.layanandesa.R
 import com.localclasstech.layanandesa.databinding.LayoutItemUmkmBinding
 import com.localclasstech.layanandesa.feature.umkm.data.CardUmkm
 import com.localclasstech.layanandesa.settings.utils.DateUtils
+import com.localclasstech.layanandesa.settings.utils.UrlConstant
 import java.text.NumberFormat
 import java.util.*
 
@@ -58,16 +59,19 @@ class UmkmAdapter(
                 }
             }
 
-            // Load image with circle crop
-            if (!umkm.fotoProduk.isNullOrEmpty()) {
-                Glide.with(binding.root.context)
-                    .load(umkm.fotoProduk)
-                    .circleCrop()
-                    .placeholder(R.drawable.ic_umkm)
-                    .into(binding.imgUmkm)
-            } else {
-                binding.imgUmkm.setImageResource(R.drawable.ic_umkm)
-            }
+            // Load image dengan URL yang sudah diproses
+            loadProductImage(umkm.fotoProduk)
+        }
+
+        private fun loadProductImage(imagePath: String?) {
+            // Gunakan UrlConstant untuk mendapatkan URL yang valid
+            val imageUrl = UrlConstant.getValidImageUrl(imagePath)
+
+            Glide.with(binding.root.context)
+                .load(imageUrl)
+                .placeholder(R.drawable.ic_umkm)
+                .error(R.drawable.ic_umkm) // Tambahkan error fallback
+                .into(binding.imgUmkm)
         }
 
         // Helper function untuk format currency

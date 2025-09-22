@@ -67,6 +67,7 @@ class DaftarUmkmViewModel(private val repository: UmkmRepository) : ViewModel() 
             }
         }
     }
+
     fun setCreateMode() {
         _isEditMode.value = false
         _currentUmkmId.value = null
@@ -132,15 +133,12 @@ class DaftarUmkmViewModel(private val repository: UmkmRepository) : ViewModel() 
                 )
 
                 val response = if (_isEditMode.value == true) {
-                    // Edit mode
+                    // PERUBAHAN: Sekarang hanya satu method untuk edit
+                    // Tidak perlu cek imageFile != null lagi
                     val umkmId = _currentUmkmId.value!!
-                    if (imageFile != null) {
-                        repository.updateUmkmWithImage(umkmId, request, imageFile)
-                    } else {
-                        repository.updateUmkm(umkmId, request)
-                    }
+                    repository.updateUmkmWithImage(umkmId, request, imageFile)
                 } else {
-                    // Create mode
+                    // Create mode tetap sama
                     if (imageFile != null) {
                         repository.createUmkmWithImage(request, imageFile)
                     } else {

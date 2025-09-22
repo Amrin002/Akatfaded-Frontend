@@ -109,10 +109,16 @@ class KelolaUmkmFragment : Fragment() {
         viewModel.listUmkm.observe(viewLifecycleOwner) { umkmList ->
             if (umkmList.isEmpty()) {
                 // User belum punya UMKM - redirect ke daftar
-                showEmptyStateAndRedirect()
+                val hasShownDialog = viewModel.hasShownEmptyDialog.value ?: false
+
+                if (!hasShownDialog){
+                    showEmptyStateAndRedirect()
+                }
+
             } else {
                 // User sudah punya UMKM - tampilkan list
                 umkmAdapter.updateData(umkmList)
+                viewModel.resetDialogState()
             }
         }
 
@@ -133,6 +139,7 @@ class KelolaUmkmFragment : Fragment() {
     }
 
     private fun showEmptyStateAndRedirect() {
+        viewModel.markEmptyDialogShown()
         // Hide recycler view, show empty state
         binding.recyclerViewUmkm.visibility = View.GONE
 

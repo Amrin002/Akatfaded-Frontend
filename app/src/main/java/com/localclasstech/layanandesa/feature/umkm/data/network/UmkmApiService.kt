@@ -17,10 +17,12 @@ interface UmkmApiService {
     suspend fun getMyUmkm(
         @Header("Authorization") token: String
     ): Response<UmkmResponse>
+
     @POST("api/umkm")
     suspend fun createUmkm(
         @Header("Authorization") token: String,
-        @Body request: CreateUmkmRequest): Response<SingleUmkmResponse>
+        @Body request: CreateUmkmRequest
+    ): Response<SingleUmkmResponse>
 
     @Multipart
     @POST("api/umkm")
@@ -30,7 +32,7 @@ interface UmkmApiService {
         @Part("kategori") kategori: RequestBody,
         @Part("nama_produk") namaProduk: RequestBody,
         @Part("deskripsi_produk") deskripsiProduk: RequestBody,
-        @Part("harga_produk") hargaProduk: RequestBody?, // TAMBAHAN
+        @Part("harga_produk") hargaProduk: RequestBody?,
         @Part("nomor_telepon") nomorTelepon: RequestBody,
         @Part("link_facebook") linkFacebook: RequestBody?,
         @Part("link_instagram") linkInstagram: RequestBody?,
@@ -40,37 +42,59 @@ interface UmkmApiService {
 
     @GET("api/umkm/{id}")
     suspend fun getUmkmById(
-        @Path("id") id: Int): Response<SingleUmkmResponse>
-
-    @PUT("api/umkm/{id}")
-    suspend fun updateUmkm(
         @Header("Authorization") token: String,
-        @Path("id") id: Int,
-        @Body request: CreateUmkmRequest
+        @Path("id") id: Int
     ): Response<SingleUmkmResponse>
 
+    // HAPUS method updateUmkm yang lama (tanpa file)
+    // Karena sekarang semua update menggunakan multipart
+
+    // UPDATE: Mengikuti pattern keluhan - PUT dengan multipart
     @Multipart
-    @POST("api/umkm/{id}/update")
+    @POST("api/umkm/{id}")
     suspend fun updateUmkmWithImage(
         @Header("Authorization") token: String,
         @Path("id") id: Int,
-        @Part("_method") method: RequestBody, // PUT
+        @Part("_method") method: RequestBody, // "PUT"
         @Part("nama_usaha") namaUsaha: RequestBody,
         @Part("kategori") kategori: RequestBody,
         @Part("nama_produk") namaProduk: RequestBody,
         @Part("deskripsi_produk") deskripsiProduk: RequestBody,
-        @Part("harga_produk") hargaProduk: RequestBody?, // TAMBAHAN
+        @Part("harga_produk") hargaProduk: RequestBody?,
+        @Part("nomor_telepon") nomorTelepon: RequestBody,
+        @Part("link_facebook") linkFacebook: RequestBody?,
+        @Part("link_instagram") linkInstagram: RequestBody?,
+        @Part("link_tiktok") linkTiktok: RequestBody?,
+        @Part fotoProduk: MultipartBody.Part? // nullable untuk kasus tidak update gambar
+    ): Response<SingleUmkmResponse>
+
+    // ALTERNATIF: Jika PUT multipart tidak work, gunakan POST dengan _method
+    // (uncomment jika diperlukan)
+    /*
+    @Multipart
+    @POST("api/umkm/{id}")
+    suspend fun updateUmkmWithImageFallback(
+        @Header("Authorization") token: String,
+        @Path("id") id: Int,
+        @Part("_method") method: RequestBody, // "PUT"
+        @Part("nama_usaha") namaUsaha: RequestBody,
+        @Part("kategori") kategori: RequestBody,
+        @Part("nama_produk") namaProduk: RequestBody,
+        @Part("deskripsi_produk") deskripsiProduk: RequestBody,
+        @Part("harga_produk") hargaProduk: RequestBody?,
         @Part("nomor_telepon") nomorTelepon: RequestBody,
         @Part("link_facebook") linkFacebook: RequestBody?,
         @Part("link_instagram") linkInstagram: RequestBody?,
         @Part("link_tiktok") linkTiktok: RequestBody?,
         @Part fotoProduk: MultipartBody.Part?
     ): Response<SingleUmkmResponse>
+    */
 
     @DELETE("api/umkm/{id}")
     suspend fun deleteUmkm(
         @Header("Authorization") token: String,
-        @Path("id") id: Int): Response<SingleUmkmResponse>
+        @Path("id") id: Int
+    ): Response<SingleUmkmResponse>
 
     // PUBLIC ENDPOINTS (tidak perlu authentication)
     @GET("api/umkm-public")

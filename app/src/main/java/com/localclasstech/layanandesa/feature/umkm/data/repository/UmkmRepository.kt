@@ -32,7 +32,7 @@ class UmkmRepository(
     }
 
     suspend fun getUmkmById(id: Int): Response<SingleUmkmResponse> {
-        return api.getUmkmById(id) // Tidak perlu token karena tidak ada di ApiService
+        return api.getUmkmById(getBearerToken(), id)
     }
 
     suspend fun createUmkm(request: CreateUmkmRequest): Response<SingleUmkmResponse> {
@@ -61,19 +61,22 @@ class UmkmRepository(
         )
     }
 
-    suspend fun updateUmkm(id: Int, request: CreateUmkmRequest): Response<SingleUmkmResponse> {
-        return api.updateUmkm(getBearerToken(), id, request)
-    }
+    // HAPUS method updateUmkm yang lama (tanpa file)
+    // Karena sekarang semua update menggunakan multipart
 
+    // UPDATE: Mengikuti pattern keluhan - satu method untuk semua update
     suspend fun updateUmkmWithImage(
         id: Int,
         request: CreateUmkmRequest,
-        imageFile: File?
+        imageFile: File? = null
     ): Response<SingleUmkmResponse> {
+        Log.d("UmkmRepository", "Updating UMKM with ID: $id")
+        Log.d("UmkmRepository", "Image file: ${imageFile?.name ?: "No image"}")
+
         return api.updateUmkmWithImage(
             token = getBearerToken(),
             id = id,
-            method = "PUT".toRequestBody("text/plain".toMediaTypeOrNull()),
+            method = "PUT".toRequestBody("text/plain".toMediaTypeOrNull()), // TAMBAHKAN KEMBALI
             namaUsaha = request.nama_usaha.toRequestBody("text/plain".toMediaTypeOrNull()),
             kategori = request.kategori.toRequestBody("text/plain".toMediaTypeOrNull()),
             namaProduk = request.nama_produk.toRequestBody("text/plain".toMediaTypeOrNull()),

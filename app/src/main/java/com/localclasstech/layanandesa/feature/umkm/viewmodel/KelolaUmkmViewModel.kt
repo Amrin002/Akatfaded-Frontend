@@ -27,8 +27,10 @@ class KelolaUmkmViewModel(private val repository: UmkmRepository) : ViewModel() 
 
     private val _deleteResult = MutableLiveData<Boolean>()
     val deleteResult: LiveData<Boolean> get() = _deleteResult
+    private val _hasShownEmptyDialog = MutableLiveData<Boolean>(false)
+    val hasShownEmptyDialog: LiveData<Boolean> get() = _hasShownEmptyDialog
 
-    fun fetchMyUmkm() {
+        fun fetchMyUmkm() {
         Log.d(TAG, "fetchMyUmkm() called")
         _isLoading.value = true
 
@@ -79,6 +81,13 @@ class KelolaUmkmViewModel(private val repository: UmkmRepository) : ViewModel() 
                 _isLoading.value = false
             }
         }
+    }
+    fun markEmptyDialogShown() {
+        _hasShownEmptyDialog.value = true
+    }
+
+    fun resetDialogState() {
+        _hasShownEmptyDialog.value = false
     }
 
     fun deleteUmkm(id: Int) {
