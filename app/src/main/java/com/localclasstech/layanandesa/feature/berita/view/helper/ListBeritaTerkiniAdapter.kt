@@ -51,13 +51,6 @@ class ListBeritaTerkiniAdapter(private var beritaList: List<DataClassBerita>,
             binding.root.setOnClickListener {
                 listener.onClick(berita.idBerita)
             }
-
-
-
-//            binding.root.setOnLongClickListener {
-//                listener.onUpdete(berita)
-//                true
-//            }
         }
     }
 

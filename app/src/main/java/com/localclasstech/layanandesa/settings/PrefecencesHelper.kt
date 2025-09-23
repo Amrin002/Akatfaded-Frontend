@@ -70,6 +70,9 @@ class PreferencesHelper(context: Context) {
         Log.d("PreferencesHelper", "Updating profile: name=$name, image=$image")
         editor.apply()
     }
+    fun getUserId(): Int? {
+        return sharedPreferences.getInt("user_id", -1).takeIf { it != -1 }
+    }
 
     // Method tambahan untuk memastikan konsistensi
     fun syncUserProfile(name: String, image: String?) {

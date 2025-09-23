@@ -41,13 +41,22 @@ import com.localclasstech.layanandesa.feature.layanan.view.surat.SuratKtmFragmen
 import com.localclasstech.layanandesa.feature.layanan.view.surat.SuratKtuFragment
 import com.localclasstech.layanandesa.feature.layanan.view.surat.SuratPindahdomisiliFragment
 
-
 class LayananFragment : Fragment() {
     private lateinit var preferencesHelper: PreferencesHelper
     private var _binding: FragmentLayananBinding? = null
     private val binding get() = _binding!!
 
+    // Variabel untuk menyimpan status visibilitas RecyclerView
+    private var isRecyclerVisibleKtm = false
+    private var isRecyclerVisibleDomisili = false
+    private var isRecyclerVisibleKtu = false
+    private var isRecyclerVisiblePindah = false
+
     private lateinit var viewModel: LayananViewModel
+
+    // TODO: Tambahkan variable id yang hilang - sesuaikan dengan data user yang login
+//    private val id: Int
+//        get() = preferencesHelper.getUserId() ?: 1
 
     private val sharedThemeViewModel: SharedThemeViewModel by activityViewModels() {
         SharedThemeViewModelFactory(preferencesHelper)
@@ -99,8 +108,9 @@ class LayananFragment : Fragment() {
         // Mengamati perubahan data dan error
         observeViewModelData()
 
-//        Loading SHimer
+        // Loading Shimmer
         observeLoadingState()
+
         // Menangani tombol tambah surat
         binding.addSurat.setOnClickListener {
             showBottomSheetDialog()
@@ -118,7 +128,6 @@ class LayananFragment : Fragment() {
             viewModel.fetchSuratPindahByUser(id)
             viewModel.fetchSuratKtuByUser(id)
         }
-
     }
 
     private fun observeLoadingState() {
@@ -128,7 +137,7 @@ class LayananFragment : Fragment() {
                 binding.shimmerLayoutSurat.visibility = View.VISIBLE
                 binding.shimmerLayoutSurat.startShimmer()
 
-                // Hide recyclerviews and filter layouts during loading
+                // Hide recyclerviews dan filter layouts during loading
                 binding.recyclerViewSuratItemKtm.visibility = View.GONE
                 binding.recyclerViewSuratItemDomisili.visibility = View.GONE
                 binding.recyclerViewSuratItemKtu.visibility = View.GONE
@@ -144,14 +153,14 @@ class LayananFragment : Fragment() {
                 binding.shimmerLayoutSurat.stopShimmer()
                 binding.shimmerLayoutSurat.visibility = View.GONE
 
-
                 // Show filter layouts after loading is complete
                 binding.layoutFilterSktm.visibility = View.VISIBLE
                 binding.layoutFilterSdomisili.visibility = View.VISIBLE
                 binding.layoutFilterSktu.visibility = View.VISIBLE
                 binding.layoutFilterSdomisiliPindah.visibility = View.VISIBLE
 
-                // RecyclerViews will be managed by dropdown behavior
+                // Pulihkan status visibility RecyclerView setelah loading selesai
+                restoreRecyclerViewVisibility()
             }
             binding.swipeRefreshLayanan.isRefreshing = false
         }
@@ -179,7 +188,7 @@ class LayananFragment : Fragment() {
             visibility = View.GONE // Sembunyikan recycler view saat awal
         }
 
-//        Adapter Surat Domisili
+        // Adapter Surat Domisili
         val adapterDomisili = SuratDomisiliAdapter(
             cardSuratList = emptyList(),
             object : SuratDomisiliAdapter.OnAdapterListener {
@@ -197,6 +206,7 @@ class LayananFragment : Fragment() {
             this.adapter = adapterDomisili
             visibility = View.GONE // Sembunyikan recycler view saat awal
         }
+
         // Setup for Surat Pindah Adapter
         val adapterPindah = SuratDomisilipindahAdapter(
             cardSuratList = emptyList(),
@@ -208,7 +218,6 @@ class LayananFragment : Fragment() {
                 override fun onUpdate(cardSuratList: DataClassCardSurat) {
                     TODO("Not yet implemented")
                 }
-
             }
         )
         binding.recyclerViewSuratItemPindah.apply {
@@ -228,14 +237,209 @@ class LayananFragment : Fragment() {
                 override fun onUpdate(cardSuratList: DataClassCardSurat) {
                     TODO("Not yet implemented")
                 }
-
-
             }
         )
         binding.recyclerViewSuratItemKtu.apply {
             layoutManager = LinearLayoutManager(requireContext())
             this.adapter = adapterKtu
             visibility = View.GONE // Initially hidden
+        }
+    }
+
+    /**
+     * Fungsi untuk memulihkan visibility RecyclerView setelah loading selesai
+     */
+    private fun restoreRecyclerViewVisibility() {
+        // Pulihkan status visibility sesuai dengan status sebelumnya
+        if (isRecyclerVisibleKtm) {
+            binding.recyclerViewSuratItemKtm.visibility = View.VISIBLE
+        }
+        if (isRecyclerVisibleDomisili) {
+            binding.recyclerViewSuratItemDomisili.visibility = View.VISIBLE
+        }
+        if (isRecyclerVisibleKtu) {
+            binding.recyclerViewSuratItemKtu.visibility = View.VISIBLE
+        }
+        if (isRecyclerVisiblePindah) {
+            binding.recyclerViewSuratItemPindah.visibility = View.VISIBLE
+        }
+    }
+
+    /**
+     * Fungsi untuk mengatur perilaku dropdown surat
+     */
+    private fun configureDropdownBehavior() {
+        // Menangani klik pada area dropdown KTM
+        binding.layoutFilterSktm.setOnClickListener {
+            isRecyclerVisibleKtm = !isRecyclerVisibleKtm
+            updateRecyclerViewVisibility("KTM")
+        }
+
+        // Menangani klik pada area dropdown Domisili
+        binding.layoutFilterSdomisili.setOnClickListener {
+            isRecyclerVisibleDomisili = !isRecyclerVisibleDomisili
+            updateRecyclerViewVisibility("DOMISILI")
+        }
+
+        // Menangani klik pada area dropdown KTU
+        binding.layoutFilterSktu.setOnClickListener {
+            isRecyclerVisibleKtu = !isRecyclerVisibleKtu
+            updateRecyclerViewVisibility("KTU")
+        }
+
+        // Menangani klik pada area dropdown Pindah
+        binding.layoutFilterSdomisiliPindah.setOnClickListener {
+            isRecyclerVisiblePindah = !isRecyclerVisiblePindah
+            updateRecyclerViewVisibility("PINDAH")
+        }
+    }
+
+    /**
+     * Fungsi untuk mengupdate visibility RecyclerView berdasarkan tipe
+     */
+    private fun updateRecyclerViewVisibility(type: String) {
+        when (type) {
+            "KTM" -> {
+                binding.recyclerViewSuratItemKtm.visibility =
+                    if (isRecyclerVisibleKtm) View.VISIBLE else View.GONE
+                binding.dropdownSurat.setImageResource(
+                    if (isRecyclerVisibleKtm) R.drawable.ic_dropdown else R.drawable.ic_dropdown_close
+                )
+                Log.d("RecyclerDebug", "KTM RecyclerView Toggled: ${if (isRecyclerVisibleKtm) "Visible" else "Gone"}")
+            }
+            "DOMISILI" -> {
+                binding.recyclerViewSuratItemDomisili.visibility =
+                    if (isRecyclerVisibleDomisili) View.VISIBLE else View.GONE
+                binding.dropdownSuratDomisili.setImageResource(
+                    if (isRecyclerVisibleDomisili) R.drawable.ic_dropdown else R.drawable.ic_dropdown_close
+                )
+                Log.d("RecyclerDebug", "DOMISILI RecyclerView Toggled: ${if (isRecyclerVisibleDomisili) "Visible" else "Gone"}")
+            }
+            "KTU" -> {
+                binding.recyclerViewSuratItemKtu.visibility =
+                    if (isRecyclerVisibleKtu) View.VISIBLE else View.GONE
+                binding.dropdownSuratKtu.setImageResource(
+                    if (isRecyclerVisibleKtu) R.drawable.ic_dropdown else R.drawable.ic_dropdown_close
+                )
+                Log.d("RecyclerDebug", "KTU RecyclerView Toggled: ${if (isRecyclerVisibleKtu) "Visible" else "Gone"}")
+            }
+            "PINDAH" -> {
+                binding.recyclerViewSuratItemPindah.visibility =
+                    if (isRecyclerVisiblePindah) View.VISIBLE else View.GONE
+                binding.dropdownSuratDomisiliPindah.setImageResource(
+                    if (isRecyclerVisiblePindah) R.drawable.ic_dropdown else R.drawable.ic_dropdown_close
+                )
+                Log.d("RecyclerDebug", "PINDAH RecyclerView Toggled: ${if (isRecyclerVisiblePindah) "Visible" else "Gone"}")
+            }
+        }
+    }
+
+    /**
+     * Fungsi untuk menampilkan RecyclerView secara otomatis jika ada data
+     */
+    private fun autoShowRecyclerViewIfHasData(type: String, hasData: Boolean) {
+        when (type) {
+            "KTM" -> {
+                if (hasData && !isRecyclerVisibleKtm) {
+                    isRecyclerVisibleKtm = true
+                    updateRecyclerViewVisibility("KTM")
+                }
+            }
+            "DOMISILI" -> {
+                if (hasData && !isRecyclerVisibleDomisili) {
+                    isRecyclerVisibleDomisili = true
+                    updateRecyclerViewVisibility("DOMISILI")
+                }
+            }
+            "KTU" -> {
+                if (hasData && !isRecyclerVisibleKtu) {
+                    isRecyclerVisibleKtu = true
+                    updateRecyclerViewVisibility("KTU")
+                }
+            }
+            "PINDAH" -> {
+                if (hasData && !isRecyclerVisiblePindah) {
+                    isRecyclerVisiblePindah = true
+                    updateRecyclerViewVisibility("PINDAH")
+                }
+            }
+        }
+    }
+
+    /**
+     * Fungsi untuk mengamati perubahan data dari ViewModel
+     */
+    private fun observeViewModelData() {
+        // Memantau perubahan data surat KTM
+        viewModel.suratListKtm.observe(viewLifecycleOwner) { list ->
+            Log.d("RecyclerDebug", "Jumlah surat KTM masuk: ${list.size}")
+
+            // Update adapter dengan data baru
+            (binding.recyclerViewSuratItemKtm.adapter as SuratKtmAdater).updateDataKtm(list)
+
+            // Update label jumlah surat
+            binding.tvJumlahSurat.text = "(${list.size})"
+
+            // Auto show jika ada data
+            autoShowRecyclerViewIfHasData("KTM", list.isNotEmpty())
+
+            // Jika dropdown terbuka dan tidak ada data, sembunyikan RecyclerView
+            if (isRecyclerVisibleKtm && list.isEmpty()) {
+                binding.recyclerViewSuratItemKtm.visibility = View.GONE
+            }
+        }
+
+        // Memantau perubahan data surat Domisili
+        viewModel.suratListDomisili.observe(viewLifecycleOwner) { list ->
+            Log.d("RecyclerDebugDomisili", "Jumlah surat Domisili masuk: ${list.size}")
+
+            (binding.recyclerViewSuratItemDomisili.adapter as SuratDomisiliAdapter).updateDataDomisili(list)
+            binding.tvJumlahSuratDomisili.text = "(${list.size})"
+
+            // Auto show jika ada data
+            autoShowRecyclerViewIfHasData("DOMISILI", list.isNotEmpty())
+
+            if (isRecyclerVisibleDomisili && list.isEmpty()) {
+                binding.recyclerViewSuratItemDomisili.visibility = View.GONE
+            }
+        }
+
+        // Memantau perubahan data surat Pindah
+        viewModel.suratListPindah.observe(viewLifecycleOwner) { list ->
+            Log.d("RecyclerDebugPindah", "Jumlah surat pindah masuk: ${list.size}")
+
+            (binding.recyclerViewSuratItemPindah.adapter as SuratDomisilipindahAdapter).updateDataDomisiliPindah(list)
+            binding.tvJumlahSuratDomisiliPindah.text = "(${list.size})"
+
+            // Auto show jika ada data
+            autoShowRecyclerViewIfHasData("PINDAH", list.isNotEmpty())
+
+            if (isRecyclerVisiblePindah && list.isEmpty()) {
+                binding.recyclerViewSuratItemPindah.visibility = View.GONE
+            }
+        }
+
+        // Memantau perubahan data surat KTU
+        viewModel.suratListKtu.observe(viewLifecycleOwner) { list ->
+            Log.d("RecyclerDebugKtu", "Jumlah surat KTU masuk: ${list.size}")
+
+            (binding.recyclerViewSuratItemKtu.adapter as SuratKtuAdapter).updateDataKtu(list)
+            binding.tvJumlahSuratKtu.text = "(${list.size})"
+
+            // Auto show jika ada data
+            autoShowRecyclerViewIfHasData("KTU", list.isNotEmpty())
+
+            if (isRecyclerVisibleKtu && list.isEmpty()) {
+                binding.recyclerViewSuratItemKtu.visibility = View.GONE
+            }
+        }
+
+        // Memantau pesan error
+        viewModel.error.observe(viewLifecycleOwner) { errorMsg ->
+            if (!errorMsg.isNullOrEmpty()) {
+                Toast.makeText(requireContext(), errorMsg, Toast.LENGTH_SHORT).show()
+                binding.swipeRefreshLayanan.isRefreshing = false
+            }
         }
     }
 
@@ -251,8 +455,6 @@ class LayananFragment : Fragment() {
             .replace(R.id.fragmentView, fragment)
             .addToBackStack(null)
             .commit()
-
-
     }
 
     /**
@@ -306,7 +508,7 @@ class LayananFragment : Fragment() {
             .commit()
     }
 
-    private fun navigateToDetailSuratPindahDomisili(suratId: Int){
+    private fun navigateToDetailSuratPindahDomisili(suratId: Int) {
         val bundle = Bundle().apply {
             putInt("id_surat", suratId)
             putInt("type", Constant.TYPE_DETAIL)
@@ -318,128 +520,6 @@ class LayananFragment : Fragment() {
             .replace(R.id.fragmentView, fragment)
             .addToBackStack(null)
             .commit()
-    }
-
-    /**
-     * Fungsi untuk mengatur perilaku dropdown surat
-     */
-    private fun configureDropdownBehavior() {
-        // Variabel untuk menyimpan status visibilitas RecyclerView
-        var isRecyclerVisible = false
-
-        // Menangani klik pada area dropdown
-        binding.layoutFilterSktm.setOnClickListener {
-            // Toggle status visibilitas
-            isRecyclerVisible = !isRecyclerVisible
-
-            // Tampilkan atau sembunyikan RecyclerView sesuai status
-            binding.recyclerViewSuratItemKtm.visibility =
-                if (isRecyclerVisible) View.VISIBLE else View.GONE
-
-            // Ubah ikon dropdown sesuai status
-            binding.dropdownSurat.setImageResource(
-                if (isRecyclerVisible) R.drawable.ic_dropdown
-                else R.drawable.ic_dropdown_close
-            )
-
-            Log.d("RecyclerDebug", "RecyclerView Toggled: ${if (isRecyclerVisible) "Visible" else "Gone"}")
-        }
-
-        var isRecyclerVisibleDomisili = false
-        binding.layoutFilterSdomisili.setOnClickListener{
-            isRecyclerVisibleDomisili = !isRecyclerVisibleDomisili
-            binding.recyclerViewSuratItemDomisili.visibility =
-                if (isRecyclerVisibleDomisili) View.VISIBLE else View.GONE
-            binding.dropdownSuratDomisili.setImageResource(
-                if (isRecyclerVisibleDomisili) R.drawable.ic_dropdown
-                else R.drawable.ic_dropdown_close
-            )
-            Log.d("RecyclerDebug", "RecyclerView Toggled: ${if (isRecyclerVisibleDomisili) "Visible" else "Gone"}")
-        }
-        var isRecyclerVisibleKtu = false
-        binding.layoutFilterSktu.setOnClickListener {
-            isRecyclerVisibleKtu = !isRecyclerVisibleKtu
-            binding.recyclerViewSuratItemKtu.visibility =
-                if (isRecyclerVisibleKtu) View.VISIBLE else View.GONE
-            binding.dropdownSuratKtu.setImageResource(
-                if (isRecyclerVisibleKtu) R.drawable.ic_dropdown else R.drawable.ic_dropdown_close
-            )
-        }
-
-        var isRecyclerVisiblePindah = false
-        binding.layoutFilterSdomisiliPindah.setOnClickListener {
-            isRecyclerVisiblePindah = !isRecyclerVisiblePindah
-            binding.recyclerViewSuratItemPindah.visibility =
-                if (isRecyclerVisiblePindah) View.VISIBLE else View.GONE
-            binding.dropdownSuratDomisiliPindah.setImageResource(
-                if (isRecyclerVisiblePindah) R.drawable.ic_dropdown else R.drawable.ic_dropdown_close
-            )
-        }
-
-    }
-
-    /**
-     * Fungsi untuk mengamati perubahan data dari ViewModel
-     */
-    private fun observeViewModelData() {
-        // Memantau perubahan data surat
-        viewModel.suratListKtm.observe(viewLifecycleOwner) { list ->
-            Log.d("RecyclerDebug", "Jumlah surat masuk: ${list.size}")
-
-            // Update adapter dengan data baru
-            (binding.recyclerViewSuratItemKtm.adapter as SuratKtmAdater).updateDataKtm(list)
-
-            // Update label jumlah surat
-            binding.tvJumlahSurat.text = "(${list.size})"
-
-            // Jika dropdown terbuka dan tidak ada data, sembunyikan RecyclerView
-            val isRecyclerVisible = binding.recyclerViewSuratItemKtm.visibility == View.VISIBLE
-            if (isRecyclerVisible && list.isEmpty()) {
-                binding.recyclerViewSuratItemKtm.visibility = View.GONE
-            }
-        }
-
-        // Memantau pesan error
-        viewModel.error.observe(viewLifecycleOwner) { errorMsg ->
-            if (!errorMsg.isNullOrEmpty()) {
-                Toast.makeText(requireContext(), errorMsg, Toast.LENGTH_SHORT).show()
-
-                binding.swipeRefreshLayanan.isRefreshing = false
-            }
-        }
-
-        viewModel.suratListDomisili.observe(viewLifecycleOwner) { list ->
-            Log.d("RecyclerDebugDomisili", "Jumlah surat masuk: ${list.size}")
-            (binding.recyclerViewSuratItemDomisili.adapter as SuratDomisiliAdapter).updateDataDomisili(
-                list
-            )
-            binding.tvJumlahSuratDomisili.text = "(${list.size})"
-            val isRecyclerVisible = binding.recyclerViewSuratItemDomisili.visibility == View.VISIBLE
-            if (isRecyclerVisible && list.isEmpty()) {
-                binding.recyclerViewSuratItemDomisili.visibility = View.GONE
-            }
-
-        }
-        viewModel.suratListPindah.observe(viewLifecycleOwner) { list ->
-            Log.d("RecyclerDebugPindah", "Jumlah surat pindah masuk: ${list.size}")
-            (binding.recyclerViewSuratItemPindah.adapter as SuratDomisilipindahAdapter).updateDataDomisiliPindah(list)
-            binding.tvJumlahSuratDomisiliPindah.text = "(${list.size})"
-            val isRecyclerVisible = binding.recyclerViewSuratItemPindah.visibility == View.VISIBLE
-            if (isRecyclerVisible && list.isEmpty()) {
-                binding.recyclerViewSuratItemPindah.visibility = View.GONE
-            }
-        }
-
-        viewModel.suratListKtu.observe(viewLifecycleOwner) { list ->
-            Log.d("RecyclerDebugKtu", "Jumlah surat KTU masuk: ${list.size}")
-            (binding.recyclerViewSuratItemKtu.adapter as SuratKtuAdapter).updateDataKtu(list)
-            binding.tvJumlahSuratKtu.text = "(${list.size})"
-            val isRecyclerVisible = binding.recyclerViewSuratItemKtu.visibility == View.VISIBLE
-            if (isRecyclerVisible && list.isEmpty()) {
-                binding.recyclerViewSuratItemKtu.visibility = View.GONE
-            }
-        }
-
     }
 
     /**
@@ -547,6 +627,7 @@ class LayananFragment : Fragment() {
             .addToBackStack(null)
             .commit()
     }
+
     private fun navigateToCreateSuratDomisili(type: Int) {
         // Siapkan bundle dengan tipe operasi
         val bundle = Bundle().apply {
@@ -564,6 +645,7 @@ class LayananFragment : Fragment() {
             .addToBackStack(null)
             .commit()
     }
+
     private fun navigateToCreateSuratDomisliPindah(type: Int) {
         // Siapkan bundle dengan tipe operasi
         val bundle = Bundle().apply {
@@ -605,7 +687,4 @@ class LayananFragment : Fragment() {
         binding.shimmerLayoutSurat.stopShimmer()
         _binding = null
     }
-
-
 }
-

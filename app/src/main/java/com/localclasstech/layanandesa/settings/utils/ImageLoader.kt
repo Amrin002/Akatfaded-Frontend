@@ -27,7 +27,7 @@ object ImageLoader {
     suspend fun loadImage(
         context: Context,
         imageUrl: String?,
-        imageView: ImageView
+        imageView: ImageView,
     ) {
         // Validasi URL
         val validUrl = imageUrl?.takeIf { it.isNotBlank() }

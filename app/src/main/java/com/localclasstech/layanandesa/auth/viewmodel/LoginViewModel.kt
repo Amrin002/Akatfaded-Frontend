@@ -179,6 +179,8 @@ class LoginViewModel(val context: Context) : ViewModel() {
             putString("user_name", name)
             putString("user_profile_image", profileImage?.ifEmpty { "" } ?: "")
             putString("auth_token", token)
+            val userId = nik.toIntOrNull() ?: nik.hashCode().let { if (it < 0) -it else it }
+            putInt("user_id", userId)
             Log.d("LoginViewModel", "Saving profile image: $profileImage")
 
             apply()

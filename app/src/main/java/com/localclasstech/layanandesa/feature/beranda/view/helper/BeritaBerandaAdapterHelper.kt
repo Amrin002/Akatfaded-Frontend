@@ -48,7 +48,7 @@ class BeritaBerandaAdapterHelper(
         // Load image pakai Glide
         Glide.with(holder.itemView.context)
             .load(berita.imgBerita)
-            .placeholder(R.drawable.ic_block)
+            .placeholder(R.drawable.ic_berita)
             .into(holder.imgBerita)
 
         // Add click listener

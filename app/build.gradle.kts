@@ -22,7 +22,7 @@ android {
     buildTypes {
         debug {
 //            isMinifyEnabled = true
-            buildConfigField("String", "BASE_URL", "\"http://192.168.1.24:32768/\"")
+            buildConfigField("String", "BASE_URL", "\"http://192.168.1.22:32768/\"")
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"

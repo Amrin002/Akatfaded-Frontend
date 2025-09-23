@@ -74,7 +74,7 @@
                 android:fontFamily="@font/poppins_bold"
                 android:textSize="20sp"
                 android:textColor="@color/black"
-                android:maxLines="2"/>
+                android:maxLines="4"/>
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
