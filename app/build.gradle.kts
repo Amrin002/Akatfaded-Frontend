@@ -7,13 +7,12 @@ plugins {
 android {
     namespace = "com.localclasstech.layanandesa"
     compileSdk = 35
-
     defaultConfig {
         applicationId = "com.localclasstech.layanandesa"
         minSdk = 26
         targetSdk = 34
         versionCode = 6
-        versionName = "1.6"
+        versionName = "1.7"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
         buildConfigField("String", "BASE_URL", "\"https://akatfadedo.com/\"")
@@ -22,7 +21,7 @@ android {
     buildTypes {
         debug {
 //            isMinifyEnabled = true
-            buildConfigField("String", "BASE_URL", "\"http://192.168.1.22:32768/\"")
+            buildConfigField("String", "BASE_URL", "\"http://192.168.1.63:32768/\"")
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
